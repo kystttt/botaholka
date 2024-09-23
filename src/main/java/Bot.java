@@ -20,13 +20,21 @@ public class Bot implements LongPollingSingleThreadUpdateConsumer {
 
             String output_message;
             switch (message_text) {
-                case ("/help"), ("/start"):
+                case ("/help"):
                     output_message = """
-                            Этот бот представляет собой барахолку матмеха,
+                            Этот бот представляет собой барахолку МатМеха,
                             Список команд:
                             /help
+                            /start
                             """;
                     break;
+
+                case ("/start"):
+                    output_message = """
+                            Добро пожаловать на барахолку МатМеха
+                            """;
+                    break;
+
                 default:
                     output_message = "Вы ввели:\"" + message_text + "\".";
                     break;
