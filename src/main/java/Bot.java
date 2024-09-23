@@ -1,54 +1,47 @@
-import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
-import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.generics.TelegramClient;
+    import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
+    import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
+    import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+    import org.telegram.telegrambots.meta.api.objects.Update;
+    import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+    import org.telegram.telegrambots.meta.generics.TelegramClient;
 
-public class Bot implements LongPollingSingleThreadUpdateConsumer {
-    private final TelegramClient telegramClient;
+    public class Bot implements LongPollingSingleThreadUpdateConsumer {
+        private final TelegramClient telegramClient;
 
-    public Bot(String botToken) {
-        telegramClient = new OkHttpTelegramClient(botToken);
-    }
+        public Bot(String botToken) {
+            telegramClient = new OkHttpTelegramClient(botToken);
+        }
 
-    @Override
-    public void consume(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()) {
-            String message_text = update.getMessage().getText();
-            long chat_id = update.getMessage().getChatId();
+        @Override
+        public void consume(Update update) {
+            if (update.hasMessage() && update.getMessage().hasText()) {
+                String message_text = update.getMessage().getText();
+                long chat_id = update.getMessage().getChatId();
 
-            String output_message;
-            switch (message_text) {
-                case ("/help"):
-                    output_message = """
-                            Этот бот представляет собой барахолку МатМеха,
-                            Список команд:
-                            /help
-                            /start
-                            """;
-                    break;
+                TextHandler textHandler = new TextHandler();
+                switch (message_text) {
+                    case ("/help"):
+                        textHandler.CommandHelp();
+                        break;
 
-                case ("/start"):
-                    output_message = """
-                            Добро пожаловать на барахолку МатМеха
-                            """;
-                    break;
+                    case ("/start"):
+                        textHandler.CommandStart();
+                        break;
 
-                default:
-                    output_message = "Вы ввели:\"" + message_text + "\".";
-                    break;
-            }
-            SendMessage message = SendMessage
-                    .builder()
-                    .chatId(chat_id)
-                    .text(output_message)
-                    .build();
-            try {
-                telegramClient.execute(message);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
+                    default:
+                        textHandler.echo(message_text);
+                        break;
+                }
+                SendMessage message = SendMessage
+                        .builder()
+                        .chatId(chat_id)
+                        .text(textHandler.getOutputMassage())
+                        .build();
+                try {
+                    telegramClient.execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
-}
