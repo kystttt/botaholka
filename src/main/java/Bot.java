@@ -21,15 +21,15 @@
                 TextHandler textHandler = new TextHandler();
                 switch (message_text) {
                     case ("/help"):
-                        textHandler.CommandHelp();
+                        textHandler.сommandHelp();
                         break;
 
                     case ("/start"):
-                        textHandler.CommandStart();
+                        textHandler.сommandStart();
                         break;
 
                     default:
-                        textHandler.echo(message_text);
+                        textHandler.commandEcho(message_text);
                         break;
                 }
                 SendMessage message = SendMessage
