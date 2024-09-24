@@ -10,6 +10,9 @@ public class EchoTest{
         textHandler = new TextHandler();
     }
 
+    /**
+     * Тест с обычной строкой
+     */
     @Test
     public void commandStartTest_1(){
         textHandler.commandEcho("123");
@@ -18,6 +21,9 @@ public class EchoTest{
         assertEquals(expectedMessage, textHandler.getOutputMassage());
     }
 
+    /**
+     * Тест со специальными символами
+     */
     @Test
     public void commandStartTest_2(){
         textHandler.commandEcho("!@#$%^&*()");
@@ -26,6 +32,9 @@ public class EchoTest{
         assertEquals(expectedMessage, textHandler.getOutputMassage());
     }
 
+    /**
+     * Тест с пустой строкой
+     */
     @Test
     public void commandStartTest_3(){
         textHandler.commandEcho("");
@@ -34,6 +43,9 @@ public class EchoTest{
         assertEquals(expectedMessage, textHandler.getOutputMassage());
     }
 
+    /**
+     * Тест с большой строкой
+     */
     @Test
     public void commandStartTest_4(){
         textHandler.commandEcho("a".repeat(10000));
