@@ -26,7 +26,7 @@
                 long chat_id = update.getMessage().getChatId();
 
                 TextHandler textHandler = new TextHandler();
-                textHandler.Logic(message_text);
+                textHandler.logic(message_text);
 
                 try {
                     telegramClient.execute(SendMessage

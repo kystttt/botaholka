@@ -26,14 +26,14 @@ public class TextHandler {
     /**
      * Команда /start в боте
      */
-    public void сommandStart(){
+    public void commandStart(){
         output_message = START_CONST;
     }
 
     /**
      * Команда /help  в боте
      */
-     public void сommandHelp(){
+     public void commandHelp(){
         output_message = HELP_CONST;
      }
 
@@ -45,14 +45,19 @@ public class TextHandler {
          return output_message;
      }
 
-     public void Logic(String message_text){
+    /**
+     * Реализует логику бота
+     * @param message_text переменная с текстом сообщения пользователя
+     */
+
+     public void logic(String message_text){
          switch (message_text) {
              case ("/help"):
-                 сommandHelp();
+                 commandHelp();
                  break;
 
              case ("/start"):
-                 сommandStart();
+                 commandStart();
                  break;
 
              default:
