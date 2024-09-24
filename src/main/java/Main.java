@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String botToken = new BufferedReader(new FileReader("config.txt")).readLine();
+        String botToken = System.getenv("TG_TOKEN");
         try (TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication()) {
             botsApplication.registerBot(botToken, new Bot(botToken));
             Thread.currentThread().join();
