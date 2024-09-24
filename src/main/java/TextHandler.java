@@ -12,13 +12,15 @@ public class TextHandler {
             /start - приветсвие пользователя
             """;
 
+    private final String ECHO_CONST = "Вы ввели: ";
+
     private String output_message;
     /**
      * Метод, который работает с текстом
      */
 
     public void commandEcho(String str){
-        output_message = str;
+        output_message = ECHO_CONST + str;
     }
 
     /**

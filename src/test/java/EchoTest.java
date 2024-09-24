@@ -14,7 +14,7 @@ public class EchoTest{
     public void commandStartTest_1(){
         textHandler.commandEcho("123");
 
-        String expectedMessage = "123";
+        String expectedMessage = "Вы ввели: 123";
         assertEquals(expectedMessage, textHandler.getOutputMassage());
     }
 
@@ -22,7 +22,7 @@ public class EchoTest{
     public void commandStartTest_2(){
         textHandler.commandEcho("!@#$%^&*()");
 
-        String expectedMessage = "!@#$%^&*()";
+        String expectedMessage = "Вы ввели: !@#$%^&*()";
         assertEquals(expectedMessage, textHandler.getOutputMassage());
     }
 
@@ -30,7 +30,7 @@ public class EchoTest{
     public void commandStartTest_3(){
         textHandler.commandEcho("");
 
-        String expectedMessage = "";
+        String expectedMessage = "Вы ввели: ";
         assertEquals(expectedMessage, textHandler.getOutputMassage());
     }
 
