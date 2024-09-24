@@ -12,7 +12,7 @@ public class CommandHelpTest{
 
     @Test
     public void commandStartTest(){
-        textHandler.CommandHelp();
+        textHandler.сommandHelp();
 
         String expectedMessage = """
             Этот бот возвращает отправленное сообщение,

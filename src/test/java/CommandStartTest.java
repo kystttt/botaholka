@@ -12,7 +12,7 @@ public class CommandStartTest{
 
     @Test
     public void commandStartTest(){
-        textHandler.CommandStart();
+        textHandler.сommandStart();
 
         String expectedMessage = """
                 Добро пожаловать в бот
