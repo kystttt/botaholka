@@ -15,25 +15,23 @@ public class TextHandler {
     private String output_message;
     /**
      * Метод, который работает с текстом
-     * @param str
-     * @return возвращает текст пользователя
      */
 
-    public void echo(String str){
+    public void commandEcho(String str){
         output_message = str;
     }
 
     /**
      * Команда /start в боте
      */
-    public void CommandStart(){
+    public void сommandStart(){
         output_message = START_CONST;
     }
 
     /**
      * Команда /help  в боте
      */
-     public void CommandHelp(){
+     public void сommandHelp(){
         output_message = HELP_CONST;
      }
 
