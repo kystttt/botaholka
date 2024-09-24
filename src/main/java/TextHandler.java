@@ -12,26 +12,28 @@ public class TextHandler {
             /start - приветсвие пользователя
             """;
 
+    private final String ECHO_CONST = "Вы ввели: ";
+
     private String output_message;
     /**
      * Метод, который работает с текстом
      */
 
     public void commandEcho(String str){
-        output_message = str;
+        output_message = ECHO_CONST + str;
     }
 
     /**
      * Команда /start в боте
      */
-    public void сommandStart(){
+    public void commandStart(){
         output_message = START_CONST;
     }
 
     /**
      * Команда /help  в боте
      */
-     public void сommandHelp(){
+     public void commandHelp(){
         output_message = HELP_CONST;
      }
 
@@ -41,5 +43,26 @@ public class TextHandler {
      */
     public String getOutputMassage(){
          return output_message;
+     }
+
+    /**
+     * Реализует логику бота
+     * @param message_text переменная с текстом сообщения пользователя
+     */
+
+     public void logic(String message_text){
+         switch (message_text) {
+             case ("/help"):
+                 commandHelp();
+                 break;
+
+             case ("/start"):
+                 commandStart();
+                 break;
+
+             default:
+                 commandEcho(message_text);
+                 break;
+         }
      }
 }
