@@ -42,4 +42,20 @@ public class TextHandler {
     public String getOutputMassage(){
          return output_message;
      }
+
+     public void Logic(String message_text){
+         switch (message_text) {
+             case ("/help"):
+                 сommandHelp();
+                 break;
+
+             case ("/start"):
+                 сommandStart();
+                 break;
+
+             default:
+                 commandEcho(message_text);
+                 break;
+         }
+     }
 }
