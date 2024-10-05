@@ -7,7 +7,6 @@
     import org.telegram.telegrambots.meta.generics.TelegramClient;
 
     import java.io.IOException;
-    import java.util.HashMap;
 
     /**
      * Создает телеграм бота, принимает и отправляет сообщения

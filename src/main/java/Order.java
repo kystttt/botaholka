@@ -22,7 +22,7 @@ public class Order {
     /**
      *Список того что заказа клиент
      */
-    private ArrayList<String> orderList = new ArrayList<String>();
+    private ArrayList<String> orderList = new ArrayList<>();
     private int sum;
     /**
      * Статус заказа
@@ -73,10 +73,8 @@ public class Order {
     /**
      * Функция формирующая текстовое представления Order
      * @return текстовое представления Order
-     * @throws IOException
-     * @throws ParseException
      */
-    public String formMessageForClient() throws IOException, ParseException {
+    public String formMessageForClient() {
         String output;
         formSum();
         output = String.format("""

@@ -17,7 +17,6 @@ public class TextHandler {
             """;
 
     private final String ECHO_CONST = "Вы ввели: ";
-    private int mass_id = 1;
     private String output_message;
     /**
      * Метод, который работает с текстом
@@ -77,11 +76,9 @@ public class TextHandler {
 
     /**
      * Пример работы с Order и ListOfOrders
-     * @param chat_id
-     * @throws IOException
-     * @throws ParseException
+     * @param chat_id chat id
      */
-    private void commandOrder(Long chat_id) throws IOException, ParseException {
+    private void commandOrder(Long chat_id){
         Order order = new Order(chat_id);
 
         ListOfOrders listOfOrders = ListOfOrders.INSTANCE;
