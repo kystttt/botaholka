@@ -1,3 +1,7 @@
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+
 /**
  * Класс, методы которого обрабатывают текст
  */
@@ -9,11 +13,11 @@ public class TextHandler {
             Этот бот возвращает отправленное сообщение,
             Список команд:
             /help - Навигация по командам бота
-            /start - приветсвие пользователя
+            /strt - приветсвие пользователя
             """;
 
     private final String ECHO_CONST = "Вы ввели: ";
-
+    private int mass_id = 1;
     private String output_message;
     /**
      * Метод, который работает с текстом
@@ -50,7 +54,8 @@ public class TextHandler {
      * @param message_text переменная с текстом сообщения пользователя
      */
 
-     public void logic(String message_text){
+     public void logic(String message_text, Long chat_id) throws IOException, ParseException {
+
          switch (message_text) {
              case ("/help"):
                  commandHelp();
@@ -60,9 +65,28 @@ public class TextHandler {
                  commandStart();
                  break;
 
+             case("/order"):
+                 commandOrder(chat_id);
+                 break;
+
              default:
                  commandEcho(message_text);
                  break;
          }
      }
+
+    /**
+     * Пример работы с Order и ListOfOrders
+     * @param chat_id
+     * @throws IOException
+     * @throws ParseException
+     */
+    private void commandOrder(Long chat_id) throws IOException, ParseException {
+        Order order = new Order(chat_id);
+
+        ListOfOrders listOfOrders = ListOfOrders.INSTANCE;
+        listOfOrders.putOrder(order);
+
+        output_message = order.formMessageForClient();
+    }
 }
