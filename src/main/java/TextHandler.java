@@ -28,13 +28,12 @@ public class TextHandler {
     private final String MENU_CONST = "Меню: ";
     private final String CHOOSE_CONST = "Выберете номер того что хотите заказать ";
     private String output_message;
-
+    HashMap<Integer, String> menuList = new HashMap<>();
     /**
      * Метод, который вызывает меню, в котором показывается
      * порядковый номер блюда в меню, название блюда, а также его стоимость
      */
     public void menuCalling() {
-        HashMap<Integer, String> menuList = new HashMap<>();
 
         try {
             JSONParser parser = new JSONParser();
@@ -57,6 +56,25 @@ public class TextHandler {
             throw new RuntimeException(e);
         }
     }
+
+    public void addToCart(String message){
+        int indx = Integer.parseInt(message);
+        HashMap<Integer, String> cart = new HashMap<>();
+        try{
+            if (menuList.containsKey(indx)){
+                String menuListValue = menuList.get(indx);
+                cart.put(indx, menuListValue);
+                output_message = "Текущая корзина:\n" + cart;
+            }
+            else {
+                output_message = "Ошибка: блюда с таким номером не существует";
+            }
+        } catch (NumberFormatException e){
+            output_message = "Ошибка: введите корректно номер блюда";
+        }
+
+    }
+
     public void commandEcho(String str){
         output_message = ECHO_CONST + str;
     }
@@ -106,6 +124,8 @@ public class TextHandler {
 
              case("/menu"):
                  menuCalling();
+                 addToCart(message_text);
+
                  break;
 
 
