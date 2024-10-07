@@ -68,6 +68,11 @@ public class TextHandler {
                  commandOrder(chat_id);
                  break;
 
+
+
+
+
+
              default:
                  commandEcho(message_text);
                  break;

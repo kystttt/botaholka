@@ -17,10 +17,11 @@ public class Order {
             "Выдан"));
 
 
+
     private Long order_id;
     private final Long chat_id;
     /**
-     *Список того что заказа клиент
+     *Список того что заказал клиент
      */
     private ArrayList<String> orderList = new ArrayList<>();
     private int sum;
@@ -33,6 +34,12 @@ public class Order {
      */
     private final String timeTo = "К ближайшему";
 
+    /**
+     * Возвращает статус заказа по orderId
+     * @param orderId
+     * @return
+     */
+    public String getStatus(Long orderId){return status;}
 
     public Order(Long chat_id){
         this.chat_id = chat_id;
