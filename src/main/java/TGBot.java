@@ -34,6 +34,7 @@
                 } catch (IOException | ParseException e) {
                     throw new RuntimeException(e);
                 }
+
                 try {
                     telegramClient.execute(SendMessage
                             .builder()
@@ -45,4 +46,5 @@
                 }
             }
         }
+
     }

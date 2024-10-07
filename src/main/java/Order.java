@@ -17,13 +17,13 @@ public class Order {
             "Выдан"));
 
 
-    private Long order_id;
+    private int order_id;
     private final Long chat_id;
     /**
      *Список того что заказа клиент
      */
     private ArrayList<String> orderList = new ArrayList<>();
-    private int sum;
+    public int sum;
     /**
      * Статус заказа
      */
@@ -39,12 +39,16 @@ public class Order {
 
     }
 
-    public void setOrderId(Long order_id){
-        this.order_id = order_id;
+    public int getOrder_id(){
+        return order_id;
     }
 
-    public ArrayList<String> getArr() {
-        return orderList;
+    public Long getChatId(){
+        return chat_id;
+    }
+
+    public void setOrderId(int order_id){
+        this.order_id = order_id;
     }
 
     /**
@@ -58,7 +62,7 @@ public class Order {
     /**
      * Функция считающая сумм заказа изходя из того что заказал человек
      */
-    private void formSum() {
+    public void formSum() {
         sum = 0;
         try {
             JSONObject jsonObject = (JSONObject)new JSONParser().parse(new FileReader("src/main/resources/menu.json"));
@@ -83,8 +87,7 @@ public class Order {
         output += String.join("\n", orderList);
         output += String.format("""
                 \nИтого: %d руб.
-                Статус: %s
-                """, sum, status);
+                """, sum);
         return output;
     }
 

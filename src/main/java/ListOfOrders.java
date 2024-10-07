@@ -3,16 +3,15 @@ import java.util.HashMap;
 public enum ListOfOrders {
     INSTANCE;
     /**
-     * Список всех текущих заказов с любым статусом кроме выдан
+     * Список всех текущих заказов с любым статусом кроме выдан(id заказа, заказ)
      */
-    private HashMap<Long, Order> orders;
+    private HashMap<Integer, Order> orders;
     /**
      * Переменная отвечающая за нумерацию обновляя отсчёт после каждого запуска
      */
-    private long order_id = 1;
+    private int order_id = 1;
 
     private ListOfOrders() {
-        // Initialize configValue here, or load it from a file, database, etc.
         orders = new HashMap<>();
     }
 
@@ -21,7 +20,7 @@ public enum ListOfOrders {
      * @param order_id id заказа
      * @return Order
      */
-    public Order getValue(Long order_id) {
+    public Order getValue(int order_id) {
         return orders.get(order_id);
     }
 
@@ -35,7 +34,21 @@ public enum ListOfOrders {
         order_id++;
     }
 
-    public HashMap<Long, Order> getListOfOrders(){
-        return getListOfOrders();
+    /**
+     * Возвращает хэшмап со всеми заказами
+     */
+    public HashMap<Integer, Order> getHashMap(){
+        return orders;
+    }
+
+    /**
+     * Удаляет заказ из списка заказов по его id
+     */
+    public void removeById(Integer order_id){
+        orders.remove(order_id);
+    }
+
+    public void updateHashMapForTests(){
+        orders = new HashMap<Integer, Order>();
     }
 }
