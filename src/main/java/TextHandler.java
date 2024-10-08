@@ -13,10 +13,16 @@ import java.util.Objects;
  * Класс, методы которого обрабатывают текст
  */
 public class TextHandler {
-    private final String START_CONST = """
-                                Добро пожаловать в бот
+
+    final String START_CONST = """
+                                Добро пожаловать в бота
                                 """;
-    private final String HELP_CONST = """
+    final String ERROR_BRANCH = """
+            В качестве кого вы бы хотели продолжить?
+            /seller - продавец
+            /buyer - покупатель
+            """;
+    final String HELP_CONST = """
             Этот бот возвращает отправленное сообщение,
             Список команд:
             /help - Навигация по командам бота
@@ -24,9 +30,13 @@ public class TextHandler {
             /menu - меню для выбора блюда
             /cart - посмотреть корзину
             /delete - удалить товар из корзины
+            /listoforders - просмотр текущих заказов
+            /duplicate-{“Номер заказа”} - повторить заказ
+            /cancel-{“Номер заказа”} - отменить заказ
             """;
+              
     private final String ECHO_CONST = "Вы ввели: ";
-    private String output_message;
+    private String output_message = "";
     private final String MENU_CONST = "Меню: \n";
     private final String CHOOSE_CONST = "Введите номер того, что хотите заказать: ";
     private final String ERROR_TYPE_CONST = "Ошибка: индекс блюда должен быть числом.";
@@ -36,6 +46,11 @@ public class TextHandler {
     private final String CART_EMPTY_CONST = "Корзина пуста.";
     private final String YOUR_ORDER_CONST = "Ваш заказ:\n";
     private final String DELETE_OUT_MSG_CONST = "Введите номер блюда, которое хотите удалить: ";
+    private final String FUNCS_FOR_LIST_OF_ORDERS_BUYER = """
+            Ваши функции:
+            /duplicate-{“Номер заказа”} - повторить заказ
+            /cancel-{“Номер заказа”} - отменить заказ
+            """;
 
     MenuList mnlst = MenuList.INSTANCE;
 
@@ -124,11 +139,7 @@ public class TextHandler {
         }
     }
 
-
-
-
-
-    public void commandEcho(String str){
+    private void commandEcho(String str){
         output_message = ECHO_CONST + str;
     }
 
@@ -136,15 +147,32 @@ public class TextHandler {
     /**
      * Команда /start в боте
      */
-    public void commandStart(){
+    private void commandStart(){
         output_message = START_CONST;
     }
 
     /**
      * Команда /help в боте
      */
-     public void commandHelp(){
+     private void commandHelp(){
         output_message = HELP_CONST;
+     }
+
+    private void commandWrongTypoWord(){
+        output_message = "Введите корректную команду, для списка всех команд - /help";
+    }
+
+     public void commandListOfOrders(Long chat_id){
+         output_message = "Ваши заказы:\n";
+         int i = 1;
+         ListOfOrders listOfOrders = ListOfOrders.INSTANCE;
+         for(Integer key : listOfOrders.getHashMap().keySet()){
+             if(Objects.equals(listOfOrders.getHashMap().get(key).getChatId(), chat_id)){
+                 output_message += listOfOrders.getHashMap().get(key).formMessageForClient();
+                 output_message += "\n";
+             }
+         }
+         output_message += FUNCS_FOR_LIST_OF_ORDERS_BUYER;
      }
 
     /**
@@ -154,12 +182,26 @@ public class TextHandler {
     public String getOutputMassage(){
          return output_message;
      }
-
+    
     /**
+     * Удаляет заказ по его id
+     */
+    private void commandDuplicate(String messageText) {
+        ListOfOrders listOfOrders = ListOfOrders.INSTANCE;
+        for(Integer key : listOfOrders.getHashMap().keySet()) {
+            if(messageText.endsWith( Long.toString(listOfOrders.getHashMap().get(key).getChatId()))){
+                listOfOrders.putOrder(listOfOrders.getHashMap().get(key));
+                output_message = "Заказ №" + listOfOrders.getHashMap().get(key).getChatId() + " продублирован ";
+                break;
+            }
+        }
+
+    }
+  
+      /**
      * Реализует логику бота
      * @param message_text переменная с текстом сообщения пользователя
      */
-
      public void logic(String message_text, Long chat_id) throws IOException, ParseException {
          switch (message_text) {
              case ("/help"):
@@ -186,7 +228,11 @@ public class TextHandler {
                  output_message = DELETE_OUT_MSG_CONST;
                  mnlst.setPrevCommand(message_text);
                  break;
-
+            
+             case("/listoforders"):
+                commandListOfOrders(chat_id);
+                break;
+             
              case("/cart"):
                  viewCart();
                  mnlst.setPrevCommand(message_text);
@@ -209,7 +255,12 @@ public class TextHandler {
                  else if (Objects.equals(mnlst.getPrevCommand(), "/delete")){
                      deleteFromCart(message_text);
                  }
-
+                 else if (message_text.startsWith("/duplicate-")) {
+                    commandDuplicate(message_text);
+                }
+                else if(message_text.startsWith("/delete-")){
+                    commandDeleteOrder(message_text);
+                }
                  else{
                      output_message = ERROR_TYPE_CONST;
                  }
@@ -218,16 +269,19 @@ public class TextHandler {
          }
      }
 
+
     /**
-     * Пример работы с Order и ListOfOrders
-     * @param chat_id chat id
+     * Повторяет заказ по его id
      */
-    private void commandOrder(Long chat_id){
-        Order order = new Order(chat_id);
-
+    private void commandDeleteOrder(String messageText) {
         ListOfOrders listOfOrders = ListOfOrders.INSTANCE;
-        listOfOrders.putOrder(order);
+        for(Integer key : listOfOrders.getHashMap().keySet()) {
+            if(messageText.endsWith( Long.toString(listOfOrders.getHashMap().get(key).getChatId()))){
+                listOfOrders.removeById(listOfOrders.getHashMap().get(key).getOrder_id());
+                output_message = "Заказ №" + listOfOrders.getHashMap().get(key).getChatId() + " удалён ";
+                break;
+            }
+        }
 
-        output_message = order.formMessageForClient();
     }
 }
