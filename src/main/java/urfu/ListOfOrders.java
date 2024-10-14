@@ -2,6 +2,9 @@ package urfu;
 
 import java.util.HashMap;
 
+/**
+ * Синглтон для всех текущих заказов
+ */
 public enum ListOfOrders {
     INSTANCE;
     /**
@@ -50,7 +53,10 @@ public enum ListOfOrders {
         orders.remove(order_id);
     }
 
-    public void updateHashMapForTests(){
+    /**
+     * Обнуляет ListOfOrders
+     */
+    public void clearList(){
         orders = new HashMap<Integer, Order>();
         order_id = 1;
     }

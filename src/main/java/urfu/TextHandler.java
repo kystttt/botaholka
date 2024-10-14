@@ -1,8 +1,5 @@
 package urfu;
 
-import org.json.simple.parser.ParseException;
-
-import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -22,7 +19,7 @@ public class TextHandler {
             Этот бот возвращает отправленное сообщение,
             Список команд:
             /help - Навигация по командам бота
-            /start - приветсвие пользователя
+            /start - приветствие пользователя
             
             /listoforders - просмотр текущих заказов
             /duplicate-{“Номер заказа”} - повторить заказ
@@ -53,27 +50,37 @@ public class TextHandler {
     }
 
     /**
-     * Команда /help  в боте
+     * Команда /help в боте
      */
      private void commandHelp(){
         output_message = HELP_CONST;
      }
 
+    /**
+     * Метод при вызове команды, которой нет у бота
+     */
     private void commandWrongTypoWord(){
         output_message = ERROR_CMD;
     }
 
+    /**
+     * Метод для показа текущих заказов клиента по кго chat_id
+     * @param chat_id номер чата
+     */
      public void commandListOfOrders(Long chat_id){
          output_message = "Ваши заказы:\n";
          int i = 1;
          ListOfOrders listOfOrders = ListOfOrders.INSTANCE;
          for(Integer key : listOfOrders.getHashMap().keySet()){
-             if(Objects.equals(listOfOrders.getHashMap().get(key).getChatId(), chat_id)){
+             if(Objects.equals(
+                     listOfOrders.getHashMap().get(key).getChatId(),
+                     chat_id)){
                  output_message += listOfOrders.getHashMap().get(key).formMessageForClient();
                  output_message += "\n";
              }
          }
          output_message += FUNCS_FOR_LIST_OF_ORDERS_BUYER;
+
      }
 
     /**
@@ -88,10 +95,10 @@ public class TextHandler {
      * Реализует логику бота
      * @param message_text переменная с текстом сообщения пользователя
      */
-    public void logic(String message_text, Long chat_id) throws IOException, ParseException {
+    public void logic(String message_text, Long chat_id) {
 //        Для задачи с контекстом диалога
 
-//        urfu.UsersState usersState = urfu.UsersState.INSTANCE;
+//        UsersState usersState = UsersState.INSTANCE;
 //        if(usersState.hasUser(chat_id)){
 //            usersState.addUser(chat_id);
 //            System.out.println("User created");
@@ -152,8 +159,10 @@ public class TextHandler {
      */
     private void commandDuplicate(String messageText) {
         ListOfOrders listOfOrders = ListOfOrders.INSTANCE;
+        String msgNumber = messageText.split("-")[1];
         for(Integer key : listOfOrders.getHashMap().keySet()) {
-            if(messageText.endsWith( Long.toString(listOfOrders.getHashMap().get(key).getChatId()))){
+            if(msgNumber.equals(Long.toString(
+                    listOfOrders.getHashMap().get(key).getChatId()))){
                 listOfOrders.putOrder(listOfOrders.getHashMap().get(key));
                 output_message = "Заказ №" + listOfOrders.getHashMap().get(key).getChatId() + " продублирован ";
                 break;
@@ -167,10 +176,12 @@ public class TextHandler {
      */
     private void commandDeleteOrder(String messageText) {
         ListOfOrders listOfOrders = ListOfOrders.INSTANCE;
+        String msgNumber = messageText.split("-")[1];
         for(Integer key : listOfOrders.getHashMap().keySet()) {
-            if(messageText.endsWith( Long.toString(listOfOrders.getHashMap().get(key).getChatId()))){
+            if(msgNumber.equals( Long.toString(listOfOrders.getHashMap().get(key).getChatId()))){
+                Long deltedId = listOfOrders.getHashMap().get(key).getChatId();
                 listOfOrders.removeById(listOfOrders.getHashMap().get(key).getOrder_id());
-                output_message = "Заказ №" + listOfOrders.getHashMap().get(key).getChatId() + " удалён ";
+                output_message = "Заказ №" + deltedId + " удалён ";
                 break;
             }
         }

@@ -9,6 +9,9 @@ import java.util.Objects;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
+/**
+ * Класс заказа
+ */
 public class Order {
     /**
      * Список возможных состояний статуса заказа
@@ -94,9 +97,13 @@ public class Order {
         return output;
     }
 
+    /**
+     * Сравнение двух заказов за исключением поля order_id
+     * @param another Заказ с которым сравниваем
+     * @return { true} if the arguments are equal to each other and { false} otherwise
+     */
     public boolean equals(Order another){
-        if(Objects.equals(getOrder_id(),another.getOrder_id())
-        & Objects.equals(getChatId(), another.getChatId())){
+        if(Objects.equals(getChatId(), another.getChatId())){
             return true;
         }
         return false;
