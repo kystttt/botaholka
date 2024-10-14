@@ -31,11 +31,9 @@ import org.json.simple.parser.ParseException;
                 long chat_id = update.getMessage().getChatId();
 
                 TextHandler textHandler = new TextHandler();
-                try {
-                    textHandler.logic(message_text, chat_id);
-                } catch (IOException | ParseException e) {
-                    throw new RuntimeException(e);
-                }
+
+                textHandler.logic(message_text, chat_id);
+
 
                 try {
                     telegramClient.execute(SendMessage

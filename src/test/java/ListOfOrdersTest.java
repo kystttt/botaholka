@@ -10,9 +10,12 @@ import java.util.HashMap;
 
 public class ListOfOrdersTest {
 
+    /**
+     * Обнуляет ListOfOrders
+     */
     @BeforeEach
     void resetListOfOrders() {
-        ListOfOrders.INSTANCE.updateHashMapForTests();
+        ListOfOrders.INSTANCE.clearList();
     }
 
 

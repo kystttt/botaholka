@@ -2,6 +2,9 @@ package urfu;
 
 import java.util.HashMap;
 
+/**
+ * Синглтон сохраняющий контекст каждого пользователя
+ */
 public enum UsersState {
     INSTANCE;
 
