@@ -1,3 +1,5 @@
+package urfu;
+
 public class Constants {
     final String START_CONST = """
                                 Добро пожаловать в бота

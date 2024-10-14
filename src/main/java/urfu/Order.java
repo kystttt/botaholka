@@ -1,7 +1,10 @@
+package urfu;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
@@ -29,7 +32,7 @@ public class Order {
      */
     private String status = "Не принят";
     /**
-     * Время к которму надо приготовить заказ
+     * Время к которому надо приготовить заказ
      */
     private final String timeTo = "К ближайшему";
 
@@ -60,7 +63,7 @@ public class Order {
     }
 
     /**
-     * Функция считающая сумм заказа изходя из того что заказал человек
+     * Функция считающая сумм заказа исходя из того что заказал человек
      */
     public void formSum() {
         sum = 0;
@@ -91,4 +94,11 @@ public class Order {
         return output;
     }
 
+    public boolean equals(Order another){
+        if(Objects.equals(getOrder_id(),another.getOrder_id())
+        & Objects.equals(getChatId(), another.getChatId())){
+            return true;
+        }
+        return false;
+    }
 }

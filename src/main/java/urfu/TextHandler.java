@@ -1,3 +1,5 @@
+package urfu;
+
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -8,15 +10,15 @@ import java.util.Objects;
  */
 public class TextHandler {
 
-    final String START_CONST = """
+    private final String START_CONST = """
                                 Добро пожаловать в бота
                                 """;
-    final String ERROR_BRANCH = """
+    private final String ERROR_BRANCH = """
             В качестве кого вы бы хотели продолжить?
             /seller - продавец
             /buyer - покупатель
             """;
-    final String HELP_CONST = """
+    private final String HELP_CONST = """
             Этот бот возвращает отправленное сообщение,
             Список команд:
             /help - Навигация по командам бота
@@ -26,14 +28,14 @@ public class TextHandler {
             /duplicate-{“Номер заказа”} - повторить заказ
             /cancel-{“Номер заказа”} - отменить заказ
             """;
-    final String ECHO_CONST = "Вы ввели: ";
+    private final String ECHO_CONST = "Вы ввели: ";
 
-    public String FUNCS_FOR_LIST_OF_ORDERS_BUYER = """
+    private final String FUNCS_FOR_LIST_OF_ORDERS_BUYER = """
             Ваши функции:
             /duplicate-{“Номер заказа”} - повторить заказ
             /cancel-{“Номер заказа”} - отменить заказ
             """;
-
+    private final String ERROR_CMD = "Введите корректную команду, для списка всех команд - /help";
     private String output_message = "";
     /**
      * Метод, который работает с текстом
@@ -58,7 +60,7 @@ public class TextHandler {
      }
 
     private void commandWrongTypoWord(){
-        output_message = "Введите корректную команду, для списка всех команд - /help";
+        output_message = ERROR_CMD;
     }
 
      public void commandListOfOrders(Long chat_id){
@@ -89,7 +91,7 @@ public class TextHandler {
     public void logic(String message_text, Long chat_id) throws IOException, ParseException {
 //        Для задачи с контекстом диалога
 
-//        UsersState usersState = UsersState.INSTANCE;
+//        urfu.UsersState usersState = urfu.UsersState.INSTANCE;
 //        if(usersState.hasUser(chat_id)){
 //            usersState.addUser(chat_id);
 //            System.out.println("User created");
