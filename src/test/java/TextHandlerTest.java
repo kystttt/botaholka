@@ -1,11 +1,10 @@
-import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.BeforeEach;
 import urfu.Order;
 import urfu.ListOfOrders;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import urfu.TextHandler;;
+import urfu.TextHandler;
 
 public class TextHandlerTest {
 
