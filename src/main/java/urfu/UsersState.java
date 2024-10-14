@@ -1,3 +1,5 @@
+package urfu;
+
 import java.util.HashMap;
 
 public enum UsersState {
