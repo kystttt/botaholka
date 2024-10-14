@@ -64,12 +64,12 @@ public class TextHandler {
     }
 
     /**
-     * Метод для показа текущих заказов клиента по кго chat_id
+     * Метод для показа текущих заказов клиента по его chat_id
      * @param chat_id номер чата
      */
      public void commandListOfOrders(Long chat_id){
          output_message = "Ваши заказы:\n";
-         int i = 1;
+         boolean atLeastOnce = false;
          ListOfOrders listOfOrders = ListOfOrders.INSTANCE;
          for(Integer key : listOfOrders.getHashMap().keySet()){
              if(Objects.equals(
@@ -77,10 +77,13 @@ public class TextHandler {
                      chat_id)){
                  output_message += listOfOrders.getHashMap().get(key).formMessageForClient();
                  output_message += "\n";
+                 atLeastOnce = true;
              }
          }
          output_message += FUNCS_FOR_LIST_OF_ORDERS_BUYER;
-
+        if(!atLeastOnce){
+            output_message = "У вас нету действительных заказов";
+        }
      }
 
     /**
@@ -143,8 +146,8 @@ public class TextHandler {
                 if (message_text.startsWith("/duplicate-")) {
                     commandDuplicate(message_text);
                 }
-                else if(message_text.startsWith("/delete-")){
-                    commandDeleteOrder(message_text);
+                else if(message_text.startsWith("/cancel-")){
+                    commandCancelOrder(message_text);
                 }
                 else {
                     commandWrongTypoWord();
@@ -154,8 +157,9 @@ public class TextHandler {
         }
     }
 
+
     /**
-     * Удаляет заказ по его id
+     * Повторяет заказ по его id
      */
     private void commandDuplicate(String messageText) {
         ListOfOrders listOfOrders = ListOfOrders.INSTANCE;
@@ -168,23 +172,23 @@ public class TextHandler {
                 break;
             }
         }
-
+        output_message = "Заказ с таким номером не найден";
     }
 
     /**
-     * Повторяет заказ по его id
+     * Удаляет заказ по его id
      */
-    private void commandDeleteOrder(String messageText) {
+    private void commandCancelOrder(String messageText) {
         ListOfOrders listOfOrders = ListOfOrders.INSTANCE;
         String msgNumber = messageText.split("-")[1];
         for(Integer key : listOfOrders.getHashMap().keySet()) {
             if(msgNumber.equals( Long.toString(listOfOrders.getHashMap().get(key).getChatId()))){
-                Long deltedId = listOfOrders.getHashMap().get(key).getChatId();
+                Long deletedId = listOfOrders.getHashMap().get(key).getChatId();
                 listOfOrders.removeById(listOfOrders.getHashMap().get(key).getOrder_id());
-                output_message = "Заказ №" + deltedId + " удалён ";
+                output_message = "Заказ №" + deletedId + " удалён ";
                 break;
             }
         }
-
+        output_message = "Заказ с таким номером не найден";
     }
 }

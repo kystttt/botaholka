@@ -65,7 +65,7 @@ public class TextHandlerTest {
      * Тест для команды удаления заказа из ListOfOrders
      */
     @Test
-    void commandDeleteOrderTest(){
+    void commandCancelOrderTest(){
         TextHandler textHandler = new TextHandler();
         ListOfOrders list = ListOfOrders.INSTANCE;
 

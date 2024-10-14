@@ -100,7 +100,7 @@ public class Order {
     /**
      * Сравнение двух заказов за исключением поля order_id
      * @param another Заказ с которым сравниваем
-     * @return { true} if the arguments are equal to each other and { false} otherwise
+     * @return {true} если аргументы равны друг другу и {false} в противном случае
      */
     public boolean equals(Order another){
         if(Objects.equals(getChatId(), another.getChatId())){
