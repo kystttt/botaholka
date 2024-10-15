@@ -10,6 +10,7 @@ public class TestAddCartAndCartAndDelete {
 
     private TextHandler textHandler;
     private MenuList testMenuList;
+    Long chat_id = 13245L;
 
     @BeforeEach
     public void setup() {
@@ -53,5 +54,19 @@ public class TestAddCartAndCartAndDelete {
         textHandler.addToCart("abc");
         assertEquals(0, testMenuList.getCartSize());
         assertEquals("Ошибка: индекс блюда должен быть числом.", textHandler.getOutputMassage());
+    }
+
+    /**
+     * Тест для команды /makeOrder
+     */
+    @Test
+    public void testMakeOrder(){
+        textHandler.addToCart("1");
+        textHandler.makeOrder(chat_id);
+        assertEquals("Ваш заказ сформирован", textHandler.getOutputMassage());
+        assertEquals(0, testMenuList.getCartSize());
+        textHandler.deleteFromCart("1");
+        textHandler.makeOrder(chat_id);
+        assertEquals("Корзина пуста", textHandler.getOutputMassage());
     }
 }
