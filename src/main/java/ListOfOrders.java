@@ -5,11 +5,11 @@ public enum ListOfOrders {
     /**
      * Список всех текущих заказов с любым статусом кроме выдан
      */
-    private HashMap<Long, Order> orders;
+    private HashMap<Integer, Order> orders;
     /**
      * Переменная отвечающая за нумерацию обновляя отсчёт после каждого запуска
      */
-    private long order_id = 1;
+    private int order_id = 1;
 
     private ListOfOrders() {
         // Initialize configValue here, or load it from a file, database, etc.
@@ -22,7 +22,7 @@ public enum ListOfOrders {
      * @param order_id id заказа
      * @return Order
      */
-    public Order getValue(Long order_id) {
+    public Order getValue(Integer order_id) {
         return orders.get(order_id);
     }
 
@@ -46,7 +46,7 @@ public enum ListOfOrders {
         return orders.get(chat_id);
     }
 
-    public HashMap<Long, Order> getListOfOrders(){
+    public HashMap<Integer, Order> getListOfOrders(){
         return getListOfOrders();
     }
 }
