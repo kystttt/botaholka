@@ -1,0 +1,56 @@
+Index: src/main/java/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;\r\n\r\nimport java.io.BufferedReader;\r\nimport java.io.FileNotFoundException;\r\nimport java.io.FileReader;\r\nimport java.io.IOException;\r\n\r\n\r\npublic class Main {\r\n    public static void main(String[] args) throws IOException {\r\n        String botToken = System.getenv(\"TG_TOKEN\");\r\n        try (TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication()) {\r\n            botsApplication.registerBot(botToken, new Bot(botToken));\r\n            Thread.currentThread().join();\r\n        } catch (Exception e) {\r\n            e.printStackTrace();\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Main.java b/src/main/java/Main.java
+--- a/src/main/java/Main.java	(revision 304c742659944147a0f0eb70a4e04c06fc24a011)
++++ b/src/main/java/Main.java	(date 1728131442890)
+@@ -1,13 +1,11 @@
++import org.json.simple.parser.ParseException;
+ import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
+ 
+-import java.io.BufferedReader;
+-import java.io.FileNotFoundException;
+-import java.io.FileReader;
+ import java.io.IOException;
+-
++import java.util.ArrayList;
+ 
+ public class Main {
+-    public static void main(String[] args) throws IOException {
++    public static void main(String[] args) throws IOException, ParseException {
+         String botToken = System.getenv("TG_TOKEN");
+         try (TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication()) {
+             botsApplication.registerBot(botToken, new Bot(botToken));
+@@ -15,5 +13,11 @@
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
++//        ArrayList<String> arr = new ArrayList<String>();
++//
++//        Order order = new Order(10, "10", "к 18:00");
++//            order.addToArr("Шаурма Маленькая");
++//
++//        System.out.println(order.formMessageForClient());
+     }
+ }
+Index: src/main/java/Bot.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>    import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;\r\n    import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;\r\n    import org.telegram.telegrambots.meta.api.methods.send.SendMessage;\r\n    import org.telegram.telegrambots.meta.api.objects.Update;\r\n    import org.telegram.telegrambots.meta.exceptions.TelegramApiException;\r\n    import org.telegram.telegrambots.meta.generics.TelegramClient;\r\n\r\n    public class Bot implements LongPollingSingleThreadUpdateConsumer {\r\n        private final TelegramClient telegramClient;\r\n\r\n        public Bot(String botToken) {\r\n            telegramClient = new OkHttpTelegramClient(botToken);\r\n        }\r\n\r\n        @Override\r\n        public void consume(Update update) {\r\n            if (update.hasMessage() && update.getMessage().hasText()) {\r\n                String message_text = update.getMessage().getText();\r\n                long chat_id = update.getMessage().getChatId();\r\n\r\n                TextHandler textHandler = new TextHandler();\r\n                switch (message_text) {\r\n                    case (\"/help\"):\r\n                        textHandler.сommandHelp();\r\n                        break;\r\n\r\n                    case (\"/start\"):\r\n                        textHandler.сommandStart();\r\n                        break;\r\n\r\n                    default:\r\n                        textHandler.commandEcho(message_text);\r\n                        break;\r\n                }\r\n                SendMessage message = SendMessage\r\n                        .builder()\r\n                        .chatId(chat_id)\r\n                        .text(textHandler.getOutputMassage())\r\n                        .build();\r\n                try {\r\n                    telegramClient.execute(message);\r\n                } catch (TelegramApiException e) {\r\n                    e.printStackTrace();\r\n                }\r\n            }\r\n        }\r\n    }
+===================================================================
+diff --git a/src/main/java/Bot.java b/src/main/java/Bot.java
+--- a/src/main/java/Bot.java	(revision 304c742659944147a0f0eb70a4e04c06fc24a011)
++++ b/src/main/java/Bot.java	(date 1728131409109)
+@@ -17,7 +17,7 @@
+             if (update.hasMessage() && update.getMessage().hasText()) {
+                 String message_text = update.getMessage().getText();
+                 long chat_id = update.getMessage().getChatId();
+-
++                System.out.println(chat_id);
+                 TextHandler textHandler = new TextHandler();
+                 switch (message_text) {
+                     case ("/help"):

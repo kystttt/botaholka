@@ -1,0 +1,38 @@
+Index: src/main/java/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;\r\n\r\npublic class Main {\r\n    public static void main(String[] args) {\r\n        ListOfOrders listOfOrders = ListOfOrders.INSTANCE;\r\n        UsersState usersState = UsersState.INSTANCE;\r\n\r\n        String botToken = System.getenv(\"TG_TOKEN\");\r\n        try (TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication()) {\r\n            botsApplication.registerBot(botToken, new TGBot(botToken));\r\n            Thread.currentThread().join();\r\n        } catch (Exception e) {\r\n            e.printStackTrace();\r\n        }\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Main.java b/src/main/java/Main.java
+--- a/src/main/java/Main.java	(revision 65d4be9950476682a56d0306eedd9ed5bded52ce)
++++ b/src/main/java/Main.java	(date 1728972364670)
+@@ -3,7 +3,7 @@
+ public class Main {
+     public static void main(String[] args) {
+         ListOfOrders listOfOrders = ListOfOrders.INSTANCE;
+-        UsersState usersState = UsersState.INSTANCE;
++        //UsersState usersState = UsersState.INSTANCE;
+ 
+         String botToken = System.getenv("TG_TOKEN");
+         try (TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication()) {
+Index: src/main/java/Order.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.io.FileReader;\r\nimport java.io.IOException;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\nimport org.json.simple.JSONObject;\r\nimport org.json.simple.parser.*;\r\n\r\npublic class Order {\r\n    /**\r\n     * Список возможных состояний статуса заказа\r\n     */\r\n    private final ArrayList<String> statusState = new ArrayList<>(List.of(\r\n            \"Не принят\",\r\n            \"Готовится\",\r\n            \"Готов\",\r\n            \"Выдан\"));\r\n\r\n\r\n\r\n    private int order_id\r\n    private final Long chat_id;\r\n    /**\r\n     *Список того что заказал клиент\r\n     */\r\n    private ArrayList<String> orderList = new ArrayList<>();\r\n    public int sum;\r\n    /**\r\n     * Статус заказа\r\n     */\r\n    private String status = \"Не принят\";\r\n    /**\r\n     * Время к которму надо приготовить заказ\r\n     */\r\n    private final String timeTo = \"К ближайшему\";\r\n\r\n    /**\r\n     * Возвращает статус заказа по orderId\r\n     * @param orderId\r\n     * @return\r\n     */\r\n    public String getStatus(Long orderId){return status;}\r\n\r\n    public Order(Long chat_id){\r\n        this.chat_id = chat_id;\r\n\r\n    }\r\n\r\n    public int getOrder_id(){\r\n        return order_id;\r\n    }\r\n\r\n    public Long getChatId(){\r\n        return chat_id;\r\n    }\r\n\r\n    public void setOrderId(int order_id){\r\n        this.order_id = order_id;\r\n    }\r\n\r\n    /**\r\n     * Функция добавления цены за отдельный продукт в общую сумму\r\n     * @param str название лота в меню, которому соответствует некоторая цена в menu.json\r\n     */\r\n    public void addToArr(String str) {\r\n        orderList.add(str);\r\n    }\r\n\r\n    /**\r\n     * Функция считающая сумм заказа изходя из того что заказал человек\r\n     */\r\n    public void formSum() {\r\n        sum = 0;\r\n        try {\r\n            JSONObject jsonObject = (JSONObject)new JSONParser().parse(new FileReader(\"src/main/resources/menu.json\"));\r\n            for (String s : orderList) {\r\n                sum += (int) (long) jsonObject.get(s);\r\n            }\r\n        } catch (IOException | ParseException e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n    }\r\n\r\n    /**\r\n     * Функция формирующая текстовое представления Order\r\n     * @return текстовое представления Order\r\n     */\r\n    public String formMessageForClient() {\r\n        String output;\r\n        formSum();\r\n        output = String.format(\"\"\"\r\n                Заказ №%d\r\n                \"\"\", order_id);\r\n        output += String.join(\"\\n\", orderList);\r\n        output += String.format(\"\"\"\r\n                \\nИтого: %d руб.\r\n                \"\"\", sum);\r\n        return output;\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Order.java b/src/main/java/Order.java
+--- a/src/main/java/Order.java	(revision 65d4be9950476682a56d0306eedd9ed5bded52ce)
++++ b/src/main/java/Order.java	(date 1728972364681)
+@@ -18,7 +18,7 @@
+ 
+ 
+ 
+-    private int order_id
++    private int order_id;
+     private final Long chat_id;
+     /**
+      *Список того что заказал клиент
