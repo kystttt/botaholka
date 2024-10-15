@@ -14,8 +14,8 @@ import java.util.Objects;
  */
 public class TextHandler {
     private final String START_CONST = """
-                                Добро пожаловать в бот
-                                """;
+            Добро пожаловать в бот
+            """;
     private final String HELP_CONST = """
             Этот бот возвращает отправленное сообщение,
             Список команд:

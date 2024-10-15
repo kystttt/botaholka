@@ -1,3 +1,4 @@
+    import org.json.simple.parser.ParseException;
     import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
     import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
     import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
