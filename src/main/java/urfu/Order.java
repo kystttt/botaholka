@@ -1,7 +1,10 @@
+package urfu;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
@@ -36,26 +39,23 @@ public class Order {
      */
     private final String timeTo = "К ближайшему";
 
-    /**
-     * Возвращает статус заказа по orderId
-     * @param orderId
-     * @return
-     */
-    public String getStatus(Long orderId){return status;}
 
     public Order(Long chat_id){
         this.chat_id = chat_id;
 
     }
 
-    public void setOrderId(Long order_id){
+    public int getOrder_id(){
+        return order_id;
+    }
+
+    public Long getChatId(){
+        return chat_id;
+    }
+
+    public void setOrderId(int order_id){
         this.order_id = order_id;
     }
-
-    public ArrayList<String> getArr() {
-        return orderList;
-    }
-
 
     /**
      * Функция добавления цены за отдельный продукт в общую сумму
@@ -66,17 +66,9 @@ public class Order {
     }
 
     /**
-     * геттер для chat_id
-     * @return
+     * Функция считающая сумм заказа исходя из того что заказал человек
      */
-    public Long getChatId() {
-        return chat_id;
-    }
-
-    /**
-     * Функция считающая сумм заказа изходя из того что заказал человек
-     */
-    private void formSum() {
+    public void formSum() {
         sum = 0;
         try {
             JSONObject jsonObject = (JSONObject)new JSONParser().parse(new FileReader("src/main/resources/menu.json"));
