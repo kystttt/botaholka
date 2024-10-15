@@ -14,8 +14,8 @@ import java.util.Objects;
  */
 public class TextHandler {
     private final String START_CONST = """
-                                Добро пожаловать в бот
-                                """;
+            Добро пожаловать в бот
+            """;
     private final String HELP_CONST = """
             Этот бот возвращает отправленное сообщение,
             Список команд:
@@ -23,6 +23,7 @@ public class TextHandler {
             /start - приветсвие пользователя
             /menu - меню для выбора блюда
             /cart - посмотреть корзину
+            /makeOrder - собирает заказ из того, что в корзине
             /delete - удалить товар из корзины
             """;
     private final String ECHO_CONST = "Вы ввели: ";
@@ -36,7 +37,7 @@ public class TextHandler {
     private final String CART_EMPTY_CONST = "Корзина пуста.";
     private final String YOUR_ORDER_CONST = "Ваш заказ:\n";
     private final String DELETE_OUT_MSG_CONST = "Введите номер блюда, которое хотите удалить: ";
-
+    private final String MAKED_ORDER_CONST = "Ваш заказ сформирован";
     MenuList mnlst = MenuList.INSTANCE;
 
     /**
@@ -71,6 +72,7 @@ public class TextHandler {
 
     /**
      * Метод, который добавляет по индексу (первому числу) товар в корзину
+     *
      * @param dishIndexStr
      */
     public void addToCart(String dishIndexStr) {
@@ -107,9 +109,10 @@ public class TextHandler {
 
     /**
      * Метод, который удаляет из корзины блюдо
+     *
      * @param dishIndexStr
      */
-    public void deleteFromCart(String dishIndexStr){
+    public void deleteFromCart(String dishIndexStr) {
 
         try {
             int idx = Integer.parseInt(dishIndexStr);
@@ -124,11 +127,34 @@ public class TextHandler {
         }
     }
 
+    /**
+     * Метод, который формирует заказ из текущей корзины.
+     * @param chat_id
+     * @return
+     */
+    public String makeOrder(Long chat_id){
+        Order order = new Order(chat_id);
+        if (mnlst.getCartSize() == 0){
+            output_message = CART_EMPTY_CONST;
+            return output_message;
+        }
+
+        for(int i = 0; i < mnlst.getCartSize(); i++){
+            String[] parts = mnlst.getCartValue(i).split("[-. ]+");
+            order.addToArr(parts[1] + " " + parts[2]);
+        }
+
+        ListOfOrders listOfOrders = ListOfOrders.INSTANCE;
+        listOfOrders.putOrder(order);
+        mnlst.getCart().clear();
+        output_message = MAKED_ORDER_CONST;
+        return output_message;
+    }
 
 
 
 
-    public void commandEcho(String str){
+    public void commandEcho(String str) {
         output_message = ECHO_CONST + str;
     }
 
@@ -136,98 +162,108 @@ public class TextHandler {
     /**
      * Команда /start в боте
      */
-    public void commandStart(){
+    public void commandStart() {
         output_message = START_CONST;
     }
 
     /**
      * Команда /help в боте
      */
-     public void commandHelp(){
+    public void commandHelp() {
         output_message = HELP_CONST;
-     }
+    }
 
     /**
      * геттер для output_message
+     *
      * @return возвращает output_message
      */
-    public String getOutputMassage(){
-         return output_message;
-     }
+    public String getOutputMassage() {
+        return output_message;
+    }
 
     /**
      * Реализует логику бота
+     *
      * @param message_text переменная с текстом сообщения пользователя
      */
 
-     public void logic(String message_text, Long chat_id) throws IOException, ParseException {
-         switch (message_text) {
-             case ("/help"):
-                 commandHelp();
-                 mnlst.setPrevCommand(message_text);
-                 break;
+    public void logic(String message_text, Long chat_id) throws IOException, ParseException {
+        switch (message_text) {
+            case ("/help"):
+                commandHelp();
+                mnlst.setPrevCommand(message_text);
+                break;
 
-             case ("/start"):
-                 commandStart();
-                 mnlst.setPrevCommand(message_text);
-                 break;
+            case ("/start"):
+                commandStart();
+                mnlst.setPrevCommand(message_text);
+                break;
 
-             case("/order"):
-                 commandOrder(chat_id);
-                 mnlst.setPrevCommand(message_text);
-                 break;
+            case ("/order"):
+                commandOrder(chat_id);
+                mnlst.setPrevCommand(message_text);
+                break;
 
-             case("/menu"):
-                 menuCalling();
-                 mnlst.setPrevCommand(message_text);
-                 break;
+            case ("/menu"):
+                menuCalling();
+                mnlst.setPrevCommand(message_text);
+                break;
 
-             case("/delete"):
-                 output_message = DELETE_OUT_MSG_CONST;
-                 mnlst.setPrevCommand(message_text);
-                 break;
+            case ("/delete"):
+                output_message = DELETE_OUT_MSG_CONST;
+                mnlst.setPrevCommand(message_text);
+                break;
 
-             case("/cart"):
-                 viewCart();
-                 mnlst.setPrevCommand(message_text);
-                 break;
+            case ("/cart"):
+                viewCart();
+                mnlst.setPrevCommand(message_text);
+                break;
 
-             default:
-                 boolean isInt = false;
+            case ("/makeOrder"):
+                makeOrder(chat_id);
+                mnlst.setPrevCommand(message_text);
+                break;
 
-                 try {
-                     Integer.parseInt(message_text);
-                     isInt = true;
-                 } catch (NumberFormatException e) {
 
-                 }
-                 mnlst.setPrevCommand(isInt ? mnlst.getPrevCommand() : message_text);
 
-                 if (Objects.equals(mnlst.getPrevCommand(), "/menu")){
-                     addToCart(message_text);
-                 }
-                 else if (Objects.equals(mnlst.getPrevCommand(), "/delete")){
-                     deleteFromCart(message_text);
-                 }
+            default:
+                boolean isInt = false;
 
-                 else{
-                     output_message = ERROR_TYPE_CONST;
-                 }
-                 break;
+                try {
+                    Integer.parseInt(message_text);
+                    isInt = true;
+                } catch (NumberFormatException e) {
 
-         }
-     }
+                }
+                mnlst.setPrevCommand(isInt ? mnlst.getPrevCommand() : message_text);
+
+                if (Objects.equals(mnlst.getPrevCommand(), "/menu")) {
+                    addToCart(message_text);
+                } else if (Objects.equals(mnlst.getPrevCommand(), "/delete")) {
+                    deleteFromCart(message_text);
+                } else {
+                    output_message = ERROR_TYPE_CONST;
+                }
+                break;
+
+        }
+    }
+
 
     /**
      * Пример работы с Order и ListOfOrders
      * @param chat_id chat id
      */
     private void commandOrder(Long chat_id){
-        Order order = new Order(chat_id);
 
         ListOfOrders listOfOrders = ListOfOrders.INSTANCE;
-        listOfOrders.putOrder(order);
+        Order order = listOfOrders.getOrder(chat_id);
 
-        output_message = order.formMessageForClient();
+        if (order != null) {
+            output_message = order.formMessageForClient();
+        } else {
+            output_message = "У вас нет активных заказов.";
+        }
     }
 }

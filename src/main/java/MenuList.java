@@ -58,6 +58,7 @@ public enum MenuList {
         return cart;
     }
 
+
     /**
      * Добавляет в корзину
      * @param dish
@@ -83,6 +84,7 @@ public enum MenuList {
             cart.remove(index); // Удаляем элемент по индексу
         }
     }
+
 
     /**
      * Возвращает предыдущую команду, введенную пользователем

@@ -36,6 +36,16 @@ public enum ListOfOrders {
         order_id++;
     }
 
+
+    /**
+     * Получение заказа по caht_id
+     * @param chat_id
+     * @return заказ
+     */
+    public Order getOrder(Long chat_id) {
+        return orders.get(chat_id);
+    }
+
     public HashMap<Long, Order> getListOfOrders(){
         return getListOfOrders();
     }

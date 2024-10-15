@@ -54,12 +54,21 @@ public class Order {
         return orderList;
     }
 
+
     /**
      * Функция добавления цены за отдельный продукт в общую сумму
      * @param str название лота в меню, которому соответствует некоторая цена в menu.json
      */
     public void addToArr(String str) {
         orderList.add(str);
+    }
+
+    /**
+     * геттер для chat_id
+     * @return
+     */
+    public Long getChatId() {
+        return chat_id;
     }
 
     /**
