@@ -1,12 +1,11 @@
-    import org.json.simple.parser.ParseException;
+package urfu;
+
     import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
     import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
     import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
     import org.telegram.telegrambots.meta.api.objects.Update;
     import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
     import org.telegram.telegrambots.meta.generics.TelegramClient;
-
-    import java.io.IOException;
 
     /**
      * Создает телеграм бота, принимает и отправляет сообщения
@@ -29,13 +28,9 @@
                 long chat_id = update.getMessage().getChatId();
 
                 TextHandler textHandler = new TextHandler();
-                try {
-                    textHandler.logic(message_text, chat_id);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
+
+                textHandler.logic(message_text, chat_id);
+
 
                 try {
                     telegramClient.execute(SendMessage
@@ -48,4 +43,5 @@
                 }
             }
         }
+
     }
