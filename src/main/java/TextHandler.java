@@ -33,7 +33,7 @@ public class TextHandler {
     private final String DISH_ADDED_CONST = "Блюдо добавлено в корзину:\n";
     private final String ERROR_UNDEFIND_NUM_CONST = "Ошибка: такого блюда нет в меню.";
     private final String SUCCES_DELETE_DISH_CONST = "Блюдо успешно удалено ";
-    private final String CART_EMPTY_CONST = "Корзина пуста.";
+    private final String CART_EMPTY_CONST = "Корзина пуста";
     private final String YOUR_ORDER_CONST = "Ваш заказ:\n";
     private final String DELETE_OUT_MSG_CONST = "Введите номер блюда, которое хотите удалить: ";
 
