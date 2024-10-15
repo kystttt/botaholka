@@ -57,6 +57,11 @@ public class Order {
         this.order_id = order_id;
     }
 
+    public ArrayList<String> getArr() {
+        return orderList;
+    }
+
+
     /**
      * Функция добавления цены за отдельный продукт в общую сумму
      * @param str название лота в меню, которому соответствует некоторая цена в menu.json
