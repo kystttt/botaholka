@@ -6,9 +6,6 @@ import java.util.List;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
-/**
- * Класс заказа
- */
 public class Order {
     /**
      * Список возможных состояний статуса заказа
@@ -20,10 +17,11 @@ public class Order {
             "Выдан"));
 
 
+
     private int order_id;
     private final Long chat_id;
     /**
-     *Список того что заказа клиент
+     *Список того что заказал клиент
      */
     private ArrayList<String> orderList = new ArrayList<>();
     public int sum;
@@ -32,7 +30,7 @@ public class Order {
      */
     private String status = "Не принят";
     /**
-     * Время к которому надо приготовить заказ
+     * Время к которму надо приготовить заказ
      */
     private final String timeTo = "К ближайшему";
 
@@ -48,14 +46,17 @@ public class Order {
 
     }
 
-    public void setOrderId(Long order_id){
+    public int getOrder_id(){
+        return order_id;
+    }
+
+    public Long getChatId(){
+        return chat_id;
+    }
+
+    public void setOrderId(int order_id){
         this.order_id = order_id;
     }
-
-    public ArrayList<String> getArr() {
-        return orderList;
-    }
-
 
     /**
      * Функция добавления цены за отдельный продукт в общую сумму
@@ -66,17 +67,9 @@ public class Order {
     }
 
     /**
-     * геттер для chat_id
-     * @return
-     */
-    public Long getChatId() {
-        return chat_id;
-    }
-
-    /**
      * Функция считающая сумм заказа изходя из того что заказал человек
      */
-    private void formSum() {
+    public void formSum() {
         sum = 0;
         try {
             JSONObject jsonObject = (JSONObject)new JSONParser().parse(new FileReader("src/main/resources/menu.json"));
@@ -105,15 +98,4 @@ public class Order {
         return output;
     }
 
-    /**
-     * Сравнение двух заказов за исключением поля order_id
-     * @param another Заказ с которым сравниваем
-     * @return {true} если аргументы равны друг другу и {false} в противном случае
-     */
-    public boolean equals(Order another){
-        if(Objects.equals(getChatId(), another.getChatId())){
-            return true;
-        }
-        return false;
-    }
 }
