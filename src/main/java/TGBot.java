@@ -1,5 +1,3 @@
-package urfu;
-
     import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
     import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
     import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -28,9 +26,7 @@ package urfu;
                 long chat_id = update.getMessage().getChatId();
 
                 TextHandler textHandler = new TextHandler();
-
-                textHandler.logic(message_text, chat_id);
-
+                textHandler.logic(message_text);
 
                 try {
                     telegramClient.execute(SendMessage
@@ -43,5 +39,4 @@ package urfu;
                 }
             }
         }
-
     }
