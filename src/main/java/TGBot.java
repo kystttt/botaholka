@@ -11,7 +11,11 @@
     public class TGBot implements LongPollingSingleThreadUpdateConsumer {
         private final TelegramClient telegramClient;
 
-        public TGBot(String botToken) {
+        private ListOfOrders listOfOrders;
+
+        public TGBot(String botToken, ListOfOrders listOfOrders) {
+            this.listOfOrders = listOfOrders;
+
             telegramClient = new OkHttpTelegramClient(botToken);
         }
 
@@ -25,14 +29,14 @@
                 String message_text = update.getMessage().getText();
                 long chat_id = update.getMessage().getChatId();
 
-                TextHandler textHandler = new TextHandler();
-                textHandler.logic(message_text);
+                TextHandler textHandler = new TextHandler(listOfOrders);
+                String output_message = textHandler.getOutputMassage(message_text, chat_id);
 
                 try {
                     telegramClient.execute(SendMessage
                             .builder()
                             .chatId(chat_id)
-                            .text(textHandler.getOutputMassage())
+                            .text(output_message)
                             .build());
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
