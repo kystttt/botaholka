@@ -5,6 +5,8 @@
     import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
     import org.telegram.telegrambots.meta.generics.TelegramClient;
 
+    import java.awt.*;
+
     /**
      * Создает телеграм бота, принимает и отправляет сообщения
      */
@@ -12,9 +14,11 @@
         private final TelegramClient telegramClient;
 
         private ListOfOrders listOfOrders;
+        private MenuList menuList;
 
-        public TGBot(String botToken, ListOfOrders listOfOrders) {
+        public TGBot(String botToken, ListOfOrders listOfOrders, MenuList menuList) {
             this.listOfOrders = listOfOrders;
+            this.menuList = menuList;
 
             telegramClient = new OkHttpTelegramClient(botToken);
         }
@@ -29,7 +33,7 @@
                 String message_text = update.getMessage().getText();
                 long chat_id = update.getMessage().getChatId();
 
-                TextHandler textHandler = new TextHandler(listOfOrders);
+                TextHandler textHandler = new TextHandler(listOfOrders, menuList);
                 String output_message = textHandler.getOutputMassage(message_text, chat_id);
 
                 try {

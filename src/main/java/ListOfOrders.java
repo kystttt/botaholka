@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class ListOfOrders {
 
     /**
-     * Список всех текущих заказов с любым статусом кроме выдан(id заказа, заказ)
+     * Список всех текущих заказов с любым статусом кроме "выдан"(id заказа, заказ)
      */
     private HashMap<Integer, Order> orders;
 
@@ -26,6 +26,16 @@ public class ListOfOrders {
      */
     public Order getValue(int order_id) {
         return orders.get(order_id);
+    }
+
+
+    /**
+     * Получение заказа по chat_id
+     * @param chat_id
+     * @return заказ
+     */
+    public Order getOrder(Long chat_id) {
+        return orders.get(chat_id);
     }
 
     /**
