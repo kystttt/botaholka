@@ -13,6 +13,9 @@ public class MenuList {
      */
     private String prevcommand;
 
+    /**
+     * Конструктор класса MenuList
+     */
     public MenuList() {
         menulist = new HashMap<>();
         cart = new ArrayList<>();

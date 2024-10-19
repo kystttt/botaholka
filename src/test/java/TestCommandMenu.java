@@ -27,9 +27,12 @@ public class TestCommandMenu {
             file.write(menuJson.toJSONString());
         }
     }
+
+    /**
+     * тестируем команду /menu
+     */
     @Test
     public void testMenuCalling() {
-        // Вызываем метод формирования меню
         textHandler.menuCalling();
         assertEquals("ЛюляКебаб - 170 рублей", testMenuList.getMenulist().get(1));
         assertEquals("Напиток - 140 рублей", testMenuList.getMenulist().get(2));
