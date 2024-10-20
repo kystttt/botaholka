@@ -264,9 +264,8 @@ public class TextHandler {
      * Метод, который вызывает меню(показывает, что есть в ассортименте)
      */
     public void menuCalling() {
-        try {
-            JSONParser parser = new JSONParser();
-            JSONObject jsonObject = (JSONObject) parser.parse(new FileReader("src/main/resources/menu.json"));
+        try (FileReader file = new FileReader("src/main/resources/menu.json")){
+            JSONObject jsonObject = (JSONObject) new JSONParser().parse(file);
             StringBuilder menuBuilder = new StringBuilder(constants.getConst(Constants.Types.MENU));
 
             Iterator<String> keys = jsonObject.keySet().iterator();
