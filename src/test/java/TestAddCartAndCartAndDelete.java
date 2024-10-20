@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Тестируем три метода: добавления в корзину, удаления и просмотра корзины
  */
-public class TestAddCartAndCartAndDelete {
+public class CommandAddToCARTCommandCartAndCommandDeleteTest {
 
     private TextHandler textHandler;
     private MenuList testMenuList;
@@ -21,12 +21,11 @@ public class TestAddCartAndCartAndDelete {
         testMenuList.getMenulist().put(1, "Шаурма - 250 рублей");
         testMenuList.getMenulist().put(2, "Напиток - 140 рублей");
     }
-
-    @Test
-    public void testAddToCart_ValidDishIndex() {
 /**
  * Проверяем добавление, удаление и вывод
  */
+    @Test
+    public void testAddToCart_ValidDishIndex() {
         testMenuList.setPrevCommand("/menu");
         textHandler.getOutputMassage("1", chat_id);
         assertEquals(1, testMenuList.getCartSize());
