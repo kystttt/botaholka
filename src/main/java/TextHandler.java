@@ -63,7 +63,7 @@ public class TextHandler {
      *
      * @param message_text переменная с текстом сообщения пользователя
      */
-    public void logic(String message_text, Long chat_id) {
+    private void logic(String message_text, Long chat_id) {
 
         switch (message_text) {
             case ("/help"):
@@ -174,7 +174,7 @@ public class TextHandler {
                     listOfOrders.getHashMap().get(key).getChatId()))) {
                 listOfOrders.putOrder(listOfOrders.getHashMap().get(key));
                 output_message = "Заказ №" + listOfOrders.getHashMap().get(key).getChatId() + " продублирован ";
-                break;
+                return;
             }
         }
         output_message = String.format("Заказ с №%s не найден", msgNumber);
@@ -252,7 +252,7 @@ public class TextHandler {
                 Long deletedId = listOfOrders.getHashMap().get(key).getChatId();
                 listOfOrders.removeById(listOfOrders.getHashMap().get(key).getOrder_id());
                 output_message = "Заказ №" + deletedId + " удалён ";
-                break;
+                return;
             }
         }
         output_message = String.format("Заказ с №%s не найден", msgNumber);

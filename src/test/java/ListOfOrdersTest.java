@@ -8,12 +8,13 @@ import java.util.HashMap;
 
 public class ListOfOrdersTest {
 
+    private ListOfOrders listOfOrders = new ListOfOrders();
     /**
      * Обнуляет ListOfOrders
      */
     @BeforeEach
     void resetListOfOrders() {
-        ListOfOrders.INSTANCE.clearList();
+        listOfOrders.clearList();
     }
 
 
@@ -22,14 +23,12 @@ public class ListOfOrdersTest {
      */
     @Test
     void testGetHashMap() {
-        ListOfOrders list = ListOfOrders.INSTANCE;
-
         Order order1 = new Order((long)1);
         Order order2 = new Order((long)1);
-        list.putOrder(order1);
-        list.putOrder(order2);
+        listOfOrders.putOrder(order1);
+        listOfOrders.putOrder(order2);
 
-        HashMap<Integer, Order> result = list.getHashMap();
+        HashMap<Integer, Order> result = listOfOrders.getHashMap();
 
         Assertions.assertEquals(2, result.size());
         Assertions.assertEquals(order1, result.get(1));
@@ -41,12 +40,10 @@ public class ListOfOrdersTest {
      */
     @Test
     void testGetValue1() {
-        ListOfOrders list = ListOfOrders.INSTANCE;
-
         Order order = new Order((long)1);
-        list.putOrder(order);
+        listOfOrders.putOrder(order);
 
-        Order result = list.getValue(1);
+        Order result = listOfOrders.getValue(1);
 
         Assertions.assertEquals(order, result);
     }
@@ -56,9 +53,7 @@ public class ListOfOrdersTest {
      */
     @Test
     void testGetValue2() {
-        ListOfOrders list = ListOfOrders.INSTANCE;
-
-        Order result = list.getValue( 1);
+        Order result = listOfOrders.getValue( 1);
 
         Assertions.assertNull(result);
     }
@@ -68,13 +63,11 @@ public class ListOfOrdersTest {
      */
     @Test
     void testPutOrder() {
-        ListOfOrders list = ListOfOrders.INSTANCE;
-
         Order order = new Order((long)1);
 
-        list.putOrder(order);
+        listOfOrders.putOrder(order);
 
-        Assertions.assertEquals(order, list.getValue(1));
+        Assertions.assertEquals(order, listOfOrders.getValue(1));
     }
 
     /**
@@ -82,13 +75,11 @@ public class ListOfOrdersTest {
      */
     @Test
     void testRemoveById() {
-        ListOfOrders list = ListOfOrders.INSTANCE;
-
         Order order = new Order((long)1);
-        list.putOrder(order);
+        listOfOrders.putOrder(order);
 
-        list.removeById(1);
+        listOfOrders.removeById(1);
 
-        Assertions.assertNull(list.getValue(1));
+        Assertions.assertNull(listOfOrders.getValue(1));
     }
 }

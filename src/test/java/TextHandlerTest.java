@@ -1,19 +1,42 @@
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.json.simple.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
-import urfu.Order;
-import urfu.ListOfOrders;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import urfu.TextHandler;
 
+/**
+ * <p><strong>Тесты для TextHandler</strong></p>
+ *
+ * <figcaption>Тестирование Функций:</figcaption>
+ * <ul>
+ *      <li>commandListOfOrders</li>
+ *       <li>commandDuplicate</li>
+ *       <li>commandCancelOrder</li>
+ * </ul>
+ *
+ */
 public class TextHandlerTest {
 
+    private ListOfOrders listOfOrders = new ListOfOrders();
+
     /**
-     * Обнуляет ListOfOrders
+     * Обнуляет ListOfOrders и добавляет в menu.json несколько пунктов из меню
      */
     @BeforeEach
     void resetListOfOrders() {
-        ListOfOrders.INSTANCE.clearList();
+        listOfOrders.clearList();
+        JSONObject menuJson = new JSONObject();
+        menuJson.put("Шаурма Большая", 100L);
+
+        try (FileWriter file = new FileWriter("src/main/resources/menu.json")) {
+            file.write(menuJson.toJSONString());
+        }
+        catch (IOException ignored){
+
+        }
     }
 
     /**
@@ -21,15 +44,13 @@ public class TextHandlerTest {
      */
     @Test
     void commandListOfOrdersTest(){
-        TextHandler textHandler = new TextHandler();
-        ListOfOrders list = ListOfOrders.INSTANCE;
+        TextHandler textHandler = new TextHandler(listOfOrders);
 
         Order order = new Order((long)1);
         order.addToArr("Шаурма Большая");
-        list.putOrder(order);
+        listOfOrders.putOrder(order);
 
-        textHandler.logic("/listoforders", (long)1);
-        String result = textHandler.getOutputMassage();
+        String result = textHandler.getOutputMassage("/listoforders", (long)1);
 
         String expected = """
                 Ваши заказы:
@@ -49,16 +70,15 @@ public class TextHandlerTest {
      */
     @Test
     void commandDuplicateTest(){
-        TextHandler textHandler = new TextHandler();
-        ListOfOrders list = ListOfOrders.INSTANCE;
+        TextHandler textHandler = new TextHandler(listOfOrders);
 
         Order order = new Order((long)1);
         order.addToArr("Шаурма Большая");
-        list.putOrder(order);
+        listOfOrders.putOrder(order);
 
-        textHandler.logic("/duplicate-1", (long)1);
+        textHandler.getOutputMassage("/duplicate-1", (long)1);
 
-        Assertions.assertTrue(order.equals(list.getValue(2)));
+        Assertions.assertEquals(order, listOfOrders.getValue(2));
     }
 
     /**
@@ -66,15 +86,16 @@ public class TextHandlerTest {
      */
     @Test
     void commandCancelOrderTest(){
-        TextHandler textHandler = new TextHandler();
-        ListOfOrders list = ListOfOrders.INSTANCE;
+        TextHandler textHandler = new TextHandler(listOfOrders);
 
         Order order = new Order((long)1);
         order.addToArr("Шаурма Большая");
-        list.putOrder(order);
+        listOfOrders.putOrder(order);
 
-        textHandler.logic("/delete-1", (long)1);
+        String result_text = textHandler.getOutputMassage("/cancel-1", (long)1);
+        String expected_text = "Заказ №" + (long)1 + " удалён ";
 
-        Assertions.assertNull(list.getValue(1));
+        Assertions.assertEquals( expected_text, result_text);
+        Assertions.assertNull(listOfOrders.getValue(1));
     }
 }
