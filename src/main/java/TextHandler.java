@@ -236,7 +236,7 @@ public class TextHandler {
                 menuList.removeFromCart(idx); // Удаляем элемент из корзины через метод
                 output_message = constants.getConst(Constants.Types.SUCCES_DELETE_DISH) + constants.getConst(Constants.Types.YOUR_CART);
             } else {
-                output_message = constants.getConst(Constants.Types.ERROR_UNDEFIND_NUM);
+                output_message = constants.getConst(Constants.Types.ERROR_INDEX);
             }
         } catch (NumberFormatException e) {
             output_message = constants.getConst(Constants.Types.ERROR_TYPE);

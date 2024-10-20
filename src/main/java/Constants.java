@@ -21,6 +21,7 @@ public class Constants {
     private final String SUCCES_DELETE_DISH_CONST = "Блюдо успешно удалено ";
     private final String DELETE_OUT_MSG_CONST = "Введите номер блюда, которое хотите удалить: ";
     private final String MAKED_ORDER_CONST = "Ваш заказ сформирован";
+    private final String ERROR_INDEX_CONST = "Такого индекса не существует\n";
 
     private final String HELP_CONST = """
             Этот бот возвращает отправленное сообщение,
@@ -60,6 +61,7 @@ public class Constants {
         SUCCES_DELETE_DISH,
         DELETE_OUT_MSG,
         MAKED_ORDER,
+        ERROR_INDEX;
 
     }
 
@@ -81,6 +83,7 @@ public class Constants {
             case SUCCES_DELETE_DISH -> SUCCES_DELETE_DISH_CONST;
             case DELETE_OUT_MSG -> DELETE_OUT_MSG_CONST;
             case MAKED_ORDER -> MAKED_ORDER_CONST;
+            case ERROR_INDEX->ERROR_INDEX_CONST;
 
             default -> "Нету такой константы";
         };
