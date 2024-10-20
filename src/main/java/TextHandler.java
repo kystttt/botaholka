@@ -148,11 +148,11 @@ public class TextHandler {
      * @param chat_id
      * @return
      */
-    public String makeOrder(Long chat_id){
+    public void makeOrder(Long chat_id){
         Order order = new Order(chat_id);
         if (menuList.getCartSize() == 0){
             output_message = constants.getConst(Constants.Types.CART_EMPTY);
-            return output_message;
+            return;
         }
 
         for(int i = 0; i < menuList.getCartSize(); i++){
@@ -163,7 +163,6 @@ public class TextHandler {
         listOfOrders.putOrder(order);
         menuList.getCart().clear();
         output_message = constants.getConst(Constants.Types.MAKED_ORDER);
-        return output_message;
     }
 
     /**
