@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Класс
+ * Класс, в котором хранится меню, оно считывается в хэшмапу из json файла, а также в нем хранится корзина
  */
 public class MenuList {
     private Constants constants;
