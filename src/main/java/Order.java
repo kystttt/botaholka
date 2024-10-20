@@ -68,8 +68,8 @@ public class Order {
      */
     public void formSum() {
         sum = 0;
-        try {
-            JSONObject jsonObject = (JSONObject)new JSONParser().parse(new FileReader("src/main/resources/menu.json"));
+        try(FileReader file = new FileReader("src/main/resources/menu.json")) {
+            JSONObject jsonObject = (JSONObject)new JSONParser().parse(file);
             for (String s : orderList) {
                 sum += (int) (long) jsonObject.get(s);
             }

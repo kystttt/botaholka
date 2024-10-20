@@ -14,8 +14,6 @@ import java.util.Objects;
  */
 public class TextHandler {
 
-    private Constants constants;
-
     private ListOfOrders listOfOrders;
 
     private MenuList menuList;
@@ -33,21 +31,21 @@ public class TextHandler {
      * Команда /start в боте
      */
     private void commandStart() {
-        output_message = constants.getConst(Constants.Types.START);
+        output_message = Constants.START_CONST;
     }
 
     /**
      * Команда /help в боте
      */
     private void commandHelp() {
-        output_message = constants.getConst(Constants.Types.HELP);
+        output_message = Constants.HELP_CONST;;
     }
 
     /**
      * Метод при вызове команды, которой нет у бота
      */
     private void commandWrongTypoWord() {
-        output_message = constants.getConst(Constants.Types.ERROR_COMMAND);
+        output_message = Constants.ERROR_COMMAND;;
     }
 
     /**
@@ -307,7 +305,7 @@ public class TextHandler {
 
         output_message = "Ваши заказы:\n";
         output_message += stringBuilder.toString();
-        output_message += constants.getConst(Constants.Types.FUNCS_FOR_LIST_OF_ORDERS_BUYER);
+        output_message += Constants.FUNCS_FOR_LIST_OF_ORDERS_BUYER;;
         if (!atLeastOnce) {
             output_message = "У вас нету действительных заказов";
         }
