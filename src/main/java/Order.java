@@ -18,6 +18,12 @@ public class Order {
 //        Given_Out;
 //    }
 //
+    public Order(Order order){
+        this.chat_id = order.chat_id;
+        this.order_id = order.order_id;
+        this.orderList = order.orderList;
+    }
+
     private int order_id;
 
     private final Long chat_id;

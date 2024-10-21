@@ -165,7 +165,7 @@ public class TextHandler {
 
             if (messageTxtIndex.equals(Long.toString(
                     currentOrder.getOrderId()))) {
-                listOfOrders.putOrder(currentOrder);
+                listOfOrders.putOrder(new Order(currentOrder));
                 output_message = "Заказ №" + currentOrder.getOrderId() + " продублирован ";
                 return;
             }
