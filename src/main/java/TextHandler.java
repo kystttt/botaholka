@@ -23,7 +23,6 @@ public class TextHandler {
     public TextHandler(ListOfOrders listOfOrders, MenuList menuList) {
         this.listOfOrders = listOfOrders;
         this.menuList = menuList;
-        this.constants = new Constants();
     }
 
 
@@ -82,7 +81,7 @@ public class TextHandler {
                 break;
 
             case ("/delete"):
-                output_message = constants.getConst(Constants.Types.DELETE_OUT_MSG);
+                output_message = Constants.DELETE_OUT_MSG_CONST;
                 menuList.setPrevCommand(message_text);
                 break;
 
@@ -97,44 +96,37 @@ public class TextHandler {
                 menuList.setPrevCommand(message_text);
                 break;
 
-            case("/order"):
-               commandListOfOrders(chat_id);
-                menuList.setPrevCommand(message_text);
-                break;
-
             case ("/makeOrder"):
                 makeOrder(chat_id);
                 menuList.setPrevCommand(message_text);
                 break;
 
             default:
-                //Это будет исправлено вместе с задачей на контекст диалога
-                //if (message_text.startsWith("/duplicate-")) {
-//                    commandDuplicate(message_text);
-//                } else if (message_text.startsWith("/cancel-")) {
-//                    commandCancelOrder(message_text);
-//                } else {
-//                    commandWrongTypoWord();
-//                }
-//                break;
+                boolean flag = true;
+                if (message_text.startsWith("/duplicate-")) {
+                    commandDuplicate(message_text);
+                    flag = false;
+                } else if (message_text.startsWith("/cancel-")) {
+                    commandCancelOrder(message_text);
+                    flag = false;
+                }
                 boolean isInt = false;
 
                 try {
                     Integer.parseInt(message_text);
                     isInt = true;
-                } catch (NumberFormatException e) {
+                } catch (NumberFormatException ignored) {
 
                 }
                 menuList.setPrevCommand(isInt ? menuList.getPrevCommand() : message_text);
-
-                if (Objects.equals(menuList.getPrevCommand(), "/menu")){
-                    addToCart(message_text);
-                }
-                else if (Objects.equals(menuList.getPrevCommand(), "/delete")){
-                    deleteFromCart(message_text);
-                }
-                else{
-                    output_message = constants.getConst(Constants.Types.ERROR_TYPE);
+                if(flag) {
+                    if (Objects.equals(menuList.getPrevCommand(), "/menu")) {
+                        addToCart(message_text);
+                    } else if (Objects.equals(menuList.getPrevCommand(), "/delete")) {
+                        deleteFromCart(message_text);
+                    } else {
+                        output_message = Constants.ERROR_TYPE_CONST;
+                    }
                 }
                 break;
 
@@ -149,7 +141,7 @@ public class TextHandler {
     public void makeOrder(Long chat_id){
         Order order = new Order(chat_id);
         if (menuList.getCartSize() == 0){
-            output_message = constants.getConst(Constants.Types.CART_EMPTY);
+            output_message = Constants.CART_EMPTY_CONST;
             return;
         }
 
@@ -160,7 +152,7 @@ public class TextHandler {
 
         listOfOrders.putOrder(order);
         menuList.getCart().clear();
-        output_message = constants.getConst(Constants.Types.MAKED_ORDER);
+        output_message = Constants.MAKED_ORDER_CONST;
     }
 
     /**
@@ -189,13 +181,13 @@ public class TextHandler {
             if (menuList.getMenulist().containsKey(dishIndex)) {
                 String dishDetails = dishIndexStr + ". " + menuList.getMenulist().get(dishIndex); // Получаем детали блюда
                 menuList.addToCart(dishDetails);
-                output_message = constants.getConst(Constants.Types.DISH_ADDED) + dishDetails +
-                        constants.getConst(Constants.Types.YOUR_CART);
+                output_message = Constants.DISH_ADDED_CONST + dishDetails +
+                        Constants.YOUR_CART_CONST;
             } else {
-                output_message = constants.getConst(Constants.Types.ERROR_UNDEFIND_NUM);
+                output_message = Constants.ERROR_UNDEFIND_NUM_CONST;
             }
         } catch (NumberFormatException e) {
-            output_message = constants.getConst(Constants.Types.ERROR_TYPE);
+            output_message = Constants.ERROR_TYPE_CONST;
         }
     }
 
@@ -204,10 +196,10 @@ public class TextHandler {
      */
     public void viewCart() {
         if (menuList.getCartSize() == 0) {
-            output_message = constants.getConst(Constants.Types.CART_EMPTY);
+            output_message = Constants.CART_EMPTY_CONST;
             return;
         }
-        StringBuilder cartContents = new StringBuilder(constants.getConst(Constants.Types.YOUR_ORDER));
+        StringBuilder cartContents = new StringBuilder(Constants.YOUR_ORDER_CONST);
         ArrayList<String> cartItems = menuList.getCart();
         for (int i = 0; i < cartItems.size(); i++) {
             cartContents.append(i).append(". ").append(cartItems.get(i)).append("\n");
@@ -231,12 +223,12 @@ public class TextHandler {
             int idx = Integer.parseInt(dishIndexStr);
             if (idx >= 0 && idx < menuList.getCartSize()) {
                 menuList.removeFromCart(idx); // Удаляем элемент из корзины через метод
-                output_message = constants.getConst(Constants.Types.SUCCES_DELETE_DISH) + constants.getConst(Constants.Types.YOUR_CART);
+                output_message = Constants.SUCCES_DELETE_DISH_CONST + Constants.YOUR_CART_CONST;
             } else {
-                output_message = constants.getConst(Constants.Types.ERROR_INDEX);
+                output_message = Constants.ERROR_INDEX_CONST;
             }
         } catch (NumberFormatException e) {
-            output_message = constants.getConst(Constants.Types.ERROR_TYPE);
+            output_message = Constants.ERROR_TYPE_CONST;
         }
     }
 
@@ -264,7 +256,7 @@ public class TextHandler {
     public void menuCalling() {
         try (FileReader file = new FileReader("src/main/resources/menu.json")){
             JSONObject jsonObject = (JSONObject) new JSONParser().parse(file);
-            StringBuilder menuBuilder = new StringBuilder(constants.getConst(Constants.Types.MENU));
+            StringBuilder menuBuilder = new StringBuilder(Constants.MENU_CONST);
 
             Iterator<String> keys = jsonObject.keySet().iterator();
             int index = 1;
@@ -275,7 +267,7 @@ public class TextHandler {
                 menuBuilder.append(index).append(". ").append(name).append(" - ").append(cost).append(" рублей\n");
                 index++;
             }
-            menuBuilder.append(constants.getConst(Constants.Types.CHOOSE));
+            menuBuilder.append(Constants.CHOOSE_CONST);
             output_message = menuBuilder.toString();
 
 

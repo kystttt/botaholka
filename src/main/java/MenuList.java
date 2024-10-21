@@ -6,7 +6,6 @@ import java.util.HashMap;
  чтобы меню можно было удобно использовать в разных участках кода.
  */
 public class MenuList {
-    private Constants constants;
     private HashMap<Integer, String> menulist;
     private ArrayList<String> cart;
     /**
@@ -53,7 +52,7 @@ public class MenuList {
         if (index >= 0 && index < cart.size()) {
             return cart.get(index);
         }
-        String out = constants.getConst(Constants.Types.ERROR_INDEX);
+        String out = Constants.ERROR_INDEX_CONST;
         return out;
     }
 

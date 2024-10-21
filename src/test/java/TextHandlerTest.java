@@ -44,7 +44,7 @@ public class TextHandlerTest {
      */
     @Test
     void commandListOfOrdersTest(){
-        TextHandler textHandler = new TextHandler(listOfOrders);
+        TextHandler textHandler = new TextHandler(listOfOrders, new MenuList());
 
         Order order = new Order((long)1);
         order.addToArr("Шаурма Большая");
@@ -70,7 +70,7 @@ public class TextHandlerTest {
      */
     @Test
     void commandDuplicateTest(){
-        TextHandler textHandler = new TextHandler(listOfOrders);
+        TextHandler textHandler = new TextHandler(listOfOrders, new MenuList());
 
         Order order = new Order((long)1);
         order.addToArr("Шаурма Большая");
@@ -86,7 +86,7 @@ public class TextHandlerTest {
      */
     @Test
     void commandCancelOrderTest(){
-        TextHandler textHandler = new TextHandler(listOfOrders);
+        TextHandler textHandler = new TextHandler(listOfOrders, new MenuList());
 
         Order order = new Order((long)1);
         order.addToArr("Шаурма Большая");
@@ -95,7 +95,7 @@ public class TextHandlerTest {
         String result_text = textHandler.getOutputMassage("/cancel-1", (long)1);
         String expected_text = "Заказ №" + (long)1 + " удалён ";
 
-        Assertions.assertEquals( expected_text, result_text);
+        Assertions.assertEquals(expected_text, result_text);
         Assertions.assertNull(listOfOrders.getValue(1));
     }
 }
