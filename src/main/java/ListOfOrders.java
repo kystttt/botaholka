@@ -28,16 +28,6 @@ public class ListOfOrders {
         return orders.get(order_id);
     }
 
-
-    /**
-     * Получение заказа по chat_id
-     * @param chat_id
-     * @return заказ
-     */
-    public Order getOrder(Long chat_id) {
-        return orders.get(chat_id);
-    }
-
     /**
      * Создание нового Order в ListOrders
      * @param order новый заказ

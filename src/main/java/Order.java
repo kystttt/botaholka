@@ -43,7 +43,7 @@ public class Order {
         this.chat_id = chat_id;
     }
 
-    public int getOrder_id(){
+    public int getOrderId(){
         return order_id;
     }
 

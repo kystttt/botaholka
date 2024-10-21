@@ -63,8 +63,10 @@ public class TextHandler {
      * @param message_text переменная с текстом сообщения пользователя
      */
     private void logic(String message_text, Long chat_id) {
+        String[] msg_txt = message_text.split(" ");
 
-        switch (message_text) {
+
+        switch (msg_txt[0]) {
             case ("/help"):
                 commandHelp();
                 menuList.setPrevCommand(message_text);
@@ -80,12 +82,12 @@ public class TextHandler {
                 menuList.setPrevCommand(message_text);
                 break;
 
-            case ("/delete"):
+            case ("/deletefromcart"):
                 output_message = Constants.DELETE_OUT_MSG_CONST;
                 menuList.setPrevCommand(message_text);
                 break;
 
-            case("/cart"):
+            case("/viewcart"):
                 viewCart();
                 menuList.setPrevCommand(message_text);
 
@@ -101,33 +103,31 @@ public class TextHandler {
                 menuList.setPrevCommand(message_text);
                 break;
 
+            case ("/duplicate"):
+                commandDuplicate(msg_txt[1]);
+                break;
+
+            case ("/cancel"):
+                commandCancelOrder(msg_txt[1]);
+                break;
             default:
-                boolean flag = true;
-                if (message_text.startsWith("/duplicate-")) {
-                    commandDuplicate(message_text);
-                    flag = false;
-                } else if (message_text.startsWith("/cancel-")) {
-                    commandCancelOrder(message_text);
-                    flag = false;
-                }
+
                 boolean isInt = false;
 
                 try {
                     Integer.parseInt(message_text);
                     isInt = true;
-                } catch (NumberFormatException ignored) {
-
-                }
+                } catch (NumberFormatException ignored) {}
                 menuList.setPrevCommand(isInt ? menuList.getPrevCommand() : message_text);
-                if(flag) {
-                    if (Objects.equals(menuList.getPrevCommand(), "/menu")) {
-                        addToCart(message_text);
-                    } else if (Objects.equals(menuList.getPrevCommand(), "/delete")) {
-                        deleteFromCart(message_text);
-                    } else {
-                        output_message = Constants.ERROR_TYPE_CONST;
-                    }
+
+                if (Objects.equals(menuList.getPrevCommand(), "/menu")) {
+                    addToCart(message_text);
+                } else if (Objects.equals(menuList.getPrevCommand(), "/delete")) {
+                    deleteFromCart(message_text);
+                } else {
+                    output_message = Constants.ERROR_TYPE_CONST;
                 }
+
                 break;
 
         }
@@ -158,18 +158,19 @@ public class TextHandler {
     /**
      * Повторяет заказ по его id
      */
-    private void commandDuplicate(String messageText) {
-        String msgNumber = messageText.split("-")[1];
+    private void commandDuplicate(String messageTxtIndex) {
 
         for (Integer key : listOfOrders.getHashMap().keySet()) {
-            if (msgNumber.equals(Long.toString(
-                    listOfOrders.getHashMap().get(key).getChatId()))) {
-                listOfOrders.putOrder(listOfOrders.getHashMap().get(key));
-                output_message = "Заказ №" + listOfOrders.getHashMap().get(key).getChatId() + " продублирован ";
+            Order currentOrder = listOfOrders.getValue(key);
+
+            if (messageTxtIndex.equals(Long.toString(
+                    currentOrder.getOrderId()))) {
+                listOfOrders.putOrder(currentOrder);
+                output_message = "Заказ №" + currentOrder.getOrderId() + " продублирован ";
                 return;
             }
         }
-        output_message = String.format("Заказ с №%s не найден", msgNumber);
+        output_message = String.format("Заказ с №%s не найден", messageTxtIndex);
     }
     /**
      * Метод, который добавляет по индексу (первому числу) товар в корзину
@@ -208,12 +209,6 @@ public class TextHandler {
         output_message = cartContents.toString();
     }
 
-    /**
-     * Показывает заказ по чат айди
-     * @param chat_id
-     */
-
-
     /** Метод, который удаляет из корзины блюдо
      * @param dishIndexStr
      */
@@ -235,19 +230,19 @@ public class TextHandler {
     /**
      * Удаляет заказ по его id
      */
-    private void commandCancelOrder(String messageText) {
-        String msgNumber = messageText.split("-")[1];
+    private void commandCancelOrder(String messageTxtIndex) {
 
         for (Integer key : listOfOrders.getHashMap().keySet()) {
-            if (msgNumber.equals(Long.toString(
-                    listOfOrders.getHashMap().get(key).getChatId()))) {
-                Long deletedId = listOfOrders.getHashMap().get(key).getChatId();
-                listOfOrders.removeById(listOfOrders.getHashMap().get(key).getOrder_id());
-                output_message = "Заказ №" + deletedId + " удалён ";
+            Order currentOrder = listOfOrders.getValue(key);
+
+            if (messageTxtIndex.equals(String.valueOf(
+                    currentOrder.getOrderId()))) {
+                listOfOrders.removeById(currentOrder.getOrderId());
+                output_message = "Заказ №" + messageTxtIndex + " удалён ";
                 return;
             }
         }
-        output_message = String.format("Заказ с №%s не найден", msgNumber);
+        output_message = String.format("Заказ с №%s не найден", messageTxtIndex);
     }
 
     /**
