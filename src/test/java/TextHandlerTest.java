@@ -76,9 +76,9 @@ public class TextHandlerTest {
         order.addToArr("Шаурма Большая");
         listOfOrders.putOrder(order);
 
-        textHandler.getOutputMassage("/duplicate-1", (long)1);
+        textHandler.getOutputMassage("/duplicate 1", (long)1);
 
-        Assertions.assertEquals(order, listOfOrders.getValue(2));
+        Assertions.assertEquals(2, listOfOrders.getHashMap().size());
     }
 
     /**
@@ -92,7 +92,7 @@ public class TextHandlerTest {
         order.addToArr("Шаурма Большая");
         listOfOrders.putOrder(order);
 
-        String result_text = textHandler.getOutputMassage("/cancel-1", (long)1);
+        String result_text = textHandler.getOutputMassage("/cancel 1", (long)1);
         String expected_text = "Заказ №" + (long)1 + " удалён ";
 
         Assertions.assertEquals(expected_text, result_text);

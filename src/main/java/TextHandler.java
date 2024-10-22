@@ -82,12 +82,12 @@ public class TextHandler {
                 menuList.setPrevCommand(message_text);
                 break;
 
-            case ("/deletefromcart"):
+            case ("/delete"):
                 output_message = Constants.DELETE_OUT_MSG_CONST;
                 menuList.setPrevCommand(message_text);
                 break;
 
-            case("/viewcart"):
+            case("/cart"):
                 viewCart();
                 menuList.setPrevCommand(message_text);
 
