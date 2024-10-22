@@ -1,6 +1,8 @@
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import MenuLogic.Menu;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
@@ -72,31 +74,41 @@ public class Order {
     /**
      * Функция считающая сумм заказа исходя из того что заказал человек
      */
-    public void formSum() {
+    private void formSum(Menu menu) {
         sum = 0;
-        try(FileReader file = new FileReader("src/main/resources/menu.json")) {
-            JSONObject jsonObject = (JSONObject)new JSONParser().parse(file);
-            for (String s : orderList) {
-                sum += (int) (long) jsonObject.get(s);
-            }
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
+        for(String s: orderList){
+            sum += menu.getCost(s);
         }
+    }
+
+
+    private String formOrderList(Menu menu){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (String s : orderList){
+            stringBuilder
+                    .append(s)
+                    .append(" - ")
+                    .append(menu.getCost(s))
+                    .append(" руб.")
+                    .append("\n");
+        }
+        return stringBuilder.toString();
     }
 
     /**
      * Функция формирующая текстовое представления Order
      * @return текстовое представления Order
      */
-    public String formMessageForClient() {
+    public String formMessageForClient(Menu menu) {
         String output;
-        formSum();
+        formSum(menu);
         output = String.format("""
                 Заказ №%d
                 """, order_id);
-        output += String.join("\n", orderList);
+        output += formOrderList(menu);
         output += String.format("""
-                \nИтого: %d руб.
+                Итого: %d руб.
                 """, sum);
         return output;
     }

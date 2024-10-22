@@ -1,3 +1,4 @@
+import MenuLogic.Menu;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -20,11 +21,20 @@ public class TextHandler {
 
     private String output_message = "";
 
+    Menu menu;
+
+    public TextHandler(ListOfOrders listOfOrders, MenuList menuList, Menu menu) {
+        this.listOfOrders = listOfOrders;
+        this.menuList = menuList;
+        this.menu = menu;
+    }
+
+    //TODO Это конструктор чтобы ничего не поломалось,
+    // когда ты будешь мерджить это к себе
     public TextHandler(ListOfOrders listOfOrders, MenuList menuList) {
         this.listOfOrders = listOfOrders;
         this.menuList = menuList;
     }
-
 
     /**
      * Команда /start в боте
@@ -138,6 +148,7 @@ public class TextHandler {
      * @param chat_id
      * @return
      */
+    //TODO Измени с учётом нового класса Menu
     public void makeOrder(Long chat_id){
         Order order = new Order(chat_id);
         if (menuList.getCartSize() == 0){
@@ -176,6 +187,7 @@ public class TextHandler {
      * Метод, который добавляет по индексу (первому числу) товар в корзину
      * @param dishIndexStr
      */
+    //TODO Измени с учётом нового класса Menu
     public void addToCart(String dishIndexStr) {
         try {
             int dishIndex = Integer.parseInt(dishIndexStr);
@@ -195,6 +207,7 @@ public class TextHandler {
     /**
      * Метод, который показывает корзину покупателя, список заказа.
      */
+    //TODO Измени с учётом нового класса Menu
     public void viewCart() {
         if (menuList.getCartSize() == 0) {
             output_message = Constants.CART_EMPTY_CONST;
@@ -248,6 +261,7 @@ public class TextHandler {
     /**
      * Метод, который вызывает меню(показывает, что есть в ассортименте)
      */
+    //TODO Измени с учётом нового класса Menu
     public void menuCalling() {
         try (FileReader file = new FileReader("src/main/resources/menu.json")){
             JSONObject jsonObject = (JSONObject) new JSONParser().parse(file);
@@ -283,8 +297,8 @@ public class TextHandler {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (Integer key : listOfOrders.getHashMap().keySet()) {
-            if (chat_id.equals(listOfOrders.getHashMap().get(key).getChatId())) {
-                stringBuilder.append(listOfOrders.getHashMap().get(key).formMessageForClient());
+            if (chat_id.equals(listOfOrders.getValue(key).getChatId())) {
+                stringBuilder.append(listOfOrders.getValue(key).formMessageForClient(menu));
                 stringBuilder.append("\n");
                 atLeastOnce = true;
             }

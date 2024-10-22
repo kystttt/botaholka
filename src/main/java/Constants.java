@@ -25,6 +25,8 @@ public class Constants {
     public final static String ERROR_INDEX_CONST = "Такого индекса не существует\n";
     public final static String CHOOSE_CONST = "Введите номер того, что хотите заказать: ";
 
+    public final static String MENU_FILENAME_CONST = "src/main/resources/menu.json";
+
     public final static String HELP_CONST = """
             Этот бот возвращает отправленное сообщение,
             Список команд:
@@ -35,14 +37,14 @@ public class Constants {
             /delete - удаляет позицию в корзине по ее индексу, введите индекс позиции, которую хотите удалить из корзины
             /makeOrder - собирает заказ на основе того, что лежит в корзине
             /listoforders - просмотр текущих заказов
-            /duplicate-{“Номер заказа”} - повторить заказ
-            /cancel-{“Номер заказа”} - отменить заказ
+            /duplicate “Номер заказа” - повторить заказ
+            /cancel “Номер заказа” - отменить заказ
             """;
 
     public final static String FUNCS_FOR_LIST_OF_ORDERS_BUYER = """
             Ваши функции:
-            /duplicate-{“Номер заказа”} - повторить заказ
-            /cancel-{“Номер заказа”} - отменить заказ
+            /duplicate “Номер заказа” - повторить заказ
+            /cancel “Номер заказа” - отменить заказ
             """;
 
     public final static String ERROR_COMMAND = "Введите корректную команду, для списка всех команд - /help";
