@@ -27,7 +27,7 @@ public class Menu extends HashMapMenu<String, Integer>{
     @Override
     public Integer getCost(String foodItemName) {
         if(menuList.get(foodItemName) == null){
-            throw new NullPointerException("Такого элемента в меню нету");
+            throw new NullPointerException("Такого блюда в меню нету");
         }
         return menuList.get(foodItemName);
     }
