@@ -1,3 +1,4 @@
+    import MenuLogic.Menu;
     import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
     import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
     import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -12,15 +13,17 @@
      */
     public class TGBot implements LongPollingSingleThreadUpdateConsumer {
         private final TelegramClient telegramClient;
+        private final Menu menu;
 
         private ListOfOrders listOfOrders;
         private MenuList menuList;
 
-        public TGBot(String botToken, ListOfOrders listOfOrders, MenuList menuList) {
+        public TGBot(String botToken, ListOfOrders listOfOrders, MenuList menuList, Menu menu) {
             this.listOfOrders = listOfOrders;
             this.menuList = menuList;
 
             telegramClient = new OkHttpTelegramClient(botToken);
+            this.menu = menu;
         }
 
         /**
@@ -33,7 +36,7 @@
                 String message_text = update.getMessage().getText();
                 long chat_id = update.getMessage().getChatId();
 
-                TextHandler textHandler = new TextHandler(listOfOrders, menuList);
+                TextHandler textHandler = new TextHandler(listOfOrders, menuList, menu);
                 String output_message = textHandler.getOutputMassage(message_text, chat_id);
 
                 try {

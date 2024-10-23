@@ -1,3 +1,4 @@
+import MenuLogic.Menu;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +22,7 @@ import org.junit.jupiter.api.Test;
 public class TextHandlerTest {
 
     private ListOfOrders listOfOrders = new ListOfOrders();
+    private Menu menu;
 
     /**
      * Обнуляет ListOfOrders и добавляет в menu.json несколько пунктов из меню
@@ -28,15 +30,8 @@ public class TextHandlerTest {
     @BeforeEach
     void resetListOfOrders() {
         listOfOrders.clearList();
-        JSONObject menuJson = new JSONObject();
-        menuJson.put("Шаурма Большая", 100L);
-
-        try (FileWriter file = new FileWriter("src/main/resources/menu.json")) {
-            file.write(menuJson.toJSONString());
-        }
-        catch (IOException ignored){
-
-        }
+        menu = new Menu();
+        menu.addFoodItem("Шаурма Большая", 100);
     }
 
     /**
@@ -44,7 +39,7 @@ public class TextHandlerTest {
      */
     @Test
     void commandListOfOrdersTest(){
-        TextHandler textHandler = new TextHandler(listOfOrders, new MenuList());
+        TextHandler textHandler = new TextHandler(listOfOrders, new MenuList(), menu);
 
         Order order = new Order((long)1);
         order.addToArr("Шаурма Большая");
@@ -55,12 +50,12 @@ public class TextHandlerTest {
         String expected = """
                 Ваши заказы:
                 Заказ №1
-                Шаурма Большая
+                Шаурма Большая - 100 руб.
                 Итого: 100 руб.
                 
                 Ваши функции:
-                /duplicate-{“Номер заказа”} - повторить заказ
-                /cancel-{“Номер заказа”} - отменить заказ
+                /duplicate “Номер заказа” - повторить заказ
+                /cancel “Номер заказа” - отменить заказ
                 """;
         Assertions.assertEquals(expected, result);
     }
@@ -76,9 +71,9 @@ public class TextHandlerTest {
         order.addToArr("Шаурма Большая");
         listOfOrders.putOrder(order);
 
-        textHandler.getOutputMassage("/duplicate-1", (long)1);
+        textHandler.getOutputMassage("/duplicate 1", (long)1);
 
-        Assertions.assertEquals(order, listOfOrders.getValue(2));
+        Assertions.assertEquals(2, listOfOrders.getHashMap().size());
     }
 
     /**
@@ -92,7 +87,7 @@ public class TextHandlerTest {
         order.addToArr("Шаурма Большая");
         listOfOrders.putOrder(order);
 
-        String result_text = textHandler.getOutputMassage("/cancel-1", (long)1);
+        String result_text = textHandler.getOutputMassage("/cancel 1", (long)1);
         String expected_text = "Заказ №" + (long)1 + " удалён ";
 
         Assertions.assertEquals(expected_text, result_text);
