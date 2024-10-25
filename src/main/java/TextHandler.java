@@ -17,23 +17,23 @@ public class TextHandler {
 
     private ListOfOrders listOfOrders;
 
-    private MenuList menuList;
+    private Cart cart;
 
     private String output_message = "";
 
     Menu menu;
 
-    public TextHandler(ListOfOrders listOfOrders, MenuList menuList, Menu menu) {
+    public TextHandler(ListOfOrders listOfOrders, Cart cart, Menu menu) {
         this.listOfOrders = listOfOrders;
-        this.menuList = menuList;
+        this.cart = cart;
         this.menu = menu;
     }
 
     //TODO Это конструктор чтобы ничего не поломалось,
     // когда ты будешь мерджить это к себе
-    public TextHandler(ListOfOrders listOfOrders, MenuList menuList) {
+    public TextHandler(ListOfOrders listOfOrders, Cart cart) {
         this.listOfOrders = listOfOrders;
-        this.menuList = menuList;
+        this.cart = cart;
     }
 
     /**
@@ -79,38 +79,38 @@ public class TextHandler {
         switch (msg_txt[0]) {
             case ("/help"):
                 commandHelp();
-                menuList.setPrevCommand(message_text);
+                cart.setPrevCommand(message_text);
                 break;
 
             case ("/start"):
                 commandStart();
-                menuList.setPrevCommand(message_text);
+                cart.setPrevCommand(message_text);
                 break;
 
             case ("/listoforders"):
                 commandListOfOrders(chat_id);
-                menuList.setPrevCommand(message_text);
+                cart.setPrevCommand(message_text);
                 break;
 
             case ("/delete"):
                 output_message = Constants.DELETE_OUT_MSG_CONST;
-                menuList.setPrevCommand(message_text);
+                cart.setPrevCommand(message_text);
                 break;
 
             case("/cart"):
                 viewCart();
-                menuList.setPrevCommand(message_text);
+                cart.setPrevCommand(message_text);
 
                 break;
 
             case("/menu"):
                 menuCalling();
-                menuList.setPrevCommand(message_text);
+                cart.setPrevCommand(message_text);
                 break;
 
             case ("/makeOrder"):
                 makeOrder(chat_id);
-                menuList.setPrevCommand(message_text);
+                cart.setPrevCommand(message_text);
                 break;
 
             case ("/duplicate"):
@@ -121,21 +121,12 @@ public class TextHandler {
                 commandCancelOrder(msg_txt[1]);
                 break;
             default:
-
-                boolean isInt = false;
-
-                try {
-                    Integer.parseInt(message_text);
-                    isInt = true;
-                } catch (NumberFormatException ignored) {}
-                menuList.setPrevCommand(isInt ? menuList.getPrevCommand() : message_text);
-
-                if (Objects.equals(menuList.getPrevCommand(), "/menu")) {
+                if (Objects.equals(cart.getPrevCommand(), "/menu")) {
                     addToCart(message_text);
-                } else if (Objects.equals(menuList.getPrevCommand(), "/delete")) {
+                } else if (Objects.equals(cart.getPrevCommand(), "/delete")) {
                     deleteFromCart(message_text);
                 } else {
-                    output_message = Constants.ERROR_TYPE_CONST;
+                    output_message = Constants.ERROR_COMMAND;
                 }
 
                 break;
@@ -148,21 +139,20 @@ public class TextHandler {
      * @param chat_id
      * @return
      */
-    //TODO Измени с учётом нового класса Menu
     public void makeOrder(Long chat_id){
         Order order = new Order(chat_id);
-        if (menuList.getCartSize() == 0){
+        if (cart.getCartSize() == 0){
             output_message = Constants.CART_EMPTY_CONST;
             return;
         }
 
-        for(int i = 0; i < menuList.getCartSize(); i++){
-            String[] parts = menuList.getCartValue(i).split("[-. ]+");
+        for(int i = 0; i < cart.getCartSize(); i++){
+            String[] parts = cart.getCartValue(i).split("[-. ]+");
             order.addToArr(parts[1] + " " + parts[2]);
         }
 
         listOfOrders.putOrder(order);
-        menuList.getCart().clear();
+        cart.getCart().clear();
         output_message = Constants.MAKED_ORDER_CONST;
     }
 
@@ -185,38 +175,32 @@ public class TextHandler {
     }
     /**
      * Метод, который добавляет по индексу (первому числу) товар в корзину
-     * @param dishIndexStr
+     * @param dishName
      */
-    //TODO Измени с учётом нового класса Menu
-    public void addToCart(String dishIndexStr) {
-        try {
-            int dishIndex = Integer.parseInt(dishIndexStr);
-            if (menuList.getMenulist().containsKey(dishIndex)) {
-                String dishDetails = dishIndexStr + ". " + menuList.getMenulist().get(dishIndex); // Получаем детали блюда
-                menuList.addToCart(dishDetails);
-                output_message = Constants.DISH_ADDED_CONST + dishDetails +
-                        Constants.YOUR_CART_CONST;
-            } else {
-                output_message = Constants.ERROR_UNDEFIND_NUM_CONST;
-            }
-        } catch (NumberFormatException e) {
-            output_message = Constants.ERROR_TYPE_CONST;
+    public void addToCart(String dishName) {
+        if (menu.getHashMap().containsKey(dishName)) {
+            String dishDetails =  dishName + " - " + menu.getHashMap().get(dishName) + " рублей"; // Получаем детали блюда
+            cart.addToCart(dishDetails);
+            output_message = Constants.DISH_ADDED_CONST + dishDetails +
+                    Constants.YOUR_CART_CONST;
+        } else {
+            output_message = Constants.ERROR_UNDEFIND_NUM_CONST;
         }
+
     }
 
     /**
-     * Метод, который показывает корзину покупателя, список заказа.
+     * Метод, который показывает корзину покупателя.
      */
-    //TODO Измени с учётом нового класса Menu
     public void viewCart() {
-        if (menuList.getCartSize() == 0) {
+        if (cart.getCartSize() == 0) {
             output_message = Constants.CART_EMPTY_CONST;
             return;
         }
         StringBuilder cartContents = new StringBuilder(Constants.YOUR_ORDER_CONST);
-        ArrayList<String> cartItems = menuList.getCart();
+        ArrayList<String> cartItems = cart.getCart();
         for (int i = 0; i < cartItems.size(); i++) {
-            cartContents.append(i).append(". ").append(cartItems.get(i)).append("\n");
+            cartContents.append(i+1).append(". ").append(cartItems.get(i)).append("\n");
         }
 
         output_message = cartContents.toString();
@@ -228,9 +212,9 @@ public class TextHandler {
     public void deleteFromCart(String dishIndexStr){
 
         try {
-            int idx = Integer.parseInt(dishIndexStr);
-            if (idx >= 0 && idx < menuList.getCartSize()) {
-                menuList.removeFromCart(idx); // Удаляем элемент из корзины через метод
+            int idx = Integer.parseInt(dishIndexStr) - 1;
+            if (idx >= 0 && idx < cart.getCartSize()) {
+                cart.removeFromCart(idx);
                 output_message = Constants.SUCCES_DELETE_DISH_CONST + Constants.YOUR_CART_CONST;
             } else {
                 output_message = Constants.ERROR_INDEX_CONST;
@@ -261,29 +245,18 @@ public class TextHandler {
     /**
      * Метод, который вызывает меню(показывает, что есть в ассортименте)
      */
-    //TODO Измени с учётом нового класса Menu
+
     public void menuCalling() {
-        try (FileReader file = new FileReader("src/main/resources/menu.json")){
-            JSONObject jsonObject = (JSONObject) new JSONParser().parse(file);
-            StringBuilder menuBuilder = new StringBuilder(Constants.MENU_CONST);
-
-            Iterator<String> keys = jsonObject.keySet().iterator();
-            int index = 1;
-            while (keys.hasNext()) {
-                String name = keys.next();
-                Long cost = (Long) jsonObject.get(name);
-                menuList.getMenulist().put(index, name + " - " + cost + " рублей");
-                menuBuilder.append(index).append(". ").append(name).append(" - ").append(cost).append(" рублей\n");
-                index++;
-            }
-            menuBuilder.append(Constants.CHOOSE_CONST);
-            output_message = menuBuilder.toString();
-
-
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
+        StringBuilder menuBuilder = new StringBuilder(Constants.MENU_CONST);
+        int index = 1;
+        for (String name: menu.getHashMap().keySet()){
+            String stringIndex = String.valueOf(index);
+            String stringCost = menu.getHashMap().get(name).toString();
+            menuBuilder.append(stringIndex).append(". ").append(name).append(" - ").append(stringCost).append(" рублей\n");
+            index++;
         }
-
+        menuBuilder.append(Constants.CHOOSE_CONST);
+        output_message = menuBuilder.toString();
     }
 
 

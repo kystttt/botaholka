@@ -16,11 +16,11 @@
         private final Menu menu;
 
         private ListOfOrders listOfOrders;
-        private MenuList menuList;
+        private Cart cart;
 
-        public TGBot(String botToken, ListOfOrders listOfOrders, MenuList menuList, Menu menu) {
+        public TGBot(String botToken, ListOfOrders listOfOrders, Cart cart, Menu menu) {
             this.listOfOrders = listOfOrders;
-            this.menuList = menuList;
+            this.cart = cart;
 
             telegramClient = new OkHttpTelegramClient(botToken);
             this.menu = menu;
@@ -36,7 +36,7 @@
                 String message_text = update.getMessage().getText();
                 long chat_id = update.getMessage().getChatId();
 
-                TextHandler textHandler = new TextHandler(listOfOrders, menuList, menu);
+                TextHandler textHandler = new TextHandler(listOfOrders, cart, menu);
                 String output_message = textHandler.getOutputMassage(message_text, chat_id);
 
                 try {

@@ -1,49 +1,33 @@
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 /**
- * Класс, в котором хранится корзина, методы для работы с коризной, сохраняется команда, которую написал юзер на n-1 шаге, а также хэшмапа для меню, 
+ * Класс, в котором хранится корзина, методы для работы с ней,
+ * сохраняется команда, которую написал юзер на n-1 шаге, а также хэшмапа для меню,
  чтобы меню можно было удобно использовать в разных участках кода.
  */
-public class MenuList {
-    private HashMap<Integer, String> menulist;
+public class Cart {
     private ArrayList<String> cart;
     /**
      * Переменная, в которой хранится прошлая команда
+     * будет переделано в 3 таске!
      */
     private String prevcommand;
 
     /**
      * Конструктор класса MenuList
      */
-    public MenuList() {
-        menulist = new HashMap<>();
+    public Cart() {
         cart = new ArrayList<>();
         prevcommand = "";
     }
 
-    /**
-     * Метод, который возвращает значение списка меню по индексу блюда
-     *
-     * @param index
-     * @return
-     */
-    public String getMenuListValue(int index) {
-        return menulist.get(index);
-    }
 
-    /**
-     * Возвращает хэш мапу, в которой находится меню с ключом и значением
-     *
-     * @return
-     */
-    public HashMap<Integer, String> getMenulist() {
-        return menulist;
-    }
+
 
     /**
      * Возвращает значение корзины по ключу индекс блюда. 
-     В случае, если индекса не существует возвращает константу ERROR_INDEX_CONST = ""Такого индекса не существует\n";"
+     В случае, если индекса не существует, возвращает константу ERROR_INDEX_CONST = ""Такого индекса не существует\n";"
      *
      * @param index
      * @return
