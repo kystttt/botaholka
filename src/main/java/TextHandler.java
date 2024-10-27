@@ -174,7 +174,7 @@ public class TextHandler {
         output_message = String.format("Заказ с №%s не найден", messageTxtIndex);
     }
     /**
-     * Метод, который добавляет по индексу (первому числу) товар в корзину
+     * Метод, который добавляет по названию товар в корзину
      * @param dishName
      */
     public void addToCart(String dishName) {
