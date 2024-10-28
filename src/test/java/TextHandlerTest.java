@@ -1,9 +1,5 @@
-import MenuLogic.Menu;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.json.simple.JSONObject;
+import menu.MenuImpl;
 import org.junit.jupiter.api.BeforeEach;
-import java.io.FileWriter;
-import java.io.IOException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,7 +18,7 @@ import org.junit.jupiter.api.Test;
 public class TextHandlerTest {
 
     private ListOfOrders listOfOrders = new ListOfOrders();
-    private Menu menu;
+    private MenuImpl menu;
 
     /**
      * Обнуляет ListOfOrders и добавляет в menu.json несколько пунктов из меню
@@ -30,7 +26,7 @@ public class TextHandlerTest {
     @BeforeEach
     void resetListOfOrders() {
         listOfOrders.clearList();
-        menu = new Menu();
+        menu = new MenuImpl();
         menu.addFoodItem("Шаурма Большая", 100);
     }
 

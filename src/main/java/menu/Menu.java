@@ -1,4 +1,4 @@
-package MenuLogic;
+package menu;
 
 import java.util.HashMap;
 
@@ -7,33 +7,20 @@ import java.util.HashMap;
  * @param <S> Параметр для хранения названий блюд в меню
  * @param <I> Параметр для хранения цен блюд в меню
  */
-public abstract class HashMapMenu<S, I> {
-    /**
-     * Список в котором хранятся названия блюд и их цена
-     */
-    HashMap<S, I> menuList;
+public interface Menu<S, I> {
 
     /**
      * Возвращает цену блюда в меню по ее названию
      * @param foodItemName Название блюда в меню
      * @return Цена блюда в меню
      */
-    abstract I getCost(S foodItemName);
+    I getCost(S foodItemName);
 
     /**
      * Добавляет блюдо в меню
      * @param foodItemName Название блюда
      * @param foodItemCost Цена блюда
      */
-    public void addFoodItem(S foodItemName, I foodItemCost){
-        menuList.put(foodItemName, foodItemCost);
-    }
+    void addFoodItem(S foodItemName, I foodItemCost);
 
-    /**
-     * Геттер для меню
-     * @return HashMap в котором хранится меню
-     */
-    public HashMap<S, I> getHashMap(){
-        return menuList;
-    }
 }

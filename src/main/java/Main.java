@@ -1,11 +1,11 @@
-import MenuLogic.Menu;
+import menu.MenuImpl;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 
 public class Main {
     public static void main(String[] args) {
         ListOfOrders listOfOrders = new ListOfOrders();
         MenuList menuList = new MenuList();
-        Menu menu = new Menu(Constants.MENU_FILENAME_CONST);
+        MenuImpl menu = new MenuImpl(Constants.MENU_FILENAME_CONST);
 
         String botToken = System.getenv("TG_TOKEN");
         try (TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication()) {

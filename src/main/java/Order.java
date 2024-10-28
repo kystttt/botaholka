@@ -1,10 +1,6 @@
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import MenuLogic.Menu;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
+import menu.MenuImpl;
 
 /**
  * Класс заказа
@@ -74,7 +70,7 @@ public class Order {
     /**
      * Функция считающая сумм заказа исходя из того что заказал человек
      */
-    private void formSum(Menu menu) {
+    private void formSum(MenuImpl menu) {
         sum = 0;
         for(String s: orderList){
             sum += menu.getCost(s);
@@ -82,7 +78,7 @@ public class Order {
     }
 
 
-    private String formOrderList(Menu menu){
+    private String formOrderList(MenuImpl menu){
         StringBuilder stringBuilder = new StringBuilder();
 
         for (String s : orderList){
@@ -100,7 +96,7 @@ public class Order {
      * Функция формирующая текстовое представления Order
      * @return текстовое представления Order
      */
-    public String formMessageForClient(Menu menu) {
+    public String formMessageForClient(MenuImpl menu) {
         String output;
         formSum(menu);
         output = String.format("""

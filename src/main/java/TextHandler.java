@@ -1,4 +1,4 @@
-import MenuLogic.Menu;
+import menu.MenuImpl;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -21,9 +21,9 @@ public class TextHandler {
 
     private String output_message = "";
 
-    Menu menu;
+    MenuImpl menu;
 
-    public TextHandler(ListOfOrders listOfOrders, MenuList menuList, Menu menu) {
+    public TextHandler(ListOfOrders listOfOrders, MenuList menuList, MenuImpl menu) {
         this.listOfOrders = listOfOrders;
         this.menuList = menuList;
         this.menu = menu;
