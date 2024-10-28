@@ -1,6 +1,7 @@
 package menu;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Класс для функций меню
@@ -23,4 +24,5 @@ public interface Menu<S, I> {
      */
     void addFoodItem(S foodItemName, I foodItemCost);
 
+    HashMap<String, Integer> getHashMap();
 }

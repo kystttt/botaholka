@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-import menu.MenuImpl;
+import menu.*;
 
 /**
  * Класс заказа
@@ -51,15 +51,15 @@ public class Order {
     /**
      * Функция считающая сумм заказа исходя из того что заказал человек
      */
-    private void formSum(MenuImpl menu) {
+    private void formSum(Menu menu) {
         sum = 0;
         for(String s: orderList){
-            sum += menu.getCost(s);
+            sum += (int)menu.getCost(s);
         }
     }
 
 
-    private String formOrderList(MenuImpl menu){
+    private String formOrderList(Menu menu){
         StringBuilder stringBuilder = new StringBuilder();
 
         for (String s : orderList){
@@ -77,7 +77,7 @@ public class Order {
      * Функция формирующая текстовое представления Order
      * @return текстовое представления Order
      */
-    public String formMessageForClient(MenuImpl menu) {
+    public String formMessageForClient(Menu menu) {
         String output;
         formSum(menu);
         output = String.format("""

@@ -1,4 +1,4 @@
-import menu.MenuImpl;
+import menu.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -23,9 +23,17 @@ public class TextHandler {
 
     private String prevCommand = "";
 
+    Menu<String, Integer> menu;
 
+    // Метод для установки предыдущей команды
+    public void setPrevCommand(String command) {
+        this.prevCommand = command;
+    }
 
-    Menu menu;
+    // Метод для получения предыдущей команды
+    public String getPrevCommand() {
+        return this.prevCommand;
+    }
 
     public TextHandler(ListOfOrders listOfOrders, Cart cart, Menu menu) {
         this.listOfOrders = listOfOrders;
@@ -177,8 +185,8 @@ public class TextHandler {
      * @param dishName
      */
     public void addToCart(String dishName) {
-        if (menu.getHashMap().containsKey(dishName)) {
-            String dishDetails =  dishName + " - " + menu.getHashMap().get(dishName) + " рублей"; // Получаем детали блюда
+        if (menu.getCost(dishName) != -1) {
+            String dishDetails =  dishName + " - " + menu.getCost(dishName) + " рублей"; // Получаем детали блюда
             cart.addToCart(dishDetails);
             output_message = Constants.DISH_ADDED_CONST + dishDetails +
                     Constants.YOUR_CART_CONST;
@@ -249,8 +257,14 @@ public class TextHandler {
         int index = 1;
         for (String name: menu.getHashMap().keySet()){
             String stringIndex = String.valueOf(index);
-            String stringCost = menu.getHashMap().get(name).toString();
-            menuBuilder.append(stringIndex).append(". ").append(name).append(" - ").append(stringCost).append(" рублей\n");
+            String stringCost = menu.getCost(name).toString();
+            menuBuilder
+                    .append(stringIndex)
+                    .append(". ")
+                    .append(name)
+                    .append(" - ")
+                    .append(stringCost)
+                    .append(" рублей\n");
             index++;
         }
         menuBuilder.append(Constants.CHOOSE_CONST);

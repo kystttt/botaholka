@@ -31,7 +31,7 @@ public class MenuImpl implements Menu<String, Integer> {
     public Integer getCost(String foodItemName) {
         Integer cost = items.get(foodItemName);
         if(cost == null){
-            throw new IllegalArgumentException("Такого блюда нету в меню");
+            return -1;
         }
         return cost;
     }
@@ -57,5 +57,9 @@ public class MenuImpl implements Menu<String, Integer> {
         } catch (ParseException e) {
             throw new RuntimeException("Ошибка в чтении из JSON файла",e);
         }
+    }
+
+    public HashMap<String, Integer> getHashMap(){
+        return items;
     }
 }

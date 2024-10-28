@@ -1,8 +1,8 @@
+import menu.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.IOException;
-import MenuLogic.Menu;
 
 /**
  * Тест для команды /menu
@@ -18,11 +18,11 @@ public class CommandMenuTest {
     public void setUp() throws IOException {
         testListOfOrders = new ListOfOrders();
         testCart = new Cart();
-        testMenu = new Menu();
+        testMenu = new MenuImpl();
         textHandler = new TextHandler(testListOfOrders, testCart, testMenu);
-        testMenu.getHashMap().put("ЛюляКебаб", 260);
-        testMenu.getHashMap().put("Напиток", 110);
-        testMenu.getHashMap().put("Шаурма", 220);
+        testMenu.addFoodItem("ЛюляКебаб", 260);
+        testMenu.addFoodItem("Напиток", 110);
+        testMenu.addFoodItem("Шаурма", 220);
 
     }
 
