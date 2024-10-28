@@ -1,13 +1,7 @@
 import MenuLogic.Menu;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Objects;
+
 
 
 /**
@@ -19,7 +13,12 @@ public class TextHandler {
 
     private Cart cart;
 
+
     private String output_message = "";
+
+    private String prevCommand = "";
+
+
 
     Menu menu;
 
@@ -27,14 +26,26 @@ public class TextHandler {
         this.listOfOrders = listOfOrders;
         this.cart = cart;
         this.menu = menu;
+
+    }
+    // Метод для установки предыдущей команды
+    public void setPrevCommand(String command) {
+        this.prevCommand = command;
+    }
+
+    // Метод для получения предыдущей команды
+    public String getPrevCommand() {
+        return this.prevCommand;
     }
 
     //TODO Это конструктор чтобы ничего не поломалось,
+    //"TODO" убери потом
     // когда ты будешь мерджить это к себе
     public TextHandler(ListOfOrders listOfOrders, Cart cart) {
         this.listOfOrders = listOfOrders;
         this.cart = cart;
     }
+
 
     /**
      * Команда /start в боте
@@ -75,42 +86,36 @@ public class TextHandler {
     private void logic(String message_text, Long chat_id) {
         String[] msg_txt = message_text.split(" ");
 
-
         switch (msg_txt[0]) {
             case ("/help"):
                 commandHelp();
-                cart.setPrevCommand(message_text);
+                setPrevCommand(msg_txt[0]);
                 break;
 
             case ("/start"):
                 commandStart();
-                cart.setPrevCommand(message_text);
                 break;
 
             case ("/listoforders"):
                 commandListOfOrders(chat_id);
-                cart.setPrevCommand(message_text);
                 break;
 
             case ("/delete"):
                 output_message = Constants.DELETE_OUT_MSG_CONST;
-                cart.setPrevCommand(message_text);
+                setPrevCommand(msg_txt[0]);
                 break;
 
             case("/cart"):
                 viewCart();
-                cart.setPrevCommand(message_text);
-
                 break;
 
             case("/menu"):
                 menuCalling();
-                cart.setPrevCommand(message_text);
+                setPrevCommand(msg_txt[0]);
                 break;
 
             case ("/makeOrder"):
                 makeOrder(chat_id);
-                cart.setPrevCommand(message_text);
                 break;
 
             case ("/duplicate"):
@@ -120,17 +125,17 @@ public class TextHandler {
             case ("/cancel"):
                 commandCancelOrder(msg_txt[1]);
                 break;
+
             default:
-                if (Objects.equals(cart.getPrevCommand(), "/menu")) {
+                if (Objects.equals(getPrevCommand(), "/menu")) {
                     addToCart(message_text);
-                } else if (Objects.equals(cart.getPrevCommand(), "/delete")) {
+                } else if (Objects.equals(getPrevCommand(), "/delete")) {
                     deleteFromCart(message_text);
                 } else {
                     output_message = Constants.ERROR_COMMAND;
                 }
 
                 break;
-
         }
     }
 
@@ -152,7 +157,7 @@ public class TextHandler {
         }
 
         listOfOrders.putOrder(order);
-        cart.getCart().clear();
+        cart.cartClear();
         output_message = Constants.MAKED_ORDER_CONST;
     }
 
@@ -206,7 +211,7 @@ public class TextHandler {
         output_message = cartContents.toString();
     }
 
-    /** Метод, который удаляет из корзины блюдо
+    /** Метод, который удаляет из корзины блюдо по индексу из корзины
      * @param dishIndexStr
      */
     public void deleteFromCart(String dishIndexStr){

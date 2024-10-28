@@ -8,7 +8,6 @@
 //import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.Test;
 //
-///**
 // * <p><strong>Тесты для TextHandler</strong></p>
 // *
 // * <figcaption>Тестирование Функций:</figcaption>
@@ -39,7 +38,7 @@
 //     */
 //    @Test
 //    void commandListOfOrdersTest(){
-//        TextHandler textHandler = new TextHandler(listOfOrders, new MenuList(), menu);
+//        TextHandler textHandler = new TextHandler(listOfOrders, cart, new MenuList(), menu);
 //
 //        Order order = new Order((long)1);
 //        order.addToArr("Шаурма Большая");
@@ -94,3 +93,76 @@
 //        Assertions.assertNull(listOfOrders.getValue(1));
 //    }
 //}
+//TODO доделай свои тесты, я пока свое вставлю, сделай так, чтобы ничего не сломалось потом и удали TODO)
+import MenuLogic.Menu;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class TextHandlerTest{
+    private Cart testCart;
+    private TextHandler textHandler;
+    private ListOfOrders testListOfOrders;
+    private Menu testMenu;
+    Long chat_id = 13245L;
+
+
+    @BeforeEach
+    public void setup() {
+        testCart = new Cart();
+        testMenu = new Menu();
+        testListOfOrders = new ListOfOrders();
+        textHandler = new TextHandler(testListOfOrders, testCart, testMenu);
+        testMenu.getHashMap().put("Шаурма", 220);
+        testMenu.getHashMap().put("Напиток", 110);
+    }
+
+
+    @Test
+    public void testAddToCart_ValidDishIndex() {
+        textHandler.setPrevCommand("/menu");
+        textHandler.getOutputMassage("Шаурма", chat_id);
+        textHandler.viewCart();
+        assertEquals("Ваш заказ:\n1. Шаурма - 220 рублей\n",
+                textHandler.getOutputMassage("/cart",chat_id));
+        textHandler.setPrevCommand("/menu");
+        assertEquals(1, testCart.getCartSize());
+        assertEquals("Блюдо добавлено в корзину:\nШаурма - 220 рублей\nПосмотреть вашу корзину /cart",
+                textHandler.getOutputMassage("Шаурма",chat_id));
+        textHandler.setPrevCommand("/delete");
+        textHandler.getOutputMassage("1", chat_id);
+        textHandler.getOutputMassage("1", chat_id);
+        assertEquals(0, testCart.getCartSize());
+        textHandler.viewCart();
+        assertEquals("Корзина пуста", textHandler.getOutputMassage("/cart", chat_id));
+    }
+
+    /**
+     * Пытаемся добавить несуществующую блюдо
+     */
+    @Test
+    public void testAddToCart_InvalidDishIndex() {
+        textHandler.setPrevCommand("/menu");
+        textHandler.getOutputMassage("5", chat_id);
+        assertEquals(0, testCart.getCartSize());
+        assertEquals("Ошибка: такого блюда нет в меню.", textHandler.getOutputMassage("5", chat_id));
+    }
+
+
+    /**
+     * Тест для команды /makeOrder
+     */
+    @Test
+    public void testMakeOrder(){
+        textHandler.setPrevCommand("/menu");
+        textHandler.getOutputMassage("Шаурма", chat_id);
+        assertEquals("Ваш заказ сформирован", textHandler.getOutputMassage("/makeOrder",chat_id));
+        assertEquals(0, testCart.getCartSize());
+        textHandler.deleteFromCart("0");
+        assertEquals("Корзина пуста", textHandler.getOutputMassage("/makeOrder",chat_id));
+    }
+
+}
+
+
+

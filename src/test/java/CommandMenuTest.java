@@ -1,8 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.json.simple.JSONObject;
-
 import java.io.IOException;
 import MenuLogic.Menu;
 
@@ -22,7 +20,6 @@ public class CommandMenuTest {
         testCart = new Cart();
         testMenu = new Menu();
         textHandler = new TextHandler(testListOfOrders, testCart, testMenu);
-        JSONObject menuJson = new JSONObject();
         testMenu.getHashMap().put("ЛюляКебаб", 260);
         testMenu.getHashMap().put("Напиток", 110);
         testMenu.getHashMap().put("Шаурма", 220);
@@ -34,7 +31,6 @@ public class CommandMenuTest {
      */
     @Test
     public void testMenuCalling() {
-        textHandler.menuCalling();
         assertEquals("Меню: \n1. ЛюляКебаб - 260 рублей\n2. Напиток - 110 рублей\n" +
                 "3. Шаурма - 220 рублей\nВведите название блюда, которое хотите заказать: ",
                 textHandler.getOutputMassage("/menu", chat_id));

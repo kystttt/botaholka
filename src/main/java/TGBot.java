@@ -6,14 +6,13 @@
     import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
     import org.telegram.telegrambots.meta.generics.TelegramClient;
 
-    import java.awt.*;
-
     /**
      * Создает телеграм бота, принимает и отправляет сообщения
      */
     public class TGBot implements LongPollingSingleThreadUpdateConsumer {
         private final TelegramClient telegramClient;
         private final Menu menu;
+        private final TextHandler textHandler;
 
         private ListOfOrders listOfOrders;
         private Cart cart;
@@ -24,7 +23,10 @@
 
             telegramClient = new OkHttpTelegramClient(botToken);
             this.menu = menu;
+            this.textHandler =  new TextHandler(listOfOrders, cart, menu);
+
         }
+
 
         /**
          * Метод принимает сообщение, обрабатывает и отправляет обратно пользователю
@@ -36,7 +38,6 @@
                 String message_text = update.getMessage().getText();
                 long chat_id = update.getMessage().getChatId();
 
-                TextHandler textHandler = new TextHandler(listOfOrders, cart, menu);
                 String output_message = textHandler.getOutputMassage(message_text, chat_id);
 
                 try {

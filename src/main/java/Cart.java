@@ -8,26 +8,19 @@ import java.util.ArrayList;
  */
 public class Cart {
     private ArrayList<String> cart;
-    /**
-     * Переменная, в которой хранится прошлая команда
-     * будет переделано в 3 таске!
-     */
-    private String prevcommand;
+
 
     /**
      * Конструктор класса MenuList
      */
     public Cart() {
         cart = new ArrayList<>();
-        prevcommand = "";
     }
 
 
-
-
     /**
-     * Возвращает значение корзины по ключу индекс блюда. 
-     В случае, если индекса не существует, возвращает константу ERROR_INDEX_CONST = ""Такого индекса не существует\n";"
+     * Возвращает значение корзины по ключу индекс блюда.
+     * В случае, если индекса не существует, возвращает константу ERROR_INDEX_CONST = ""Такого индекса не существует\n";"
      *
      * @param index
      * @return
@@ -38,6 +31,13 @@ public class Cart {
         }
         String out = Constants.ERROR_INDEX_CONST;
         return out;
+    }
+
+    /**
+     * Очищаеь корзину
+     */
+    public void cartClear() {
+        cart.clear();
     }
 
     /**
@@ -77,24 +77,5 @@ public class Cart {
         if (index >= 0 && index < cart.size()) {
             cart.remove(index); // Удаляем элемент по индексу
         }
-    }
-
-
-    /**
-     * Возвращает предыдущую команду, введенную пользователем
-     *
-     * @return
-     */
-    public String getPrevCommand() {
-        return prevcommand;
-    }
-
-    /**
-     * Присваивает значение в переменную, в которой хранится предыдущая команда
-     *
-     * @param str
-     */
-    public void setPrevCommand(String str) {
-        prevcommand = str;
     }
 }
