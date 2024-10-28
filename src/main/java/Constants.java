@@ -23,7 +23,7 @@ public class Constants {
     public final static String DELETE_OUT_MSG_CONST = "Введите номер блюда, которое хотите удалить: ";
     public final static String MAKED_ORDER_CONST = "Ваш заказ сформирован";
     public final static String ERROR_INDEX_CONST = "Такого индекса не существует\n";
-    public final static String CHOOSE_CONST = "Введите номер того, что хотите заказать: ";
+    public final static String CHOOSE_CONST = "Введите название блюда, которое хотите заказать: ";
 
     public final static String MENU_FILENAME_CONST = "src/main/resources/menu.json";
 

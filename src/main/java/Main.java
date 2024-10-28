@@ -9,7 +9,7 @@ public class Main {
 
         String botToken = System.getenv("TG_TOKEN");
         try (TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication()) {
-            botsApplication.registerBot(botToken, new TGBot(botToken, listOfOrders, menuList, menu));
+            botsApplication.registerBot(botToken, new TGBot(botToken, listOfOrders, cart, menu));
             Thread.currentThread().join();
         } catch (Exception e) {
             e.printStackTrace();
