@@ -33,14 +33,16 @@ public class Menu extends HashMapMenu<String, Integer>{
     }
 
     /**
-     * Считывает данные из заданного файла и возвращает HashMap
+     * Считывает данные из заданного файла и добавляет в HashMap
      * @param fileName Имя файла из которого считывается
      */
     private void readFromJSONFile(String fileName){
         try(FileReader file = new FileReader(fileName)) {
             JSONObject jsonObject = (JSONObject)new JSONParser().parse(file);
             for (Object s : jsonObject.keySet()) {
-                menuList.put((String)s, (int)jsonObject.get(s));
+                //у тебя криво работала привидение к типу инт, из-за чего
+                //код вообще не запускался, исправлено.
+                menuList.put((String) s, ((Long) jsonObject.get(s)).intValue());
             }
 
         } catch (IOException | ParseException e) {

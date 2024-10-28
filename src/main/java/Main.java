@@ -1,15 +1,16 @@
 import MenuLogic.Menu;
+import java.util.ArrayList;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 
 public class Main {
     public static void main(String[] args) {
         ListOfOrders listOfOrders = new ListOfOrders();
-        MenuList menuList = new MenuList();
+        Cart cart = new Cart();
         Menu menu = new Menu(Constants.MENU_FILENAME_CONST);
 
         String botToken = System.getenv("TG_TOKEN");
         try (TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication()) {
-            botsApplication.registerBot(botToken, new TGBot(botToken, listOfOrders, menuList, menu));
+            botsApplication.registerBot(botToken, new TGBot(botToken, listOfOrders, cart, menu));
             Thread.currentThread().join();
         } catch (Exception e) {
             e.printStackTrace();
