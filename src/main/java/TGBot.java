@@ -1,4 +1,4 @@
-    import MenuLogic.Menu;
+    import menu.*;
     import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
     import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
     import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -26,7 +26,6 @@
             this.textHandler =  new TextHandler(listOfOrders, cart, menu);
 
         }
-
 
         /**
          * Метод принимает сообщение, обрабатывает и отправляет обратно пользователю

@@ -1,8 +1,13 @@
-import MenuLogic.Menu;
+import menu.*;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
-
-
 
 /**
  * Класс, методы которого обрабатывают текст
@@ -18,16 +23,8 @@ public class TextHandler {
 
     private String prevCommand = "";
 
+    Menu<String, Integer> menu;
 
-
-    Menu menu;
-
-    public TextHandler(ListOfOrders listOfOrders, Cart cart, Menu menu) {
-        this.listOfOrders = listOfOrders;
-        this.cart = cart;
-        this.menu = menu;
-
-    }
     // Метод для установки предыдущей команды
     public void setPrevCommand(String command) {
         this.prevCommand = command;
@@ -38,6 +35,12 @@ public class TextHandler {
         return this.prevCommand;
     }
 
+    public TextHandler(ListOfOrders listOfOrders, Cart cart, Menu menu) {
+        this.listOfOrders = listOfOrders;
+        this.cart = cart;
+        this.menu = menu;
+    }
+
     //TODO Это конструктор чтобы ничего не поломалось,
     //"TODO" убери потом
     // когда ты будешь мерджить это к себе
@@ -45,7 +48,6 @@ public class TextHandler {
         this.listOfOrders = listOfOrders;
         this.cart = cart;
     }
-
 
     /**
      * Команда /start в боте
@@ -183,15 +185,14 @@ public class TextHandler {
      * @param dishName
      */
     public void addToCart(String dishName) {
-        if (menu.getHashMap().containsKey(dishName)) {
-            String dishDetails =  dishName + " - " + menu.getHashMap().get(dishName) + " рублей"; // Получаем детали блюда
+        if (menu.getCost(dishName) != -1) {
+            String dishDetails =  dishName + " - " + menu.getCost(dishName) + " рублей"; // Получаем детали блюда
             cart.addToCart(dishDetails);
             output_message = Constants.DISH_ADDED_CONST + dishDetails +
                     Constants.YOUR_CART_CONST;
         } else {
             output_message = Constants.ERROR_UNDEFIND_NUM_CONST;
         }
-
     }
 
     /**
@@ -256,8 +257,14 @@ public class TextHandler {
         int index = 1;
         for (String name: menu.getHashMap().keySet()){
             String stringIndex = String.valueOf(index);
-            String stringCost = menu.getHashMap().get(name).toString();
-            menuBuilder.append(stringIndex).append(". ").append(name).append(" - ").append(stringCost).append(" рублей\n");
+            String stringCost = menu.getCost(name).toString();
+            menuBuilder
+                    .append(stringIndex)
+                    .append(". ")
+                    .append(name)
+                    .append(" - ")
+                    .append(stringCost)
+                    .append(" рублей\n");
             index++;
         }
         menuBuilder.append(Constants.CHOOSE_CONST);

@@ -1,4 +1,4 @@
-import MenuLogic.Menu;
+import menu.MenuImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +8,7 @@ public class OrderTest {
 
     @Test
     public void messageForClientTest(){
-        Menu menu = new Menu();
+        MenuImpl menu = new MenuImpl();
         menu.addFoodItem("Шаурма Большая", 100);
 
         Order order = new Order((long)123);

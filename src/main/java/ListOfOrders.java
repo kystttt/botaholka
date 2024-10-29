@@ -13,7 +13,7 @@ public class ListOfOrders {
     /**
      * Переменная отвечающая за нумерацию обновляя отсчёт после каждого запуска
      */
-    private int order_id = 1;
+    private int orderId = 1;
 
     public ListOfOrders() {
         orders = new HashMap<>();
@@ -33,9 +33,9 @@ public class ListOfOrders {
      * @param order новый заказ
      */
     public void putOrder(Order order) {
-        order.setOrderId(order_id);
-        orders.put(order_id,order);
-        order_id++;
+        order.setOrderId(orderId);
+        orders.put(orderId,order);
+        orderId++;
     }
 
     /**
@@ -57,6 +57,6 @@ public class ListOfOrders {
      */
     public void clearList(){
         orders = new HashMap<>();
-        order_id = 1;
+        orderId = 1;
     }
 }

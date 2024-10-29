@@ -1,32 +1,19 @@
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import MenuLogic.Menu;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
+import menu.*;
 
 /**
  * Класс заказа
  */
 public class Order {
-//    /**
-//     *Возможные состояния статуса заказа
-//     */
-//    private enum StatusState{
-//        Not_Accepted,
-//        Preparing,
-//        Ready,
-//        Given_Out;
-//    }
-//
+
     public Order(Order order){
         this.chat_id = order.chat_id;
-        this.order_id = order.order_id;
+        this.id = order.id;
         this.orderList = order.orderList;
     }
 
-    private int order_id;
+    private int id;
 
     private final Long chat_id;
 
@@ -37,22 +24,12 @@ public class Order {
 
     public int sum;
 
-//    /**
-//     * Статус заказа
-//     */
-//    private StatusState statusState;
-
-//    /**
-//     * Время к которому надо приготовить заказ
-//     */
-//    private final String timeTo = "К ближайшему";
-
     public Order(Long chat_id){
         this.chat_id = chat_id;
     }
 
     public int getOrderId(){
-        return order_id;
+        return id;
     }
 
     public Long getChatId(){
@@ -60,7 +37,7 @@ public class Order {
     }
 
     public void setOrderId(int order_id){
-        this.order_id = order_id;
+        this.id = order_id;
     }
 
     /**
@@ -77,7 +54,7 @@ public class Order {
     private void formSum(Menu menu) {
         sum = 0;
         for(String s: orderList){
-            sum += menu.getCost(s);
+            sum += (int)menu.getCost(s);
         }
     }
 
@@ -105,7 +82,7 @@ public class Order {
         formSum(menu);
         output = String.format("""
                 Заказ №%d
-                """, order_id);
+                """, id);
         output += formOrderList(menu);
         output += String.format("""
                 Итого: %d руб.
