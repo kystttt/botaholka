@@ -116,7 +116,7 @@ public class TextHandler {
                 setPrevCommand(msg_txt[0]);
                 break;
 
-            case ("/makeOrder"):
+            case ("/order"):
                 makeOrder(chat_id);
                 break;
 
