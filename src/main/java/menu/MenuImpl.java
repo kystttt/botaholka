@@ -49,7 +49,7 @@ public class MenuImpl implements Menu<String, Integer> {
         try(FileReader file = new FileReader(fileName)) {
             JSONObject jsonObject = (JSONObject)new JSONParser().parse(file);
             for (Object s : jsonObject.keySet()) {
-                items.put((String)s, (int)jsonObject.get(s));
+                items.put((String)s, ((Long) jsonObject.get(s)).intValue());
             }
 
         } catch (IOException e) {

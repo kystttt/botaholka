@@ -155,7 +155,7 @@ public class TextHandler {
 
         for(int i = 0; i < cart.getCartSize(); i++){
             String[] parts = cart.getCartValue(i).split("[-. ]+");
-            order.addToArr(parts[1] + " " + parts[2]);
+            order.addToArr(parts[0]);
         }
 
         listOfOrders.putOrder(order);
