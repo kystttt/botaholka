@@ -61,10 +61,10 @@ public class TextHandlerTest{
     public void testMakeOrder(){
         textHandler.setPrevCommand("/menu");
         textHandler.getOutputMassage("Шаурма", chat_id);
-        assertEquals("Ваш заказ сформирован", textHandler.getOutputMassage("/makeOrder",chat_id));
+        assertEquals("Ваш заказ сформирован", textHandler.getOutputMassage("/order",chat_id));
         assertEquals(0, cart.getCartSize());
         textHandler.deleteFromCart("0");
-        assertEquals("Корзина пуста", textHandler.getOutputMassage("/makeOrder",chat_id));
+        assertEquals("Корзина пуста", textHandler.getOutputMassage("/order",chat_id));
     }
 
     /*** Тест для команды удаления заказа из ListOfOrders
