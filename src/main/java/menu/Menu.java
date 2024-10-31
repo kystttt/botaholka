@@ -24,5 +24,8 @@ public interface Menu<S, I> {
      */
     void addFoodItem(S foodItemName, I foodItemCost);
 
-    HashMap<String, Integer> getHashMap();
+    /**
+     * Возвращает список со всеми названиями блюд в меню
+     */
+    List<S> getFoodNames();
 }

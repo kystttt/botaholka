@@ -255,11 +255,10 @@ public class TextHandler {
     public void menuCalling() {
         StringBuilder menuBuilder = new StringBuilder(Constants.MENU_CONST);
         int index = 1;
-        for (String name: menu.getHashMap().keySet()){
-            String stringIndex = String.valueOf(index);
+        for (String name: menu.getFoodNames()){
             String stringCost = menu.getCost(name).toString();
             menuBuilder
-                    .append(stringIndex)
+                    .append(index)
                     .append(". ")
                     .append(name)
                     .append(" - ")
