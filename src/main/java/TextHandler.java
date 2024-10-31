@@ -122,18 +122,17 @@ public class TextHandler {
      */
     private void commandDuplicate(String messageTxtIndex) {
 
-        for (Integer key : listOfOrders.getHashMap().keySet()) {
-            Order currentOrder = listOfOrders.getValue(key);
-
+        for (Order order : listOfOrders.values()) {
             if (messageTxtIndex.equals(Long.toString(
-                    currentOrder.getId()))) {
-                listOfOrders.putOrder(new Order(currentOrder));
-                output_message = "Заказ №" + currentOrder.getId() + " продублирован ";
+                    order.getId()))) {
+                listOfOrders.putOrder(new Order(order));
+                output_message = "Заказ №" + order.getId() + " продублирован ";
                 return;
             }
         }
         output_message = String.format("Заказ с №%s не найден", messageTxtIndex);
     }
+
     /**
      * Метод, который добавляет по названию товар в корзину
      */
@@ -187,12 +186,10 @@ public class TextHandler {
      */
     private void commandCancelOrder(String messageTxtIndex) {
 
-        for (Integer key : listOfOrders.getHashMap().keySet()) {
-            Order currentOrder = listOfOrders.getValue(key);
-
+        for (Order order : listOfOrders.values()) {
             if (messageTxtIndex.equals(String.valueOf(
-                    currentOrder.getId()))) {
-                listOfOrders.removeById(currentOrder.getId());
+                    order.getId()))) {
+                listOfOrders.remove(order.getId());
                 output_message = "Заказ №" + messageTxtIndex + " удалён ";
                 return;
             }
@@ -232,9 +229,9 @@ public class TextHandler {
         boolean atLeastOnce = false;
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (Integer key : listOfOrders.getHashMap().keySet()) {
-            if (chat_id.equals(listOfOrders.getValue(key).getChatId())) {
-                stringBuilder.append(new FormMessage().forClient(listOfOrders.getValue(key), menu));
+        for (Integer key : listOfOrders.keySet()) {
+            if (chat_id.equals(listOfOrders.get(key).getChatId())) {
+                stringBuilder.append(new FormMessage().forClient(listOfOrders.get(key), menu));
                 stringBuilder.append("\n");
                 atLeastOnce = true;
             }

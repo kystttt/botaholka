@@ -5,12 +5,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-
-
 public class ListOfOrdersTest {
 
     private ListOfOrders listOfOrders;
+
     /**
      * Обнуляет order.ListOfOrders
      */
@@ -19,59 +17,38 @@ public class ListOfOrdersTest {
         listOfOrders = new ListOfOrders();
     }
 
-
     /**
-     * Тест возвращения списка всех заказов
-     */
-    @Test
-    void testGetHashMap() {
-        Order order1 = new Order((long)1);
-        Order order2 = new Order((long)1);
-        listOfOrders.putOrder(order1);
-        listOfOrders.putOrder(order2);
-
-        HashMap<Integer, Order> result = listOfOrders.getHashMap();
-
-        Assertions.assertEquals(2, result.size());
-        Assertions.assertEquals(order1, result.get(1));
-        Assertions.assertEquals(order2, result.get(2));
-    }
-
-    /**
-     * Тестирует возвращение существующего элемента
-     */
-    @Test
-    void testGetValue() {
-        Order order = new Order((long)1);
-        listOfOrders.putOrder(order);
-
-        Order result = listOfOrders.getValue(1);
-
-        Assertions.assertEquals(order, result);
-    }
-
-    /**
-     * Тест добавления заказа
+     * Тест добавления элемента
      */
     @Test
     void testPutOrder() {
-        Order order = new Order((long)1);
+        Order order1 = new Order((long)1);
+        Order order2 = new Order((long)2);
+        listOfOrders.putOrder(order1);
+        listOfOrders.putOrder(order2);
 
-        listOfOrders.putOrder(order);
-
-        Assertions.assertEquals(order, listOfOrders.getValue(1));
+        Assertions.assertEquals(2, listOfOrders.size());
+        Assertions.assertEquals(order1, listOfOrders.get(1));
+        Assertions.assertEquals(order2, listOfOrders.get(2));
     }
 
     /**
-     * Тест удаления элемента
+     * Тест на валидность присваивания Id для нового заказа
      */
     @Test
-    void testRemoveById() {
-        Order order = new Order((long)1);
-        listOfOrders.putOrder(order);
+    void orderIdTest(){
+        Order order1 = new Order((long)1);
+        Order order2 = new Order((long)2);
+        listOfOrders.putOrder(order1);
+        listOfOrders.putOrder(order2);
 
-        listOfOrders.removeById(1);
+        Assertions.assertEquals(1, listOfOrders.get(1).getId());
+        Assertions.assertEquals(2, listOfOrders.get(2).getId());
 
-        Assertions.assertNull(listOfOrders.getValue(1));
+        resetListOfOrders();
+
+        Order order3 = new Order((long)3);
+        listOfOrders.putOrder(order3);
+        Assertions.assertEquals(1, listOfOrders.get(1).getId());
     }
 }

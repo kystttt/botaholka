@@ -86,7 +86,7 @@ public class TextHandlerTest{
         String expected_text = "Заказ №" + (long)1 + " удалён ";
 
         Assertions.assertEquals(expected_text, result_text);
-        Assertions.assertNull(listOfOrders.getValue(1));
+        Assertions.assertNull(listOfOrders.get(1));
     }
 
     /**
@@ -102,7 +102,7 @@ public class TextHandlerTest{
 
         textHandler.processMessage("/duplicate 1", (long)1);
 
-        Assertions.assertEquals(order, listOfOrders.getValue(1));
+        Assertions.assertEquals(order, listOfOrders.get(1));
     }
 
     /**

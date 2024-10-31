@@ -2,33 +2,16 @@ package order;
 
 import java.util.HashMap;
 
+
 /**
- * Класс для всех текущих заказов
+ * Список всех текущих заказов
  */
-public class ListOfOrders {
+public class ListOfOrders extends HashMap<Integer, Order> {
 
     /**
-     * Список всех текущих заказов с любым статусом кроме "выдан"(id заказа, заказ)
+     * Номер заказа
      */
-    private final HashMap<Integer, Order> orders;
-
-    /**
-     * Переменная отвечающая за нумерацию обновляя отсчёт после каждого запуска
-     */
-    private int orderId = 1;
-
-    public ListOfOrders() {
-        orders = new HashMap<>();
-    }
-
-    /**
-     * Возвращает конкретный order.Order по его order_id
-     * @param order_id id заказа
-     * @return order.Order
-     */
-    public Order getValue(int order_id) {
-        return orders.get(order_id);
-    }
+    private Integer orderId = 1;
 
     /**
      * Создание нового Order в ListOrders
@@ -36,22 +19,7 @@ public class ListOfOrders {
      */
     public void putOrder(Order order) {
         order.setOrderId(orderId);
-        orders.put(orderId,order);
+        put(orderId,order);
         orderId++;
     }
-
-    /**
-     * Возвращает список со всеми заказами
-     */
-    public HashMap<Integer, Order> getHashMap(){
-        return orders;
-    }
-
-    /**
-     * Удаляет заказ из списка заказов по его id
-     */
-    public void removeById(Integer order_id){
-        orders.remove(order_id);
-    }
-
 }
