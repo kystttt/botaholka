@@ -50,13 +50,6 @@ public class TextHandler {
     }
 
     /**
-     * Метод при вызове команды, которой нет у бота
-     */
-    private void commandWrongTypoWord() {
-        output_message = Constants.ERROR_COMMAND;
-    }
-
-    /**
      * геттер для output_message
      *
      * @return возвращает output_message
@@ -167,7 +160,6 @@ public class TextHandler {
     }
     /**
      * Метод, который добавляет по названию товар в корзину
-     * @param dishName
      */
     public void addToCart(String dishName) {
         if (menu.getCost(dishName) != -1) {
@@ -274,7 +266,7 @@ public class TextHandler {
 
         output_message = "Ваши заказы:\n";
         output_message += stringBuilder.toString();
-        output_message += Constants.FUNCS_FOR_LIST_OF_ORDERS_BUYER;;
+        output_message += Constants.FUNCS_FOR_LIST_OF_ORDERS_BUYER;
         if (!atLeastOnce) {
             output_message = "У вас нету действительных заказов";
         }
