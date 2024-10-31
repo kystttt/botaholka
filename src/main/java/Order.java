@@ -10,7 +10,7 @@ public class Order {
     public Order(Order order){
         this.chatId = order.chatId;
         this.id = order.id;
-        this.orderList = order.orderList;
+        this.items = order.items;
         this.sum = sum;
     }
 
@@ -19,9 +19,9 @@ public class Order {
     private final Long chatId;
 
     /**
-     *Список того что заказа клиент
+     *Список того что заказал клиент
      */
-    private ArrayList<String> orderList = new ArrayList<>();
+    private ArrayList<String> items = new ArrayList<>();
 
     public int sum;
 
@@ -46,7 +46,7 @@ public class Order {
      * @param str название лота в меню, которому соответствует некоторая цена в menu.json
      */
     public void addToArr(String str) {
-        orderList.add(str);
+        items.add(str);
     }
 
     /**
@@ -54,7 +54,7 @@ public class Order {
      */
     private void formSum(Menu menu) {
         sum = 0;
-        for(String s: orderList){
+        for(String s: items){
             sum += (int)menu.getCost(s);
         }
     }
@@ -63,7 +63,7 @@ public class Order {
     private String formOrderList(Menu menu){
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (String s : orderList){
+        for (String s : items){
             stringBuilder
                     .append(s)
                     .append(" - ")
