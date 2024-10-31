@@ -4,12 +4,10 @@ import order.Order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-public class OrderTest {
+public class FormMessageTest {
 
     @Test
-    public void messageForClientTest(){
+    public void forClientTest(){
         MenuImpl menu = new MenuImpl();
         menu.addFoodItem("Шаурма Большая", 100);
 
