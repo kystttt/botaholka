@@ -64,12 +64,13 @@ public class TextHandlerTest{
      */
     @Test
     public void testMakeOrder(){
-        textHandler.setPrevCommand("/menu");
+        textHandler.processMessage("/menu", chat_id);
         textHandler.processMessage("Шаурма", chat_id);
-        assertEquals("Ваш заказ сформирован", textHandler.processMessage("/makeOrder",chat_id));
+        String expected = textHandler.processMessage("/order", chat_id);
+        assertEquals("Ваш заказ сформирован", expected);
         assertEquals(0, cart.getCartSize());
         textHandler.deleteFromCart("0");
-        assertEquals("Корзина пуста", textHandler.processMessage("/makeOrder",chat_id));
+        assertEquals("Корзина пуста", textHandler.processMessage("/order",chat_id));
     }
 
     /*** Тест для команды удаления заказа из order.ListOfOrders

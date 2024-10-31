@@ -6,7 +6,7 @@ public class Constants {
                                 Добро пожаловать в бота
                                 """;
 
-    public final static String ERROR_BRANCH = """
+    public final static String START_BRANCH = """
             В качестве кого вы бы хотели продолжить?
             /seller - продавец
             /buyer - покупатель
@@ -19,7 +19,7 @@ public class Constants {
     public final static String ERROR_UNDEFIND_NUM_CONST = "Ошибка: такого блюда нет в меню.";
     public final static String YOUR_ORDER_CONST = "Ваш заказ:\n";
     public final static String YOUR_CART_CONST = "\nПосмотреть вашу корзину /cart";
-    public final static String SUCCES_DELETE_DISH_CONST = "Блюдо успешно удалено ";
+    public final static String SUCCESS_DELETE_DISH_CONST = "Блюдо успешно удалено ";
     public final static String DELETE_OUT_MSG_CONST = "Введите номер блюда, которое хотите удалить: ";
     public final static String MAKED_ORDER_CONST = "Ваш заказ сформирован";
     public final static String ERROR_INDEX_CONST = "Такого индекса не существует\n";

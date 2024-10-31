@@ -42,15 +42,24 @@ public class TextHandler {
      */
     public String processMessage(String message_text, Long chat_id) {
         String[] msg_txt = message_text.split(" ");
-        setPrevCommand(msg_txt[0]);
+
         return switch (msg_txt[0]) {
             case ("/help") -> Constants.HELP_CONST;
             case ("/start") -> Constants.START_CONST;
             case ("/listoforders") -> listOfOrders(chat_id);
-            case ("/delete") -> Constants.DELETE_OUT_MSG_CONST;
-            case ("/cart") -> viewCart();
-            case ("/menu") -> menuCalling();
-            case ("/makeOrder") -> makeOrder(chat_id);
+            case ("/delete") -> {
+                setPrevCommand(msg_txt[0]);
+                yield Constants.DELETE_OUT_MSG_CONST;
+            }
+            case ("/cart") -> {
+                setPrevCommand(msg_txt[0]);
+                yield viewCart();
+            }
+            case ("/menu") -> {
+                setPrevCommand(msg_txt[0]);
+                yield menuCalling();
+            }
+            case ("/order") -> makeOrder(chat_id);
             case ("/duplicate") -> commandDuplicate(msg_txt[1]);
             case ("/cancel") -> cancelOrder(msg_txt[1]);
             default -> {
