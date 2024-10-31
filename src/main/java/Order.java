@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-import menu.*;
+import menu.Menu;
 
 /**
  * Класс заказа
@@ -8,14 +8,15 @@ import menu.*;
 public class Order {
 
     public Order(Order order){
-        this.chat_id = order.chat_id;
+        this.chatId = order.chatId;
         this.id = order.id;
         this.orderList = order.orderList;
+        this.sum = sum;
     }
 
     private int id;
 
-    private final Long chat_id;
+    private final Long chatId;
 
     /**
      *Список того что заказа клиент
@@ -25,15 +26,15 @@ public class Order {
     public int sum;
 
     public Order(Long chat_id){
-        this.chat_id = chat_id;
+        this.chatId = chat_id;
     }
 
-    public int getOrderId(){
+    public int getId(){
         return id;
     }
 
     public Long getChatId(){
-        return chat_id;
+        return chatId;
     }
 
     public void setOrderId(int order_id){
