@@ -26,20 +26,20 @@ public class TextHandlerTest{
     @Test
     public void testAddToCart_ValidDishIndex() {
         textHandler.setPrevCommand("/menu");
-        textHandler.getOutputMassage("Шаурма", chat_id);
+        textHandler.proccessMessage("Шаурма", chat_id);
         textHandler.viewCart();
         assertEquals("Ваш заказ:\n1. Шаурма - 220 рублей\n",
-                textHandler.getOutputMassage("/cart",chat_id));
+                textHandler.proccessMessage("/cart",chat_id));
         textHandler.setPrevCommand("/menu");
         assertEquals(1, cart.getCartSize());
         assertEquals("Блюдо добавлено в корзину:\nШаурма - 220 рублей\nПосмотреть вашу корзину /cart",
-                textHandler.getOutputMassage("Шаурма",chat_id));
+                textHandler.proccessMessage("Шаурма",chat_id));
         textHandler.setPrevCommand("/delete");
-        textHandler.getOutputMassage("1", chat_id);
-        textHandler.getOutputMassage("1", chat_id);
+        textHandler.proccessMessage("1", chat_id);
+        textHandler.proccessMessage("1", chat_id);
         assertEquals(0, cart.getCartSize());
         textHandler.viewCart();
-        assertEquals("Корзина пуста", textHandler.getOutputMassage("/cart", chat_id));
+        assertEquals("Корзина пуста", textHandler.proccessMessage("/cart", chat_id));
     }
 
     /**
@@ -48,9 +48,9 @@ public class TextHandlerTest{
     @Test
     public void testAddToCart_InvalidDishIndex() {
         textHandler.setPrevCommand("/menu");
-        textHandler.getOutputMassage("5", chat_id);
+        textHandler.proccessMessage("5", chat_id);
         assertEquals(0, cart.getCartSize());
-        assertEquals("Ошибка: такого блюда нет в меню.", textHandler.getOutputMassage("5", chat_id));
+        assertEquals("Ошибка: такого блюда нет в меню.", textHandler.proccessMessage("5", chat_id));
     }
 
 
@@ -60,11 +60,11 @@ public class TextHandlerTest{
     @Test
     public void testMakeOrder(){
         textHandler.setPrevCommand("/menu");
-        textHandler.getOutputMassage("Шаурма", chat_id);
-        assertEquals("Ваш заказ сформирован", textHandler.getOutputMassage("/order",chat_id));
+        textHandler.proccessMessage("Шаурма", chat_id);
+        assertEquals("Ваш заказ сформирован", textHandler.proccessMessage("/makeOrder",chat_id));
         assertEquals(0, cart.getCartSize());
         textHandler.deleteFromCart("0");
-        assertEquals("Корзина пуста", textHandler.getOutputMassage("/order",chat_id));
+        assertEquals("Корзина пуста", textHandler.proccessMessage("/makeOrder",chat_id));
     }
 
     /*** Тест для команды удаления заказа из ListOfOrders
@@ -77,7 +77,7 @@ public class TextHandlerTest{
         order.addToArr("Шаурма");
         listOfOrders.putOrder(order);
 
-        String result_text = textHandler.getOutputMassage("/cancel 1", (long)1);
+        String result_text = textHandler.proccessMessage("/cancel 1", (long)1);
         String expected_text = "Заказ №" + (long)1 + " удалён ";
 
         Assertions.assertEquals(expected_text, result_text);
@@ -95,7 +95,7 @@ public class TextHandlerTest{
         order.addToArr("Шаурма");
         listOfOrders.putOrder(order);
 
-        textHandler.getOutputMassage("/duplicate 1", (long)1);
+        textHandler.proccessMessage("/duplicate 1", (long)1);
 
         Assertions.assertEquals(order, listOfOrders.getValue(1));
     }
@@ -111,7 +111,7 @@ public class TextHandlerTest{
         order.addToArr("Шаурма");
         listOfOrders.putOrder(order);
 
-        String result = textHandler.getOutputMassage("/listoforders", (long)1);
+        String result = textHandler.proccessMessage("/listoforders", (long)1);
 
         String expected = """
                 Ваши заказы:

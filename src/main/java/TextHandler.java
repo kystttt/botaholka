@@ -50,21 +50,11 @@ public class TextHandler {
     }
 
     /**
-     * геттер для output_message
-     *
-     * @return возвращает output_message
-     */
-    public String getOutputMassage(String message_text, Long chat_id) {
-        logic(message_text, chat_id);
-        return output_message;
-    }
-
-    /**
-     * Реализует логику бота
+     * Обрабатывает сообщение
      *
      * @param message_text переменная с текстом сообщения пользователя
      */
-    private void logic(String message_text, Long chat_id) {
+    public String proccessMessage(String message_text, Long chat_id) {
         String[] msg_txt = message_text.split(" ");
 
         switch (msg_txt[0]) {
@@ -118,6 +108,7 @@ public class TextHandler {
 
                 break;
         }
+        return output_message;
     }
 
     /**
