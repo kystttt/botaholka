@@ -36,45 +36,27 @@ public class TextHandler {
     }
 
     /**
-     * Команда /start в боте
-     */
-    private void commandStart() {
-        output_message = Constants.START_CONST;
-    }
-
-    /**
-     * Команда /help в боте
-     */
-    private void commandHelp() {
-        output_message = Constants.HELP_CONST;
-    }
-
-    /**
      * Обрабатывает сообщение
      *
-     * @param message_text переменная с текстом сообщения пользователя
+     * @param message_text Текст сообщения пользователя
      */
-    public String proccessMessage(String message_text, Long chat_id) {
+    public String processMessage(String message_text, Long chat_id) {
         String[] msg_txt = message_text.split(" ");
 
         switch (msg_txt[0]) {
             case ("/help"):
-                commandHelp();
-                setPrevCommand(msg_txt[0]);
-                break;
+                return Constants.HELP_CONST;
 
             case ("/start"):
-                commandStart();
-                break;
+                return Constants.START_CONST;
 
             case ("/listoforders"):
-                commandListOfOrders(chat_id);
+                listOfOrders(chat_id);
                 break;
 
             case ("/delete"):
-                output_message = Constants.DELETE_OUT_MSG_CONST;
                 setPrevCommand(msg_txt[0]);
-                break;
+                return Constants.DELETE_OUT_MSG_CONST;
 
             case("/cart"):
                 viewCart();
@@ -243,7 +225,7 @@ public class TextHandler {
      *
      * @param chat_id номер чата
      */
-    private void commandListOfOrders(Long chat_id) {
+    private void listOfOrders(Long chat_id) {
         boolean atLeastOnce = false;
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -259,7 +241,7 @@ public class TextHandler {
         output_message += stringBuilder.toString();
         output_message += Constants.FUNCS_FOR_LIST_OF_ORDERS_BUYER;
         if (!atLeastOnce) {
-            output_message = "У вас нету действительных заказов";
+            output_message = "У вас нету активных заказов";
         }
     }
 }
