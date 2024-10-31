@@ -1,4 +1,6 @@
 import menu.*;
+import order.ListOfOrders;
+import order.Order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -70,7 +72,7 @@ public class TextHandlerTest{
         assertEquals("Корзина пуста", textHandler.processMessage("/makeOrder",chat_id));
     }
 
-    /*** Тест для команды удаления заказа из ListOfOrders
+    /*** Тест для команды удаления заказа из order.ListOfOrders
      //     */
     @Test
     void commandCancelOrderTest(){

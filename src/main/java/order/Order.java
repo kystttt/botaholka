@@ -1,3 +1,5 @@
+package order;
+
 import java.util.ArrayList;
 
 import menu.Menu;
@@ -23,7 +25,7 @@ public class Order {
      */
     private ArrayList<String> items = new ArrayList<>();
 
-    public int sum;
+    private int sum;
 
     public Order(Long chat_id){
         this.chatId = chat_id;
@@ -41,6 +43,10 @@ public class Order {
         this.id = order_id;
     }
 
+    public int getSum(){return sum;}
+
+    public ArrayList<String> getItems(){return items;}
+
     /**
      * Функция добавления цены за отдельный продукт в общую сумму
      * @param str название лота в меню, которому соответствует некоторая цена в menu.json
@@ -52,7 +58,7 @@ public class Order {
     /**
      * Функция считающая сумм заказа исходя из того что заказал человек
      */
-    private void formSum(Menu menu) {
+    public void formSum(Menu menu) {
         sum = 0;
         for(String s: items){
             sum += (int)menu.getCost(s);
@@ -60,34 +66,4 @@ public class Order {
     }
 
 
-    private String formOrderList(Menu menu){
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (String s : items){
-            stringBuilder
-                    .append(s)
-                    .append(" - ")
-                    .append(menu.getCost(s))
-                    .append(" руб.")
-                    .append("\n");
-        }
-        return stringBuilder.toString();
-    }
-
-    /**
-     * Функция формирующая текстовое представления Order
-     * @return текстовое представления Order
-     */
-    public String formMessageForClient(Menu menu) {
-        String output;
-        formSum(menu);
-        output = String.format("""
-                Заказ №%d
-                """, id);
-        output += formOrderList(menu);
-        output += String.format("""
-                Итого: %d руб.
-                """, sum);
-        return output;
-    }
 }

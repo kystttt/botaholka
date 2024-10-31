@@ -1,4 +1,7 @@
 import menu.*;
+import order.FormMessage;
+import order.ListOfOrders;
+import order.Order;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -231,7 +234,7 @@ public class TextHandler {
 
         for (Integer key : listOfOrders.getHashMap().keySet()) {
             if (chat_id.equals(listOfOrders.getValue(key).getChatId())) {
-                stringBuilder.append(listOfOrders.getValue(key).formMessageForClient(menu));
+                stringBuilder.append(new FormMessage().forClient(listOfOrders.getValue(key), menu));
                 stringBuilder.append("\n");
                 atLeastOnce = true;
             }
