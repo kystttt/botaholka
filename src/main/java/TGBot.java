@@ -30,7 +30,7 @@
                 String message_text = update.getMessage().getText();
                 long chat_id = update.getMessage().getChatId();
 
-                String output_message = textHandler.getOutputMassage(message_text, chat_id);
+                String output_message = textHandler.proccessMessage(message_text, chat_id);
 
                 try {
                     telegramClient.execute(SendMessage
