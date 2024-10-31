@@ -33,7 +33,7 @@ public class CommandMenuTest {
     public void testMenuCalling() {
         assertEquals("Меню: \n1. ЛюляКебаб - 260 рублей\n2. Напиток - 110 рублей\n" +
                 "3. Шаурма - 220 рублей\nВведите название блюда, которое хотите заказать: ",
-                textHandler.proccessMessage("/menu", chat_id));
+                textHandler.processMessage("/menu", chat_id));
     }
 }
 
