@@ -15,9 +15,6 @@ public class TextHandler {
 
     private final Cart cart;
 
-
-    private String output_message = "";
-
     private String prevCommand = "";
 
     Menu<String, Integer> menu;
@@ -45,66 +42,37 @@ public class TextHandler {
      */
     public String processMessage(String message_text, Long chat_id) {
         String[] msg_txt = message_text.split(" ");
-
-        switch (msg_txt[0]) {
-            case ("/help"):
-                return Constants.HELP_CONST;
-
-            case ("/start"):
-                return Constants.START_CONST;
-
-            case ("/listoforders"):
-                listOfOrders(chat_id);
-                break;
-
-            case ("/delete"):
-                setPrevCommand(msg_txt[0]);
-                return Constants.DELETE_OUT_MSG_CONST;
-
-            case("/cart"):
-                viewCart();
-                break;
-
-            case("/menu"):
-                menuCalling();
-                setPrevCommand(msg_txt[0]);
-                break;
-
-            case ("/makeOrder"):
-                makeOrder(chat_id);
-                break;
-
-            case ("/duplicate"):
-                commandDuplicate(msg_txt[1]);
-                break;
-
-            case ("/cancel"):
-                commandCancelOrder(msg_txt[1]);
-                break;
-
-            default:
+        setPrevCommand(msg_txt[0]);
+        return switch (msg_txt[0]) {
+            case ("/help") -> Constants.HELP_CONST;
+            case ("/start") -> Constants.START_CONST;
+            case ("/listoforders") -> listOfOrders(chat_id);
+            case ("/delete") -> Constants.DELETE_OUT_MSG_CONST;
+            case ("/cart") -> viewCart();
+            case ("/menu") -> menuCalling();
+            case ("/makeOrder") -> makeOrder(chat_id);
+            case ("/duplicate") -> commandDuplicate(msg_txt[1]);
+            case ("/cancel") -> cancelOrder(msg_txt[1]);
+            default -> {
                 if (Objects.equals(getPrevCommand(), "/menu")) {
-                    addToCart(message_text);
+                    yield addToCart(message_text);
                 } else if (Objects.equals(getPrevCommand(), "/delete")) {
-                    deleteFromCart(message_text);
+                    yield deleteFromCart(message_text);
                 } else {
-                    output_message = Constants.ERROR_COMMAND;
+                    yield Constants.ERROR_COMMAND;
                 }
-
-                break;
-        }
-        return output_message;
+            }
+        };
     }
 
     /**
      *  Создает заказ из того, что в корзине
      * @param chat_id Id того пользователя для кого создается заказ
      */
-    public void makeOrder(Long chat_id){
+    public String makeOrder(Long chat_id){
         Order order = new Order(chat_id);
         if (cart.getCartSize() == 0){
-            output_message = Constants.CART_EMPTY_CONST;
-            return;
+            return Constants.CART_EMPTY_CONST;
         }
 
         for(int i = 0; i < cart.getCartSize(); i++){
@@ -114,29 +82,31 @@ public class TextHandler {
 
         listOfOrders.putOrder(order);
         cart.cartClear();
-        output_message = Constants.MAKED_ORDER_CONST;
+        return Constants.MAKED_ORDER_CONST;
     }
 
     /**
      * Повторяет заказ по его id
      */
-    private void commandDuplicate(String messageTxtIndex) {
-
+    private String commandDuplicate(String messageTxtIndex) {
+        String output_message;
         for (Order order : listOfOrders.values()) {
             if (messageTxtIndex.equals(Long.toString(
                     order.getId()))) {
                 listOfOrders.putOrder(new Order(order));
                 output_message = "Заказ №" + order.getId() + " продублирован ";
-                return;
+                return output_message;
             }
         }
         output_message = String.format("Заказ с №%s не найден", messageTxtIndex);
+        return output_message;
     }
 
     /**
      * Метод, который добавляет по названию товар в корзину
      */
-    public void addToCart(String dishName) {
+    public String addToCart(String dishName) {
+        String output_message;
         if (menu.getCost(dishName) != -1) {
             String dishDetails =  dishName + " - " + menu.getCost(dishName) + " рублей"; // Получаем детали блюда
             cart.addToCart(dishDetails);
@@ -145,15 +115,17 @@ public class TextHandler {
         } else {
             output_message = Constants.ERROR_UNDEFIND_NUM_CONST;
         }
+        return output_message;
     }
 
     /**
      * Метод, который показывает корзину покупателя.
      */
-    public void viewCart() {
+    public String viewCart() {
+        String output_message;
         if (cart.getCartSize() == 0) {
             output_message = Constants.CART_EMPTY_CONST;
-            return;
+            return output_message;
         }
         StringBuilder cartContents = new StringBuilder(Constants.YOUR_ORDER_CONST);
         ArrayList<String> cartItems = cart.getCart();
@@ -162,46 +134,49 @@ public class TextHandler {
         }
 
         output_message = cartContents.toString();
+        return output_message;
     }
 
-    /** Метод, который удаляет из корзины блюдо по индексу из корзины
+    /**
+     * Метод, который удаляет из корзины блюдо по индексу из корзины
      */
-    public void deleteFromCart(String dishIndexStr){
-
+    public String deleteFromCart(String dishIndexStr){
         try {
             int idx = Integer.parseInt(dishIndexStr) - 1;
             if (idx >= 0 && idx < cart.getCartSize()) {
                 cart.removeFromCart(idx);
-                output_message = Constants.SUCCES_DELETE_DISH_CONST + Constants.YOUR_CART_CONST;
+                return Constants.SUCCES_DELETE_DISH_CONST + Constants.YOUR_CART_CONST;
             } else {
-                output_message = Constants.ERROR_INDEX_CONST;
+                return Constants.ERROR_INDEX_CONST;
             }
         } catch (NumberFormatException e) {
-            output_message = Constants.ERROR_TYPE_CONST;
+            return Constants.ERROR_TYPE_CONST;
         }
     }
 
     /**
      * Удаляет заказ по его id
      */
-    private void commandCancelOrder(String messageTxtIndex) {
-
+    private String cancelOrder(String messageTxtIndex) {
+        String output_message;
         for (Order order : listOfOrders.values()) {
             if (messageTxtIndex.equals(String.valueOf(
                     order.getId()))) {
                 listOfOrders.remove(order.getId());
                 output_message = "Заказ №" + messageTxtIndex + " удалён ";
-                return;
+                return output_message;
             }
         }
         output_message = String.format("Заказ с №%s не найден", messageTxtIndex);
+        return output_message;
     }
 
     /**
      * Метод, который вызывает меню(показывает, что есть в ассортименте)
      */
 
-    public void menuCalling() {
+    public String menuCalling() {
+        String output_message;
         StringBuilder menuBuilder = new StringBuilder(Constants.MENU_CONST);
         int index = 1;
         for (String name: menu.getFoodNames()){
@@ -217,6 +192,7 @@ public class TextHandler {
         }
         menuBuilder.append(Constants.CHOOSE_CONST);
         output_message = menuBuilder.toString();
+        return output_message;
     }
 
 
@@ -225,7 +201,8 @@ public class TextHandler {
      *
      * @param chat_id номер чата
      */
-    private void listOfOrders(Long chat_id) {
+    private String listOfOrders(Long chat_id) {
+        String output_message;
         boolean atLeastOnce = false;
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -243,5 +220,6 @@ public class TextHandler {
         if (!atLeastOnce) {
             output_message = "У вас нету активных заказов";
         }
+        return output_message;
     }
 }

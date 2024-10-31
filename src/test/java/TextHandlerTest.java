@@ -75,7 +75,7 @@ public class TextHandlerTest{
     /*** Тест для команды удаления заказа из order.ListOfOrders
      //     */
     @Test
-    void commandCancelOrderTest(){
+    void cancelOrderTest(){
         TextHandler textHandler = new TextHandler(listOfOrders, cart, menu);
 
         Order order = new Order((long)1);
