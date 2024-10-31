@@ -8,9 +8,9 @@ import java.util.Objects;
  */
 public class TextHandler {
 
-    private ListOfOrders listOfOrders;
+    private final ListOfOrders listOfOrders;
 
-    private Cart cart;
+    private final Cart cart;
 
 
     private String output_message = "";
@@ -35,14 +35,6 @@ public class TextHandler {
         this.menu = menu;
     }
 
-    //TODO Это конструктор чтобы ничего не поломалось,
-    //"TODO" убери потом
-    // когда ты будешь мерджить это к себе
-    public TextHandler(ListOfOrders listOfOrders, Cart cart) {
-        this.listOfOrders = listOfOrders;
-        this.cart = cart;
-    }
-
     /**
      * Команда /start в боте
      */
@@ -54,14 +46,14 @@ public class TextHandler {
      * Команда /help в боте
      */
     private void commandHelp() {
-        output_message = Constants.HELP_CONST;;
+        output_message = Constants.HELP_CONST;
     }
 
     /**
      * Метод при вызове команды, которой нет у бота
      */
     private void commandWrongTypoWord() {
-        output_message = Constants.ERROR_COMMAND;;
+        output_message = Constants.ERROR_COMMAND;
     }
 
     /**
@@ -137,8 +129,7 @@ public class TextHandler {
 
     /**
      *  Создает заказ из того, что в корзине
-     * @param chat_id
-     * @return
+     * @param chat_id Id того пользователя для кого создается заказ
      */
     public void makeOrder(Long chat_id){
         Order order = new Order(chat_id);
@@ -207,7 +198,6 @@ public class TextHandler {
     }
 
     /** Метод, который удаляет из корзины блюдо по индексу из корзины
-     * @param dishIndexStr
      */
     public void deleteFromCart(String dishIndexStr){
 
