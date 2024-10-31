@@ -20,7 +20,7 @@ public class TextHandler {
     Menu<String, Integer> menu;
 
     // Метод для установки предыдущей команды
-    public void setPrevCommand(String command) {
+    private void setPrevCommand(String command) {
         this.prevCommand = command;
     }
 

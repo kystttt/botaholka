@@ -30,16 +30,16 @@ public class TextHandlerTest{
 
     @Test
     public void testAddToCart_ValidDishIndex() {
-        textHandler.setPrevCommand("/menu");
+        textHandler.processMessage("/menu", chat_id);
         textHandler.processMessage("Шаурма", chat_id);
         textHandler.viewCart();
         assertEquals("Ваш заказ:\n1. Шаурма - 220 рублей\n",
                 textHandler.processMessage("/cart",chat_id));
-        textHandler.setPrevCommand("/menu");
+        textHandler.processMessage("/menu", chat_id);
         assertEquals(1, cart.getCartSize());
         assertEquals("Блюдо добавлено в корзину:\nШаурма - 220 рублей\nПосмотреть вашу корзину /cart",
                 textHandler.processMessage("Шаурма",chat_id));
-        textHandler.setPrevCommand("/delete");
+        textHandler.processMessage("/menu", chat_id);
         textHandler.processMessage("1", chat_id);
         textHandler.processMessage("1", chat_id);
         assertEquals(0, cart.getCartSize());
@@ -52,7 +52,7 @@ public class TextHandlerTest{
      */
     @Test
     public void testAddToCart_InvalidDishIndex() {
-        textHandler.setPrevCommand("/menu");
+        textHandler.processMessage("/menu", chat_id);
         textHandler.processMessage("5", chat_id);
         assertEquals(0, cart.getCartSize());
         assertEquals("Ошибка: такого блюда нет в меню.", textHandler.processMessage("5", chat_id));
