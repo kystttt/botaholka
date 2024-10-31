@@ -55,7 +55,7 @@ public class ListOfOrders {
     /**
      * Обнуляет ListOfOrders
      */
-    public void clearList(){
+    void clearList(){
         orders = new HashMap<>();
         orderId = 1;
     }
