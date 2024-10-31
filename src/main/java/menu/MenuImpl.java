@@ -19,7 +19,7 @@ public class MenuImpl implements Menu<String, Integer> {
      */
     private HashMap<String, Integer> items;
 
-    public MenuImpl(String fileName){
+    public MenuImpl(String fileName) {
         items = new HashMap<>();
         readFromJSONFile(fileName);
     }
@@ -64,6 +64,7 @@ public class MenuImpl implements Menu<String, Integer> {
         } catch (ParseException e) {
             throw new RuntimeException("Ошибка в чтении из JSON файла",e);
         }
+        System.out.println(items);
     }
 
 
