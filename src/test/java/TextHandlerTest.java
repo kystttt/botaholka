@@ -103,6 +103,7 @@ public class TextHandlerTest{
         textHandler.processMessage("/duplicate 1", (long)1);
 
         Assertions.assertEquals(order, listOfOrders.get(1));
+        Assertions.assertEquals(2, listOfOrders.size());
     }
 
     /**
