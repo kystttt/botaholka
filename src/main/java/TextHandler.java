@@ -1,5 +1,5 @@
 import menu.*;
-import order.FormMessage;
+import order.FormOrderMessage;
 import order.ListOfOrders;
 import order.Order;
 
@@ -231,7 +231,7 @@ public class TextHandler {
 
         for (Integer key : listOfOrders.keySet()) {
             if (chat_id.equals(listOfOrders.get(key).getChatId())) {
-                stringBuilder.append(new FormMessage().forClient(listOfOrders.get(key), menu));
+                stringBuilder.append(new FormOrderMessage().forClient(listOfOrders.get(key), menu));
                 stringBuilder.append("\n");
                 atLeastOnce = true;
             }
