@@ -11,18 +11,11 @@
      */
     public class TGBot implements LongPollingSingleThreadUpdateConsumer {
         private final TelegramClient telegramClient;
-        private final Menu menu;
         private final TextHandler textHandler;
 
-        private ListOfOrders listOfOrders;
-        private Cart cart;
-
         public TGBot(String botToken, ListOfOrders listOfOrders, Cart cart, Menu menu) {
-            this.listOfOrders = listOfOrders;
-            this.cart = cart;
 
             telegramClient = new OkHttpTelegramClient(botToken);
-            this.menu = menu;
             this.textHandler =  new TextHandler(listOfOrders, cart, menu);
 
         }
