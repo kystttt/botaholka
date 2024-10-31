@@ -14,11 +14,12 @@
         private final TelegramClient telegramClient;
         private final TextHandler textHandler;
 
-        public TGBot(String botToken, ListOfOrders listOfOrders, Cart cart, Menu menu) {
-
+        public TGBot(String botToken) {
             telegramClient = new OkHttpTelegramClient(botToken);
+            ListOfOrders listOfOrders = new ListOfOrders();
+            Cart cart = new Cart();
+            Menu menu = new MenuImpl();
             this.textHandler =  new TextHandler(listOfOrders, cart, menu);
-
         }
 
         /**
@@ -40,6 +41,10 @@
                             .text(output_message)
                             .build());
                 } catch (TelegramApiException e) {
+                    System.err.println("Не удалось отправить сообщение\nchatId: " +
+                                        chat_id +
+                                        "\noutput_message: " +
+                                        output_message);
                     e.printStackTrace();
                 }
             }
