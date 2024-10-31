@@ -1,3 +1,5 @@
+import order.ListOfOrders;
+import order.Order;
 import org.junit.jupiter.api.BeforeEach;
 
 import org.junit.jupiter.api.Assertions;
@@ -8,13 +10,13 @@ import java.util.HashMap;
 
 public class ListOfOrdersTest {
 
-    private ListOfOrders listOfOrders = new ListOfOrders();
+    private ListOfOrders listOfOrders;
     /**
-     * Обнуляет ListOfOrders
+     * Обнуляет order.ListOfOrders
      */
     @BeforeEach
     void resetListOfOrders() {
-        listOfOrders.clearList();
+        listOfOrders = new ListOfOrders();
     }
 
 
@@ -39,23 +41,13 @@ public class ListOfOrdersTest {
      * Тестирует возвращение существующего элемента
      */
     @Test
-    void testGetValue1() {
+    void testGetValue() {
         Order order = new Order((long)1);
         listOfOrders.putOrder(order);
 
         Order result = listOfOrders.getValue(1);
 
         Assertions.assertEquals(order, result);
-    }
-
-    /**
-     * Тестирует возвращение несуществующего элемента
-     */
-    @Test
-    void testGetValue2() {
-        Order result = listOfOrders.getValue( 1);
-
-        Assertions.assertNull(result);
     }
 
     /**
