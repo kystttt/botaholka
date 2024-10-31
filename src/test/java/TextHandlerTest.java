@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Тесты для TextHandler
+ */
 public class TextHandlerTest{
     private Cart cart;
     private TextHandler textHandler;
