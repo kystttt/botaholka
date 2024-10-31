@@ -3,9 +3,9 @@ package order;
 import menu.Menu;
 
 /**
- * Формирует сообщения
+ * Формирует сообщения для класса заказа
  */
-public class FormMessage {
+public class FormOrderMessage {
 
     private String formOrderList(Order order, Menu menu){
         StringBuilder stringBuilder = new StringBuilder();

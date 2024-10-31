@@ -1,10 +1,10 @@
 import menu.MenuImpl;
-import order.FormMessage;
+import order.FormOrderMessage;
 import order.Order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class FormMessageTest {
+public class FormOrderMessageTest {
 
     @Test
     public void forClientTest(){
@@ -16,7 +16,7 @@ public class FormMessageTest {
         order.addToArr("Шаурма Большая");
         order.addToArr("Шаурма Большая");
 
-        String result = new FormMessage().forClient(order, menu);
+        String result = new FormOrderMessage().forClient(order, menu);
         String expected = """
                 Заказ №123
                 Шаурма Большая - 100 руб.
