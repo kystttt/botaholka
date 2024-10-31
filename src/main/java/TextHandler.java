@@ -1,12 +1,6 @@
 import menu.*;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Objects;
 
 /**
@@ -172,9 +166,9 @@ public class TextHandler {
             Order currentOrder = listOfOrders.getValue(key);
 
             if (messageTxtIndex.equals(Long.toString(
-                    currentOrder.getOrderId()))) {
+                    currentOrder.getId()))) {
                 listOfOrders.putOrder(new Order(currentOrder));
-                output_message = "Заказ №" + currentOrder.getOrderId() + " продублирован ";
+                output_message = "Заказ №" + currentOrder.getId() + " продублирован ";
                 return;
             }
         }
@@ -239,8 +233,8 @@ public class TextHandler {
             Order currentOrder = listOfOrders.getValue(key);
 
             if (messageTxtIndex.equals(String.valueOf(
-                    currentOrder.getOrderId()))) {
-                listOfOrders.removeById(currentOrder.getOrderId());
+                    currentOrder.getId()))) {
+                listOfOrders.removeById(currentOrder.getId());
                 output_message = "Заказ №" + messageTxtIndex + " удалён ";
                 return;
             }
