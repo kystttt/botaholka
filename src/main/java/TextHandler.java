@@ -78,7 +78,7 @@ public class TextHandler {
      *  Создает заказ из того, что в корзине
      * @param chat_id Id того пользователя для кого создается заказ
      */
-    public String makeOrder(Long chat_id){
+    private String makeOrder(Long chat_id){
         Order order = new Order(chat_id);
         if (cart.getCartSize() == 0){
             return Constants.CART_EMPTY_CONST;
@@ -114,7 +114,7 @@ public class TextHandler {
     /**
      * Метод, который добавляет по названию товар в корзину
      */
-    public String addToCart(String dishName) {
+    private String addToCart(String dishName) {
         String output_message;
         if (menu.getCost(dishName) != -1) {
             String dishDetails =  dishName + " - " + menu.getCost(dishName) + " рублей"; // Получаем детали блюда
@@ -130,7 +130,7 @@ public class TextHandler {
     /**
      * Метод, который показывает корзину покупателя.
      */
-    public String viewCart() {
+    private String viewCart() {
         String output_message;
         if (cart.getCartSize() == 0) {
             output_message = Constants.CART_EMPTY_CONST;
@@ -149,7 +149,7 @@ public class TextHandler {
     /**
      * Метод, который удаляет из корзины блюдо по индексу из корзины
      */
-    public String deleteFromCart(String dishIndexStr){
+    private String deleteFromCart(String dishIndexStr){
         try {
             int idx = Integer.parseInt(dishIndexStr) - 1;
             if (idx >= 0 && idx < cart.getCartSize()) {
@@ -184,7 +184,7 @@ public class TextHandler {
      * Метод, который вызывает меню(показывает, что есть в ассортименте)
      */
 
-    public String menuCalling() {
+    private String menuCalling() {
         String output_message;
         StringBuilder menuBuilder = new StringBuilder(Constants.MENU_CONST);
         int index = 1;

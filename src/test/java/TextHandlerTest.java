@@ -32,18 +32,16 @@ public class TextHandlerTest{
     public void testAddToCart_ValidDishIndex() {
         textHandler.processMessage("/menu", chat_id);
         textHandler.processMessage("Шаурма", chat_id);
-        textHandler.viewCart();
         assertEquals("Ваш заказ:\n1. Шаурма - 220 рублей\n",
                 textHandler.processMessage("/cart",chat_id));
         textHandler.processMessage("/menu", chat_id);
         assertEquals(1, cart.getCartSize());
         assertEquals("Блюдо добавлено в корзину:\nШаурма - 220 рублей\nПосмотреть вашу корзину /cart",
                 textHandler.processMessage("Шаурма",chat_id));
-        textHandler.processMessage("/menu", chat_id);
+        textHandler.processMessage("/delete", chat_id);
         textHandler.processMessage("1", chat_id);
         textHandler.processMessage("1", chat_id);
         assertEquals(0, cart.getCartSize());
-        textHandler.viewCart();
         assertEquals("Корзина пуста", textHandler.processMessage("/cart", chat_id));
     }
 
@@ -69,12 +67,13 @@ public class TextHandlerTest{
         String expected = textHandler.processMessage("/order", chat_id);
         assertEquals("Ваш заказ сформирован", expected);
         assertEquals(0, cart.getCartSize());
-        textHandler.deleteFromCart("0");
+        textHandler.processMessage("/delete", chat_id);
+        textHandler.processMessage("0", chat_id);
         assertEquals("Корзина пуста", textHandler.processMessage("/order",chat_id));
     }
 
-    /*** Тест для команды удаления заказа из order.ListOfOrders
-     //     */
+    /** Тест для команды удаления заказа из ListOfOrders
+         */
     @Test
     void cancelOrderTest(){
         TextHandler textHandler = new TextHandler(listOfOrders, cart, menu);
