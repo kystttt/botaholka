@@ -48,7 +48,7 @@ public class Order {
     public ArrayList<String> getItems(){return items;}
 
     /**
-     * Функция добавления цены за отдельный продукт в общую сумму
+     * Добавляет цену за отдельный продукт в общую сумму
      * @param str название лота в меню, которому соответствует некоторая цена в menu.json
      */
     public void addToArr(String str) {
@@ -56,7 +56,7 @@ public class Order {
     }
 
     /**
-     * Функция считающая сумм заказа исходя из того что заказал человек
+     * Функция считающая сумму заказа исходя из того что заказал человек
      */
     public void formSum(Menu menu) {
         sum = 0;

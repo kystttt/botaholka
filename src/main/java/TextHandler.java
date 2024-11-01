@@ -227,7 +227,7 @@ public class TextHandler {
         output_message += stringBuilder.toString();
         output_message += Constants.FUNCS_FOR_LIST_OF_ORDERS_BUYER;
         if (!atLeastOnce) {
-            output_message = "У вас нету активных заказов";
+            output_message = Constants.NO_AVAILABLE_ORDERS;
         }
         return output_message;
     }
