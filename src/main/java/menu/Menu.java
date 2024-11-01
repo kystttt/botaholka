@@ -1,10 +1,9 @@
 package menu;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
- * Класс для функций меню
+ * Меню
  * @param <S> Параметр для хранения названий блюд в меню
  * @param <I> Параметр для хранения цен блюд в меню
  */
@@ -24,5 +23,8 @@ public interface Menu<S, I> {
      */
     void addFoodItem(S foodItemName, I foodItemCost);
 
-    HashMap<String, Integer> getHashMap();
+    /**
+     * Возвращает список со всеми названиями блюд в меню
+     */
+    List<S> getFoodNames();
 }

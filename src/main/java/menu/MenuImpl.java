@@ -6,7 +6,9 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Реализация Menu
@@ -17,7 +19,7 @@ public class MenuImpl implements Menu<String, Integer> {
      */
     private HashMap<String, Integer> items;
 
-    public MenuImpl(String fileName){
+    public MenuImpl(String fileName) {
         items = new HashMap<>();
         readFromJSONFile(fileName);
     }
@@ -41,6 +43,11 @@ public class MenuImpl implements Menu<String, Integer> {
         items.put(foodItemName, foodItemCost);
     }
 
+    @Override
+    public List<String> getFoodNames() {
+        return new ArrayList<>(items.keySet());
+    }
+
     /**
      * Считывает данные из заданного файла и возвращает HashMap
      * @param fileName Имя файла из которого считывается
@@ -57,9 +64,8 @@ public class MenuImpl implements Menu<String, Integer> {
         } catch (ParseException e) {
             throw new RuntimeException("Ошибка в чтении из JSON файла",e);
         }
+        System.out.println(items);
     }
 
-    public HashMap<String, Integer> getHashMap(){
-        return items;
-    }
+
 }

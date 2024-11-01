@@ -1,4 +1,5 @@
     import menu.*;
+    import order.ListOfOrders;
     import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
     import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
     import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -11,20 +12,17 @@
      */
     public class TGBot implements LongPollingSingleThreadUpdateConsumer {
         private final TelegramClient telegramClient;
-        private final Menu menu;
         private final TextHandler textHandler;
+        Menu menu;
+        Cart cart;
+        ListOfOrders listOfOrders;
 
-        private ListOfOrders listOfOrders;
-        private Cart cart;
-
-        public TGBot(String botToken, ListOfOrders listOfOrders, Cart cart, Menu menu) {
-            this.listOfOrders = listOfOrders;
-            this.cart = cart;
-
+        public TGBot(String botToken) {
             telegramClient = new OkHttpTelegramClient(botToken);
-            this.menu = menu;
+            listOfOrders = new ListOfOrders();
+            cart = new Cart();
+            menu = new MenuImpl(Constants.MENU_FILENAME_CONST);
             this.textHandler =  new TextHandler(listOfOrders, cart, menu);
-
         }
 
         /**
@@ -37,7 +35,7 @@
                 String message_text = update.getMessage().getText();
                 long chat_id = update.getMessage().getChatId();
 
-                String output_message = textHandler.getOutputMassage(message_text, chat_id);
+                String output_message = textHandler.processMessage(message_text, chat_id);
 
                 try {
                     telegramClient.execute(SendMessage
@@ -46,6 +44,10 @@
                             .text(output_message)
                             .build());
                 } catch (TelegramApiException e) {
+                    System.err.println("Не удалось отправить сообщение\nchatId: " +
+                                        chat_id +
+                                        "\noutput_message: " +
+                                        output_message);
                     e.printStackTrace();
                 }
             }

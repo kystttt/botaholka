@@ -1,9 +1,14 @@
 import menu.*;
+import order.ListOfOrders;
+import order.Order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Тесты для TextHandler
+ */
 public class TextHandlerTest{
     private Cart cart;
     private TextHandler textHandler;
@@ -25,21 +30,19 @@ public class TextHandlerTest{
 
     @Test
     public void testAddToCart_ValidDishIndex() {
-        textHandler.setPrevCommand("/menu");
-        textHandler.getOutputMassage("Шаурма", chat_id);
-        textHandler.viewCart();
+        textHandler.processMessage("/menu", chat_id);
+        textHandler.processMessage("Шаурма", chat_id);
         assertEquals("Ваш заказ:\n1. Шаурма - 220 рублей\n",
-                textHandler.getOutputMassage("/cart",chat_id));
-        textHandler.setPrevCommand("/menu");
+                textHandler.processMessage("/cart",chat_id));
+        textHandler.processMessage("/menu", chat_id);
         assertEquals(1, cart.getCartSize());
         assertEquals("Блюдо добавлено в корзину:\nШаурма - 220 рублей\nПосмотреть вашу корзину /cart",
-                textHandler.getOutputMassage("Шаурма",chat_id));
-        textHandler.setPrevCommand("/delete");
-        textHandler.getOutputMassage("1", chat_id);
-        textHandler.getOutputMassage("1", chat_id);
+                textHandler.processMessage("Шаурма",chat_id));
+        textHandler.processMessage("/delete", chat_id);
+        textHandler.processMessage("1", chat_id);
+        textHandler.processMessage("1", chat_id);
         assertEquals(0, cart.getCartSize());
-        textHandler.viewCart();
-        assertEquals("Корзина пуста", textHandler.getOutputMassage("/cart", chat_id));
+        assertEquals("Корзина пуста", textHandler.processMessage("/cart", chat_id));
     }
 
     /**
@@ -47,10 +50,10 @@ public class TextHandlerTest{
      */
     @Test
     public void testAddToCart_InvalidDishIndex() {
-        textHandler.setPrevCommand("/menu");
-        textHandler.getOutputMassage("5", chat_id);
+        textHandler.processMessage("/menu", chat_id);
+        textHandler.processMessage("5", chat_id);
         assertEquals(0, cart.getCartSize());
-        assertEquals("Ошибка: такого блюда нет в меню.", textHandler.getOutputMassage("5", chat_id));
+        assertEquals("Ошибка: такого блюда нет в меню.", textHandler.processMessage("5", chat_id));
     }
 
 
@@ -59,29 +62,31 @@ public class TextHandlerTest{
      */
     @Test
     public void testMakeOrder(){
-        textHandler.setPrevCommand("/menu");
-        textHandler.getOutputMassage("Шаурма", chat_id);
-        assertEquals("Ваш заказ сформирован", textHandler.getOutputMassage("/order",chat_id));
+        textHandler.processMessage("/menu", chat_id);
+        textHandler.processMessage("Шаурма", chat_id);
+        String expected = textHandler.processMessage("/order", chat_id);
+        assertEquals("Ваш заказ сформирован", expected);
         assertEquals(0, cart.getCartSize());
-        textHandler.deleteFromCart("0");
-        assertEquals("Корзина пуста", textHandler.getOutputMassage("/order",chat_id));
+        textHandler.processMessage("/delete", chat_id);
+        textHandler.processMessage("0", chat_id);
+        assertEquals("Корзина пуста", textHandler.processMessage("/order",chat_id));
     }
 
-    /*** Тест для команды удаления заказа из ListOfOrders
-     //     */
+    /** Тест для команды удаления заказа из ListOfOrders
+         */
     @Test
-    void commandCancelOrderTest(){
+    void cancelOrderTest(){
         TextHandler textHandler = new TextHandler(listOfOrders, cart, menu);
 
         Order order = new Order((long)1);
         order.addToArr("Шаурма");
         listOfOrders.putOrder(order);
 
-        String result_text = textHandler.getOutputMassage("/cancel 1", (long)1);
+        String result_text = textHandler.processMessage("/cancel 1", (long)1);
         String expected_text = "Заказ №" + (long)1 + " удалён ";
 
         Assertions.assertEquals(expected_text, result_text);
-        Assertions.assertNull(listOfOrders.getValue(1));
+        Assertions.assertNull(listOfOrders.get(1));
     }
 
     /**
@@ -95,9 +100,10 @@ public class TextHandlerTest{
         order.addToArr("Шаурма");
         listOfOrders.putOrder(order);
 
-        textHandler.getOutputMassage("/duplicate 1", (long)1);
+        textHandler.processMessage("/duplicate 1", (long)1);
 
-        Assertions.assertEquals(order, listOfOrders.getValue(1));
+        Assertions.assertEquals(order, listOfOrders.get(1));
+        Assertions.assertEquals(2, listOfOrders.size());
     }
 
     /**
@@ -111,7 +117,7 @@ public class TextHandlerTest{
         order.addToArr("Шаурма");
         listOfOrders.putOrder(order);
 
-        String result = textHandler.getOutputMassage("/listoforders", (long)1);
+        String result = textHandler.processMessage("/listoforders", (long)1);
 
         String expected = """
                 Ваши заказы:
