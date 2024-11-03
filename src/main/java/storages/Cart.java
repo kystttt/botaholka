@@ -1,6 +1,12 @@
+package storages;
+
+import java.util.ArrayList;
 public interface Cart {
     String get(int index);
 
+    /**
+     * Очищает корзину
+     */
     void clear();
 
     /**

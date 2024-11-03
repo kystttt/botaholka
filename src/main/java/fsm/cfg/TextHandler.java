@@ -1,10 +1,14 @@
+package fsm.cfg;
+
 import menu.*;
 import order.FormOrderMessage;
-import order.ListOfOrders;
+import storages.Cart;
+import storages.ListOfOrders;
 import order.Order;
+import utils.Constants;
 import order.Orders;
 
-import java.util.Objects;
+import java.util.ArrayList;
 
 /**
  * Класс, методы которого обрабатывают текст
@@ -15,17 +19,7 @@ public class TextHandler {
 
     final Cart cart;
 
-    private String prevCommand = "";
-
     Menu menu;
-
-    private void setPrevCommand(String command) {
-        this.prevCommand = command;
-    }
-
-    public String getPrevCommand() {
-        return this.prevCommand;
-    }
 
     public TextHandler(String menuFileName) {
         listOfOrders = new ListOfOrders();
@@ -40,49 +34,10 @@ public class TextHandler {
     }
 
     /**
-     * Обрабатывает сообщение
-     *
-     * @param message_text Текст сообщения пользователя
-     */
-    public String processMessage(String message_text, Long chat_id) {
-        String[] msg_txt = message_text.split(" ");
-
-        return switch (msg_txt[0]) {
-            case ("/help") -> Constants.HELP_CONST;
-            case ("/start") -> Constants.START_CONST;
-            case ("/listoforders") -> listOfOrders(chat_id);
-            case ("/delete") -> {
-                setPrevCommand(msg_txt[0]);
-                yield Constants.DELETE_OUT_MSG_CONST;
-            }
-            case ("/cart") -> {
-                setPrevCommand(msg_txt[0]);
-                yield viewCart();
-            }
-            case ("/menu") -> {
-                setPrevCommand(msg_txt[0]);
-                yield menuCalling();
-            }
-            case ("/order") -> makeOrder(chat_id);
-            case ("/duplicate") -> duplicate(msg_txt[1], chat_id);
-            case ("/cancel") -> cancelOrder(msg_txt[1]);
-            default -> {
-                if (Objects.equals(getPrevCommand(), "/menu")) {
-                    yield addToCart(message_text);
-                } else if (Objects.equals(getPrevCommand(), "/delete")) {
-                    yield deleteFromCart(message_text);
-                } else {
-                    yield Constants.ERROR_COMMAND;
-                }
-            }
-        };
-    }
-
-    /**
      *  Создает заказ из того, что в корзине
      * @param chat_id Id того пользователя для кого создается заказ
      */
-    private String makeOrder(Long chat_id){
+    public String makeOrder(Long chat_id){
         Order order = new Order(chat_id);
         if (cart.size() == 0){
             return Constants.CART_EMPTY_CONST;
@@ -101,7 +56,7 @@ public class TextHandler {
     /**
      * Повторяет заказ по его id
      */
-    private String duplicate(String messageTxtIndex, long chatId) {
+    public String duplicate(String messageTxtIndex, long chatId) {
         String output_message;
         for (Order order : listOfOrders.getOrders()) {
             if (
@@ -122,7 +77,7 @@ public class TextHandler {
     /**
      * Метод, который добавляет по названию товар в корзину
      */
-    private String addToCart(String dishName) {
+    public String addToCart(String dishName) {
         String output_message;
         if (menu.getCost(dishName) != -1) {
             String dishDetails =  dishName + " - " + menu.getCost(dishName) + " рублей"; // Получаем детали блюда
@@ -138,7 +93,7 @@ public class TextHandler {
     /**
      * Метод, который показывает корзину покупателя.
      */
-    private String viewCart() {
+    public String viewCart() {
         String output_message;
         if (cart.size() == 0) {
             output_message = Constants.CART_EMPTY_CONST;
@@ -161,7 +116,7 @@ public class TextHandler {
     /**
      * Метод, который удаляет из корзины блюдо по индексу из корзины
      */
-    private String deleteFromCart(String dishIndexStr){
+    public String deleteFromCart(String dishIndexStr){
         try {
             int idx = Integer.parseInt(dishIndexStr) - 1;
             if (idx >= 0 && idx < cart.size()) {
@@ -178,7 +133,7 @@ public class TextHandler {
     /**
      * Удаляет заказ по его id
      */
-    private String cancelOrder(String messageTxtIndex) {
+    public String cancelOrder(String messageTxtIndex) {
         String output_message;
         for (Order order : listOfOrders.getOrders()) {
             if (messageTxtIndex.equals(String.valueOf(
@@ -196,7 +151,7 @@ public class TextHandler {
      * Метод, который вызывает меню(показывает, что есть в ассортименте)
      */
 
-    private String menuCalling() {
+    public String menuCalling() {
         String output_message;
         StringBuilder menuBuilder = new StringBuilder(Constants.MENU_CONST);
         int index = 1;
@@ -222,7 +177,7 @@ public class TextHandler {
      *
      * @param chat_id номер чата
      */
-    private String listOfOrders(Long chat_id) {
+    public String listOfOrders(Long chat_id) {
         String output_message;
         boolean atLeastOnce = false;
         StringBuilder stringBuilder = new StringBuilder();
