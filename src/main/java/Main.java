@@ -1,5 +1,3 @@
-import menu.*;
-import order.ListOfOrders;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 
 public class Main {

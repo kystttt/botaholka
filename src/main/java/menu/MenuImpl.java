@@ -13,11 +13,11 @@ import java.util.List;
 /**
  * Реализация Menu
  */
-public class MenuImpl implements Menu<String, Integer> {
+public class MenuImpl implements Menu {
     /**
      * Список в котором хранятся названия блюд и их цена
      */
-    private HashMap<String, Integer> items;
+    private final HashMap<String, Integer> items;
 
     public MenuImpl(String fileName) {
         items = new HashMap<>();

@@ -13,7 +13,6 @@ public class Order {
         this.chatId = order.chatId;
         this.id = order.id;
         this.items = order.items;
-        this.sum = sum;
     }
 
     private int id;
@@ -61,7 +60,7 @@ public class Order {
     public void formSum(Menu menu) {
         sum = 0;
         for(String s: items){
-            sum += (int)menu.getCost(s);
+            sum += menu.getCost(s);
         }
     }
 
