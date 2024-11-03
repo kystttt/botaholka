@@ -1,13 +1,16 @@
+import fsm.cfg.TextHandler;
 import menu.*;
-import order.ListOfOrders;
+import storages.ListOfOrders;
 import order.Order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import storages.Cart;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Тесты для TextHandler
+ * Тесты для fsm.cfg.TextHandler
  */
 public class TextHandlerTest{
     private Cart cart;

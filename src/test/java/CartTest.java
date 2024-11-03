@@ -1,9 +1,9 @@
-import order.ListOfOrders;
+import fsm.cfg.TextHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import menu.*;
+import storages.Cart;
 
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Тестируем три метода: добавления в корзину, удаления и просмотра корзины
@@ -12,16 +12,12 @@ public class CartTest {
 
     private TextHandler textHandler;
     private Cart testCart;
-    private Menu testMenu;
-    private ListOfOrders testListOfOrders;
-    Long chat_id = 13245L;
 
     @BeforeEach
     public void setup() {
         testCart = new Cart();
 
     }
-
 
     /**
      * Проверяем добавляет ли метод в корзину
@@ -36,7 +32,6 @@ public class CartTest {
     /**
      * Тест для метода, который удаляет элемент из массива корзины
      */
-
     @Test
     public void removeFromCartTest() {
         testCart.addToCart("Шаурма");

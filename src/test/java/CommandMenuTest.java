@@ -1,7 +1,10 @@
+import fsm.cfg.TextHandler;
 import menu.*;
-import order.ListOfOrders;
+import storages.ListOfOrders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import storages.Cart;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.IOException;
 
@@ -9,17 +12,14 @@ import java.io.IOException;
  * Тест для команды /menu
  */
 public class CommandMenuTest {
-    private Menu testMenu;
-    private Cart testCart;
-    private ListOfOrders testListOfOrders;
     private TextHandler textHandler;
     Long chat_id = 13245L;
 
     @BeforeEach
     public void setUp() throws IOException {
-        testListOfOrders = new ListOfOrders();
-        testCart = new Cart();
-        testMenu = new MenuImpl();
+        ListOfOrders testListOfOrders = new ListOfOrders();
+        Cart testCart = new Cart();
+        Menu testMenu = new MenuImpl();
         textHandler = new TextHandler(testListOfOrders, testCart, testMenu);
         testMenu.addFoodItem("ЛюляКебаб", 260);
         testMenu.addFoodItem("Напиток", 110);
