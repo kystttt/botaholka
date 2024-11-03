@@ -1,5 +1,4 @@
-    import fsm.cfg.TextHandler;
-    import menu.*;
+import menu.*;
     import storages.ListOfOrders;
     import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
     import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;

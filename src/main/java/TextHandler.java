@@ -1,14 +1,11 @@
-package fsm.cfg;
-
 import menu.*;
 import order.FormOrderMessage;
 import storages.Cart;
 import storages.ListOfOrders;
 import order.Order;
 import utils.Constants;
-import order.Orders;
 
-import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Класс, методы которого обрабатывают текст
