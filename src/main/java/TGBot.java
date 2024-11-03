@@ -1,5 +1,4 @@
-    import fsm.cfg.TextHandler;
-    import menu.*;
+import menu.*;
     import storages.ListOfOrders;
     import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
     import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
@@ -22,6 +21,7 @@
 
         public TGBot(String botToken) {
             telegramClient = new OkHttpTelegramClient(botToken);
+
             listOfOrders = new ListOfOrders();
             cart = new Cart();
             menu = new MenuImpl(Constants.MENU_FILENAME_CONST);

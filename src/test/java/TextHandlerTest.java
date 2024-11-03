@@ -1,4 +1,3 @@
-import fsm.cfg.TextHandler;
 import menu.*;
 import storages.ListOfOrders;
 import order.Order;
@@ -10,7 +9,7 @@ import storages.Cart;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Тесты для fsm.cfg.TextHandler
+ * Тесты для TextHandler
  */
 public class TextHandlerTest{
     private Cart cart;

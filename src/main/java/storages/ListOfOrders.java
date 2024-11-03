@@ -7,6 +7,8 @@ import java.util.HashMap;
 
 /**
  * Список всех текущих заказов
+ * Key: orderId
+ * Value: Order
  */
 public class ListOfOrders extends HashMap<Integer, Order> {
 
@@ -21,7 +23,7 @@ public class ListOfOrders extends HashMap<Integer, Order> {
      */
     public void putOrder(Order order) {
         order.setOrderId(orderId);
-        put(orderId,order);
+        put(orderId, order);
         orderId++;
     }
 }
