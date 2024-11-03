@@ -17,7 +17,7 @@ public class TextHandler {
 
     private String prevCommand = "";
 
-    Menu<String, Integer> menu;
+    Menu menu;
 
     private void setPrevCommand(String command) {
         this.prevCommand = command;
@@ -130,7 +130,7 @@ public class TextHandler {
             output_message = Constants.DISH_ADDED_CONST + dishDetails +
                     Constants.YOUR_CART_CONST;
         } else {
-            output_message = Constants.ERROR_UNDEFIND_NUM_CONST;
+            output_message = Constants.ERROR_UNDEFINED_NUMB_CONST;
         }
         return output_message;
     }

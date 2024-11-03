@@ -16,7 +16,7 @@ public class Constants {
     public final static String CART_EMPTY_CONST = "Корзина пуста";
     public final static String DISH_ADDED_CONST = "Блюдо добавлено в корзину:\n";
     public final static String ERROR_TYPE_CONST = "Ошибка: индекс блюда должен быть числом.";
-    public final static String ERROR_UNDEFIND_NUM_CONST = "Ошибка: такого блюда нет в меню.";
+    public final static String ERROR_UNDEFINED_NUMB_CONST = "Ошибка: такого блюда нет в меню.";
     public final static String YOUR_ORDER_CONST = "Ваш заказ:\n";
     public final static String YOUR_CART_CONST = "\nПосмотреть вашу корзину /cart";
     public final static String SUCCESS_DELETE_DISH_CONST = "Блюдо успешно удалено ";
