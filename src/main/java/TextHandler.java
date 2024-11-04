@@ -2,6 +2,7 @@ import menu.*;
 import order.FormOrderMessage;
 import order.ListOfOrders;
 import order.Order;
+import order.Orders;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -11,7 +12,7 @@ import java.util.Objects;
  */
 public class TextHandler {
 
-    private final ListOfOrders listOfOrders;
+    private final Orders listOfOrders;
 
     private final Cart cart;
 
@@ -105,7 +106,7 @@ public class TextHandler {
      */
     private String commandDuplicate(String messageTxtIndex) {
         String output_message;
-        for (Order order : listOfOrders.values()) {
+        for (Order order : listOfOrders.getOrders()) {
             if (messageTxtIndex.equals(Long.toString(
                     order.getId()))) {
                 listOfOrders.putOrder(new Order(order));
@@ -174,7 +175,7 @@ public class TextHandler {
      */
     private String cancelOrder(String messageTxtIndex) {
         String output_message;
-        for (Order order : listOfOrders.values()) {
+        for (Order order : listOfOrders.getOrders()) {
             if (messageTxtIndex.equals(String.valueOf(
                     order.getId()))) {
                 listOfOrders.remove(order.getId());
@@ -221,9 +222,9 @@ public class TextHandler {
         boolean atLeastOnce = false;
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (Integer key : listOfOrders.keySet()) {
-            if (chat_id.equals(listOfOrders.get(key).getChatId())) {
-                stringBuilder.append(new FormOrderMessage().forClient(listOfOrders.get(key), menu));
+        for (Order order : listOfOrders.getOrders()) {
+            if (chat_id.equals(order.getChatId())) {
+                stringBuilder.append(new FormOrderMessage().forClient(order, menu));
                 stringBuilder.append("\n");
                 atLeastOnce = true;
             }
