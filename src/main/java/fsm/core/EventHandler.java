@@ -1,5 +1,5 @@
 package fsm.core;
 
 public interface EventHandler{
-    void handleEvent();
+    String handleEvent(String messageText, long chatId);
 }

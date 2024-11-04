@@ -39,4 +39,12 @@ public class Transition{
     void setEventHandler(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
     }
+
+    @Override
+    public String toString(){
+        return "Transition[" +
+                "StartState: " + startState.name() + ", " +
+                "EndState:" + endState.name() + ", " +
+                "Event:" + event +"]";
+    }
 }
