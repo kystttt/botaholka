@@ -2,28 +2,36 @@ package storages;
 
 import order.Order;
 
-import java.util.HashMap;
-
+import java.util.List;
 
 /**
  * Список всех текущих заказов
- * Key: orderId
- * Value: Order
  */
-public class ListOfOrders extends HashMap<Integer, Order> {
+public class ListOfOrders implements Orders{
 
-    /**
-     * Номер заказа
-     */
+    List<Order> items;
+
     private Integer orderId = 1;
 
-    /**
-     * Создание нового Order в ListOrders
-     * @param order новый заказ
-     */
+    @Override
     public void putOrder(Order order) {
         order.setOrderId(orderId);
-        put(orderId, order);
+        items.add(order);
         orderId++;
+    }
+
+    @Override
+    public List<Order> getOrders() {
+        return items;
+    }
+
+    @Override
+    public Order get(int orderId) {
+        return items.get(orderId);
+    }
+
+    @Override
+    public void remove(int id) {
+        items.removeIf(order -> order.getId() == id);
     }
 }

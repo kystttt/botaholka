@@ -5,6 +5,7 @@ import order.FormOrderMessage;
 import storages.Cart;
 import storages.ListOfOrders;
 import order.Order;
+import storages.Orders;
 import utils.Constants;
 
 import java.util.Objects;
@@ -14,7 +15,7 @@ import java.util.Objects;
  */
 public class TextHandler {
 
-    private final ListOfOrders listOfOrders;
+    private final Orders listOfOrders;
 
     private final Cart cart;
 
@@ -51,7 +52,7 @@ public class TextHandler {
      */
     public String duplicateOrder(String messageTxtIndex) {
         String output_message;
-        for (Order order : listOfOrders.values()) {
+        for (Order order : listOfOrders.getOrders()) {
             if (messageTxtIndex.equals(Long.toString(
                     order.getId()))) {
                 listOfOrders.putOrder(new Order(order));
@@ -121,7 +122,7 @@ public class TextHandler {
         catch (NumberFormatException e){
             return Constants.ERROR_TYPE_CONST;
         }
-        for (Order order : listOfOrders.values()) {
+        for (Order order : listOfOrders.getOrders()) {
             if (
                     idx == order.getId() &&
                             Objects.equals(order.getChatId(), chatId)
