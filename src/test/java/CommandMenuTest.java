@@ -20,10 +20,11 @@ public class CommandMenuTest {
         testListOfOrders = new ListOfOrders();
         testCart = new Cart();
         testMenu = new MenuImpl();
-        textHandler = new TextHandler(testListOfOrders, testCart, testMenu);
         testMenu.addFoodItem("ЛюляКебаб", 260);
         testMenu.addFoodItem("Напиток", 110);
         testMenu.addFoodItem("Шаурма", 220);
+        textHandler = new TextHandler(testMenu);
+
 
     }
 

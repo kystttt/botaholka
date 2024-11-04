@@ -29,9 +29,15 @@ public class TextHandler {
         return this.prevCommand;
     }
 
-    public TextHandler(ListOfOrders listOfOrders, Cart cart, Menu menu) {
-        this.listOfOrders = listOfOrders;
-        this.cart = cart;
+    public TextHandler(String menuFileName) {
+        listOfOrders = new ListOfOrders();
+        cart = new Cart();
+        menu = new MenuImpl(menuFileName);
+    }
+
+    public TextHandler(Menu menu) {
+        listOfOrders = new ListOfOrders();
+        cart = new Cart();
         this.menu = menu;
     }
 

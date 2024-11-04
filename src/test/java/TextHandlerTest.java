@@ -22,7 +22,7 @@ public class TextHandlerTest{
         cart = new Cart();
         menu = new MenuImpl();
         listOfOrders = new ListOfOrders();
-        textHandler = new TextHandler(listOfOrders, cart, menu);
+        textHandler = new TextHandler(menu);
         menu.addFoodItem("Шаурма", 220);
         menu.addFoodItem("Напиток", 110);
     }
@@ -76,7 +76,7 @@ public class TextHandlerTest{
          */
     @Test
     void cancelOrderTest(){
-        TextHandler textHandler = new TextHandler(listOfOrders, cart, menu);
+        TextHandler textHandler = new TextHandler(menu);
 
         Order order = new Order((long)1);
         order.addToArr("Шаурма");
@@ -94,7 +94,7 @@ public class TextHandlerTest{
      */
     @Test
     void commandDuplicateTest(){
-        TextHandler textHandler = new TextHandler(listOfOrders, cart, menu);
+        TextHandler textHandler = new TextHandler(menu);
 
         Order order = new Order((long)1);
         order.addToArr("Шаурма");
@@ -111,7 +111,7 @@ public class TextHandlerTest{
      */
     @Test
     void commandListOfOrdersTest(){
-        TextHandler textHandler = new TextHandler(listOfOrders, cart, menu);
+        TextHandler textHandler = new TextHandler(menu);
 
         Order order = new Order((long)1);
         order.addToArr("Шаурма");
