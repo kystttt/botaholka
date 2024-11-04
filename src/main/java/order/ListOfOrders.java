@@ -1,32 +1,37 @@
 package order;
 
-import java.util.HashMap;
-import java.util.List;
+import order.Order;
 
+import java.util.List;
 
 /**
  * Список всех текущих заказов
  */
-public class ListOfOrders implements Orders {
+public class ListOfOrders implements Orders{
 
+    List<Order> items;
+
+    private Integer orderId = 1;
 
     @Override
     public void putOrder(Order order) {
-
+        order.setOrderId(orderId);
+        items.add(order);
+        orderId++;
     }
 
     @Override
     public List<Order> getOrders() {
-        return List.of();
+        return items;
     }
 
     @Override
     public Order get(int orderId) {
-        return null;
+        return items.get(orderId);
     }
 
     @Override
     public void remove(int id) {
-
+        items.removeIf(order -> order.getId() == id);
     }
 }
