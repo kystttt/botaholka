@@ -2,6 +2,8 @@ package fsm.cfg;
 
 import fsm.core.State;
 
+import java.util.Set;
+
 public class States {
     public State start = new State("start");
     public State buyer = new State("buyer");
@@ -10,4 +12,20 @@ public class States {
     public State duplicate = new State("duplicate");
     public State cancel = new State("cancel");
     public State delete = new State("delete");
+
+    public Set<State> getStates(){
+        return Set.of(
+                start,
+                buyer,
+                menu,
+                listOfOrders,
+                duplicate,
+                cancel,
+                delete
+        );
+    }
+
+    public State getStart(){
+        return start;
+    }
 }

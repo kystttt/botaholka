@@ -7,8 +7,9 @@ public class Constants {
     public final static String START_CONST = """
                                 Добро пожаловать в бота
                                 """;
+    public static final String HELP_CLONE = "Доступные методы:\n";
 
-    public final static String START_BRANCH = """
+    public final static String START_HELP = """
             В качестве кого вы бы хотели продолжить?
             /seller - продавец
             /buyer - покупатель
@@ -27,7 +28,7 @@ public class Constants {
     public final static String ERROR_INDEX_CONST = "Такого индекса не существует\n";
     public final static String CHOOSE_CONST = "Введите название блюда, которое хотите заказать: ";
     public final static String NO_AVAILABLE_ORDERS = "У вас нету активных заказов";
-    public final static String MENU_FILENAME_CONST = "src/main/utils/menu.json";
+    public final static String MENU_FILENAME_CONST = "src/main/java/utils/menu.json";
 
     public final static String HELP_CONST = """
             Этот бот возвращает отправленное сообщение,
@@ -43,13 +44,21 @@ public class Constants {
             /cancel “Номер заказа” - отменить заказ
             """;
 
-    public final static String FUNCS_FOR_LIST_OF_ORDERS_BUYER = """
-            Ваши функции:
+
+    public final static String FUNCS_FOR_LIST_OF_ORDERS_BUYER = HELP_CLONE +
+            """
             /duplicate “Номер заказа” - повторить заказ
             /cancel “Номер заказа” - отменить заказ
             """;
 
     public final static String ERROR_COMMAND = "Введите корректную команду, для списка всех команд - /help";
+
+    public final static String BUYER_HELP = HELP_CLONE +
+                """
+                /menu - выводит доступные блюда для заказа
+                /listoforders - просмотр текущих заказов
+                /back - вернуться к назад к выбору
+                """;
 
 
 }
