@@ -1,17 +1,20 @@
 package order;
 
-import order.Order;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Список всех текущих заказов
  */
-public class ListOfOrders implements Orders{
+public class ListOfOrders implements Orders {
 
-    List<Order> items;
+    private final List<Order> items;
 
     private Integer orderId = 1;
+
+    public ListOfOrders(){
+        items = new ArrayList<>();
+    }
 
     @Override
     public void putOrder(Order order) {
@@ -22,7 +25,7 @@ public class ListOfOrders implements Orders{
 
     @Override
     public List<Order> getOrders() {
-        return items;
+        return new ArrayList<>(items);
     }
 
     @Override

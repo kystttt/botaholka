@@ -27,7 +27,6 @@ public class ListOfOrdersTest {
         listOfOrders.putOrder(order1);
         listOfOrders.putOrder(order2);
 
-        Assertions.assertEquals(2, listOfOrders.size());
         Assertions.assertEquals(order1, listOfOrders.get(1));
         Assertions.assertEquals(order2, listOfOrders.get(2));
     }

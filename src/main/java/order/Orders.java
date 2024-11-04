@@ -2,7 +2,7 @@ package order;
 
 import java.util.List;
 
-public interface Orders {
+public interface Orders{
 
     /**
      * Создание нового {@link Order} в {@link ListOfOrders}

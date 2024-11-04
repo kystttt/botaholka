@@ -1,13 +1,12 @@
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
- * Класс, в котором хранится корзина, методы для работы с ней,
- * сохраняется команда, которую написал юзер на n-1 шаге, а также хэшмапа для меню,
- чтобы меню можно было удобно использовать в разных участках кода.
+ * Класс, в котором хранится корзина
  */
 public class Cart {
-    private ArrayList<String> cart;
+    private final List<String> cart;
 
 
     /**
@@ -20,17 +19,12 @@ public class Cart {
 
     /**
      * Возвращает значение корзины по ключу индекс блюда.
-     * В случае, если индекса не существует, возвращает константу ERROR_INDEX_CONST = ""Такого индекса не существует\n";"
-     *
-     * @param index
-     * @return
      */
     public String getCartValue(int index) {
         if (index >= 0 && index < cart.size()) {
             return cart.get(index);
         }
-        String out = Constants.ERROR_INDEX_CONST;
-        return out;
+        return Constants.ERROR_INDEX_CONST;
     }
 
     /**
@@ -42,11 +36,9 @@ public class Cart {
 
     /**
      * Возвращает корзину как список
-     *
-     * @return
      */
-    public ArrayList<String> getCart() {
-        return cart;
+    public List<String> getCart() {
+        return new ArrayList<>(cart);
     }
 
 

@@ -5,6 +5,7 @@ import order.Order;
 import order.Orders;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -144,9 +145,13 @@ public class TextHandler {
             return output_message;
         }
         StringBuilder cartContents = new StringBuilder(Constants.YOUR_ORDER_CONST);
-        ArrayList<String> cartItems = cart.getCart();
-        for (int i = 0; i < cartItems.size(); i++) {
-            cartContents.append(i+1).append(". ").append(cartItems.get(i)).append("\n");
+
+        for (int i = 0; i < cart.getCartSize(); i++) {
+            cartContents
+                    .append(i+1)
+                    .append(". ")
+                    .append(cart.getCartValue(i))
+                    .append("\n");
         }
 
         output_message = cartContents.toString();
