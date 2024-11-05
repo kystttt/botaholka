@@ -1,9 +1,6 @@
-import order.ListOfOrders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import menu.*;
-
 
 /**
  * Тестируем три метода: добавления в корзину, удаления и просмотра корзины

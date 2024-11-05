@@ -18,7 +18,7 @@ public class MenuImpl implements Menu<String, Integer> {
     /**
      * Список в котором хранятся названия блюд и их цена
      */
-    private Map<String, Integer> items;
+    private final Map<String, Integer> items;
 
     public MenuImpl(String fileName) {
         items = new HashMap<>();
