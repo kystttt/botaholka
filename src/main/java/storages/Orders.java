@@ -4,13 +4,13 @@ import order.Order;
 
 import java.util.List;
 
-public interface Orders {
+public interface Orders{
 
     /**
      * Создание нового {@link Order} в {@link ListOfOrders}
      * @param order новый заказ
      */
-    void putOrder(Order order);
+    void put(Order order);
 
     /**
      * Возвращает список всех активных {@link Order}
@@ -26,4 +26,9 @@ public interface Orders {
      * Удаляет {@link Order} по его id
      */
     void remove(int id);
+
+    /**
+     * Возвращает размер корзины
+     */
+    int size();
 }

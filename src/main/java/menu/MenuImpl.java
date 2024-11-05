@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Реализация Menu
  */
-public class MenuImpl implements Menu<String, Integer> {
+public class MenuImpl implements Menu{
     /**
      * Список в котором хранятся названия блюд и их цена
      */

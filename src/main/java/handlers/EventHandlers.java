@@ -4,6 +4,7 @@ import fsm.core.EventHandler;
 import menu.Menu;
 import menu.MenuImpl;
 import storages.Cart;
+import storages.ListCart;
 import storages.ListOfOrders;
 import utils.Constants;
 
@@ -13,10 +14,7 @@ public class EventHandlers {
     TextHandler textHandler;
 
     public EventHandlers(){
-        ListOfOrders listOfOrders = new ListOfOrders();
-        Menu menu = new MenuImpl(Constants.MENU_FILENAME_CONST);
-        Cart cart = new Cart();
-        textHandler = new TextHandler(listOfOrders,cart, menu);
+        textHandler = new TextHandler(Constants.MENU_FILENAME_CONST);
     }
 
     public EventHandler startHelp = (String messageText, long chatId) -> Constants.START_HELP;

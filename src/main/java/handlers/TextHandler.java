@@ -3,11 +3,11 @@ package handlers;
 import menu.*;
 import order.FormOrderMessage;
 import storages.Cart;
+import storages.ListCart;
 import storages.ListOfOrders;
 import order.Order;
+import storages.Orders;
 import utils.Constants;
-
-import java.util.Objects;
 
 /**
  * Класс, методы которого обрабатывают текст
@@ -26,7 +26,7 @@ public class TextHandler {
         menu = new MenuImpl(menuFileName);
     }
 
-    public TextHandler(Menu<String, Integer> menu) {
+    public TextHandler(Menu menu) {
         listOfOrders = new ListOfOrders();
         cart = new ListCart();
         this.menu = menu;
@@ -49,7 +49,7 @@ public class TextHandler {
 
         listOfOrders.put(order);
         cart.clear();
-        return Constants.MAKED_ORDER_CONST;
+        return Constants.MADE_ORDER_CONST;
     }
 
     /**
