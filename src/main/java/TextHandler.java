@@ -11,9 +11,9 @@ import java.util.Objects;
  */
 public class TextHandler {
 
-    private final Orders listOfOrders;
+    final Orders listOfOrders;
 
-    private final Cart cart;
+    final Cart cart;
 
     private String prevCommand = "";
 
@@ -64,7 +64,7 @@ public class TextHandler {
                 yield menuCalling();
             }
             case ("/order") -> makeOrder(chat_id);
-            case ("/duplicate") -> commandDuplicate(msg_txt[1]);
+            case ("/duplicate") -> duplicate(msg_txt[1], chat_id);
             case ("/cancel") -> cancelOrder(msg_txt[1]);
             default -> {
                 if (Objects.equals(getPrevCommand(), "/menu")) {
@@ -101,11 +101,15 @@ public class TextHandler {
     /**
      * Повторяет заказ по его id
      */
-    private String commandDuplicate(String messageTxtIndex) {
+    private String duplicate(String messageTxtIndex, long chatId) {
         String output_message;
         for (Order order : listOfOrders.getOrders()) {
-            if (messageTxtIndex.equals(Long.toString(
-                    order.getId()))) {
+            if (
+                    messageTxtIndex.equals(Long.toString(
+                    order.getId())) &&
+                            order.getChatId() == chatId
+
+            ) {
                 listOfOrders.put(new Order(order));
                 output_message = "Заказ №" + order.getId() + " продублирован ";
                 return output_message;

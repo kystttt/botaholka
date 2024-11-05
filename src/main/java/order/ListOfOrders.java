@@ -30,7 +30,12 @@ public class ListOfOrders implements Orders {
 
     @Override
     public Order get(int orderId) {
-        return items.get(orderId);
+        for(Order order : items){
+            if(orderId == order.getId()){
+                return order;
+            }
+        }
+        return null;
     }
 
     @Override

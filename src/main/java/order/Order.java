@@ -60,6 +60,4 @@ public class Order {
         }
         return sum;
     }
-
-
 }
