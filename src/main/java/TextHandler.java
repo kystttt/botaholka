@@ -2,8 +2,8 @@ import menu.*;
 import order.FormOrderMessage;
 import order.ListOfOrders;
 import order.Order;
+import order.Orders;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -11,27 +11,31 @@ import java.util.Objects;
  */
 public class TextHandler {
 
-    private final ListOfOrders listOfOrders;
+    final Orders listOfOrders;
 
-    private final Cart cart;
+    final Cart cart;
 
     private String prevCommand = "";
 
     Menu<String, Integer> menu;
 
-    // Метод для установки предыдущей команды
     private void setPrevCommand(String command) {
         this.prevCommand = command;
     }
 
-    // Метод для получения предыдущей команды
     public String getPrevCommand() {
         return this.prevCommand;
     }
 
-    public TextHandler(ListOfOrders listOfOrders, Cart cart, Menu menu) {
-        this.listOfOrders = listOfOrders;
-        this.cart = cart;
+    public TextHandler(String menuFileName) {
+        listOfOrders = new ListOfOrders();
+        cart = new ListCart();
+        menu = new MenuImpl(menuFileName);
+    }
+
+    public TextHandler(Menu<String, Integer> menu) {
+        listOfOrders = new ListOfOrders();
+        cart = new ListCart();
         this.menu = menu;
     }
 
@@ -60,7 +64,7 @@ public class TextHandler {
                 yield menuCalling();
             }
             case ("/order") -> makeOrder(chat_id);
-            case ("/duplicate") -> commandDuplicate(msg_txt[1]);
+            case ("/duplicate") -> duplicate(msg_txt[1], chat_id);
             case ("/cancel") -> cancelOrder(msg_txt[1]);
             default -> {
                 if (Objects.equals(getPrevCommand(), "/menu")) {
@@ -80,29 +84,33 @@ public class TextHandler {
      */
     private String makeOrder(Long chat_id){
         Order order = new Order(chat_id);
-        if (cart.getCartSize() == 0){
+        if (cart.size() == 0){
             return Constants.CART_EMPTY_CONST;
         }
 
-        for(int i = 0; i < cart.getCartSize(); i++){
-            String[] parts = cart.getCartValue(i).split("[-. ]+");
+        for(int i = 0; i < cart.size(); i++){
+            String[] parts = cart.get(i).split("[-. ]+");
             order.addToArr(parts[0]);
         }
 
-        listOfOrders.putOrder(order);
-        cart.cartClear();
+        listOfOrders.put(order);
+        cart.clear();
         return Constants.MAKED_ORDER_CONST;
     }
 
     /**
      * Повторяет заказ по его id
      */
-    private String commandDuplicate(String messageTxtIndex) {
+    private String duplicate(String messageTxtIndex, long chatId) {
         String output_message;
-        for (Order order : listOfOrders.values()) {
-            if (messageTxtIndex.equals(Long.toString(
-                    order.getId()))) {
-                listOfOrders.putOrder(new Order(order));
+        for (Order order : listOfOrders.getOrders()) {
+            if (
+                    messageTxtIndex.equals(Long.toString(
+                    order.getId())) &&
+                            order.getChatId() == chatId
+
+            ) {
+                listOfOrders.put(new Order(order));
                 output_message = "Заказ №" + order.getId() + " продублирован ";
                 return output_message;
             }
@@ -118,7 +126,7 @@ public class TextHandler {
         String output_message;
         if (menu.getCost(dishName) != -1) {
             String dishDetails =  dishName + " - " + menu.getCost(dishName) + " рублей"; // Получаем детали блюда
-            cart.addToCart(dishDetails);
+            cart.add(dishDetails);
             output_message = Constants.DISH_ADDED_CONST + dishDetails +
                     Constants.YOUR_CART_CONST;
         } else {
@@ -132,14 +140,18 @@ public class TextHandler {
      */
     private String viewCart() {
         String output_message;
-        if (cart.getCartSize() == 0) {
+        if (cart.size() == 0) {
             output_message = Constants.CART_EMPTY_CONST;
             return output_message;
         }
         StringBuilder cartContents = new StringBuilder(Constants.YOUR_ORDER_CONST);
-        ArrayList<String> cartItems = cart.getCart();
-        for (int i = 0; i < cartItems.size(); i++) {
-            cartContents.append(i+1).append(". ").append(cartItems.get(i)).append("\n");
+
+        for (int i = 0; i < cart.size(); i++) {
+            cartContents
+                    .append(i+1)
+                    .append(". ")
+                    .append(cart.get(i))
+                    .append("\n");
         }
 
         output_message = cartContents.toString();
@@ -152,8 +164,8 @@ public class TextHandler {
     private String deleteFromCart(String dishIndexStr){
         try {
             int idx = Integer.parseInt(dishIndexStr) - 1;
-            if (idx >= 0 && idx < cart.getCartSize()) {
-                cart.removeFromCart(idx);
+            if (idx >= 0 && idx < cart.size()) {
+                cart.remove(idx);
                 return Constants.SUCCESS_DELETE_DISH_CONST + Constants.YOUR_CART_CONST;
             } else {
                 return Constants.ERROR_INDEX_CONST;
@@ -168,7 +180,7 @@ public class TextHandler {
      */
     private String cancelOrder(String messageTxtIndex) {
         String output_message;
-        for (Order order : listOfOrders.values()) {
+        for (Order order : listOfOrders.getOrders()) {
             if (messageTxtIndex.equals(String.valueOf(
                     order.getId()))) {
                 listOfOrders.remove(order.getId());
@@ -215,9 +227,9 @@ public class TextHandler {
         boolean atLeastOnce = false;
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (Integer key : listOfOrders.keySet()) {
-            if (chat_id.equals(listOfOrders.get(key).getChatId())) {
-                stringBuilder.append(new FormOrderMessage().forClient(listOfOrders.get(key), menu));
+        for (Order order : listOfOrders.getOrders()) {
+            if (chat_id.equals(order.getChatId())) {
+                stringBuilder.append(new FormOrderMessage().forClient(order, menu));
                 stringBuilder.append("\n");
                 atLeastOnce = true;
             }

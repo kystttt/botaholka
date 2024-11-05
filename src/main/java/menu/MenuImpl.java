@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Реализация Menu
@@ -17,7 +18,7 @@ public class MenuImpl implements Menu<String, Integer> {
     /**
      * Список в котором хранятся названия блюд и их цена
      */
-    private HashMap<String, Integer> items;
+    private final Map<String, Integer> items;
 
     public MenuImpl(String fileName) {
         items = new HashMap<>();
@@ -58,14 +59,10 @@ public class MenuImpl implements Menu<String, Integer> {
             for (Object s : jsonObject.keySet()) {
                 items.put((String)s, ((Long) jsonObject.get(s)).intValue());
             }
-
         } catch (IOException e) {
             throw new RuntimeException("Ошибка в открытии файла", e);
         } catch (ParseException e) {
             throw new RuntimeException("Ошибка в чтении из JSON файла",e);
         }
-        System.out.println(items);
     }
-
-
 }

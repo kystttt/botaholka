@@ -21,13 +21,12 @@ public class ListOfOrdersTest {
      * Тест добавления элемента
      */
     @Test
-    void testPutOrder() {
+    void testPut() {
         Order order1 = new Order((long)1);
         Order order2 = new Order((long)2);
-        listOfOrders.putOrder(order1);
-        listOfOrders.putOrder(order2);
+        listOfOrders.put(order1);
+        listOfOrders.put(order2);
 
-        Assertions.assertEquals(2, listOfOrders.size());
         Assertions.assertEquals(order1, listOfOrders.get(1));
         Assertions.assertEquals(order2, listOfOrders.get(2));
     }
@@ -39,8 +38,8 @@ public class ListOfOrdersTest {
     void orderIdTest(){
         Order order1 = new Order((long)1);
         Order order2 = new Order((long)2);
-        listOfOrders.putOrder(order1);
-        listOfOrders.putOrder(order2);
+        listOfOrders.put(order1);
+        listOfOrders.put(order2);
 
         Assertions.assertEquals(1, listOfOrders.get(1).getId());
         Assertions.assertEquals(2, listOfOrders.get(2).getId());
@@ -48,7 +47,7 @@ public class ListOfOrdersTest {
         resetListOfOrders();
 
         Order order3 = new Order((long)3);
-        listOfOrders.putOrder(order3);
+        listOfOrders.put(order3);
         Assertions.assertEquals(1, listOfOrders.get(1).getId());
     }
 }

@@ -7,7 +7,7 @@ import menu.Menu;
  */
 public class FormOrderMessage {
 
-    private String formOrderList(Order order, Menu menu){
+    private String formOrderList(Order order, Menu<String, Integer> menu){
         StringBuilder stringBuilder = new StringBuilder();
 
         for (String s : order.getItems()){
@@ -25,16 +25,15 @@ public class FormOrderMessage {
      * Функция формирующая текстовое представления Order
      * @return текстовое представления Order
      */
-    public String forClient(Order order, Menu menu) {
+    public String forClient(Order order, Menu<String, Integer> menu) {
         String output;
-        order.formSum(menu);
         output = String.format("""
                 Заказ №%d
                 """, order.getId());
         output += formOrderList(order, menu);
         output += String.format("""
                 Итого: %d руб.
-                """, order.getSum());
+                """, order.formSum(menu));
         return output;
     }
 
