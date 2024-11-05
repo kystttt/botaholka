@@ -4,8 +4,6 @@ import order.ListOfOrders;
 import order.Order;
 import order.Orders;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -21,25 +19,23 @@ public class TextHandler {
 
     Menu<String, Integer> menu;
 
-    // Метод для установки предыдущей команды
     private void setPrevCommand(String command) {
         this.prevCommand = command;
     }
 
-    // Метод для получения предыдущей команды
     public String getPrevCommand() {
         return this.prevCommand;
     }
 
     public TextHandler(String menuFileName) {
         listOfOrders = new ListOfOrders();
-        cart = new Cart();
+        cart = new ListCart();
         menu = new MenuImpl(menuFileName);
     }
 
-    public TextHandler(Menu menu) {
+    public TextHandler(Menu<String, Integer> menu) {
         listOfOrders = new ListOfOrders();
-        cart = new Cart();
+        cart = new ListCart();
         this.menu = menu;
     }
 
@@ -88,17 +84,17 @@ public class TextHandler {
      */
     private String makeOrder(Long chat_id){
         Order order = new Order(chat_id);
-        if (cart.getCartSize() == 0){
+        if (cart.size() == 0){
             return Constants.CART_EMPTY_CONST;
         }
 
-        for(int i = 0; i < cart.getCartSize(); i++){
-            String[] parts = cart.getCartValue(i).split("[-. ]+");
+        for(int i = 0; i < cart.size(); i++){
+            String[] parts = cart.get(i).split("[-. ]+");
             order.addToArr(parts[0]);
         }
 
-        listOfOrders.putOrder(order);
-        cart.cartClear();
+        listOfOrders.put(order);
+        cart.clear();
         return Constants.MAKED_ORDER_CONST;
     }
 
@@ -110,7 +106,7 @@ public class TextHandler {
         for (Order order : listOfOrders.getOrders()) {
             if (messageTxtIndex.equals(Long.toString(
                     order.getId()))) {
-                listOfOrders.putOrder(new Order(order));
+                listOfOrders.put(new Order(order));
                 output_message = "Заказ №" + order.getId() + " продублирован ";
                 return output_message;
             }
@@ -126,7 +122,7 @@ public class TextHandler {
         String output_message;
         if (menu.getCost(dishName) != -1) {
             String dishDetails =  dishName + " - " + menu.getCost(dishName) + " рублей"; // Получаем детали блюда
-            cart.addToCart(dishDetails);
+            cart.add(dishDetails);
             output_message = Constants.DISH_ADDED_CONST + dishDetails +
                     Constants.YOUR_CART_CONST;
         } else {
@@ -140,17 +136,17 @@ public class TextHandler {
      */
     private String viewCart() {
         String output_message;
-        if (cart.getCartSize() == 0) {
+        if (cart.size() == 0) {
             output_message = Constants.CART_EMPTY_CONST;
             return output_message;
         }
         StringBuilder cartContents = new StringBuilder(Constants.YOUR_ORDER_CONST);
 
-        for (int i = 0; i < cart.getCartSize(); i++) {
+        for (int i = 0; i < cart.size(); i++) {
             cartContents
                     .append(i+1)
                     .append(". ")
-                    .append(cart.getCartValue(i))
+                    .append(cart.get(i))
                     .append("\n");
         }
 
@@ -164,8 +160,8 @@ public class TextHandler {
     private String deleteFromCart(String dishIndexStr){
         try {
             int idx = Integer.parseInt(dishIndexStr) - 1;
-            if (idx >= 0 && idx < cart.getCartSize()) {
-                cart.removeFromCart(idx);
+            if (idx >= 0 && idx < cart.size()) {
+                cart.remove(idx);
                 return Constants.SUCCESS_DELETE_DISH_CONST + Constants.YOUR_CART_CONST;
             } else {
                 return Constants.ERROR_INDEX_CONST;

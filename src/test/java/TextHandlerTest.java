@@ -10,16 +10,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Тесты для TextHandler
  */
 public class TextHandlerTest{
-    private Cart cart;
+    private ListCart cart;
     private TextHandler textHandler;
     private ListOfOrders listOfOrders;
-    private Menu menu;
+    private Menu<String, Integer> menu;
     Long chat_id = 13245L;
 
 
     @BeforeEach
     public void setup() {
-        cart = new Cart();
+        cart = new ListCart();
         menu = new MenuImpl();
         listOfOrders = new ListOfOrders();
         textHandler = new TextHandler(menu);
@@ -35,13 +35,13 @@ public class TextHandlerTest{
         assertEquals("Ваш заказ:\n1. Шаурма - 220 рублей\n",
                 textHandler.processMessage("/cart",chat_id));
         textHandler.processMessage("/menu", chat_id);
-        assertEquals(1, cart.getCartSize());
+        assertEquals(1, cart.size());
         assertEquals("Блюдо добавлено в корзину:\nШаурма - 220 рублей\nПосмотреть вашу корзину /cart",
                 textHandler.processMessage("Шаурма",chat_id));
         textHandler.processMessage("/delete", chat_id);
         textHandler.processMessage("1", chat_id);
         textHandler.processMessage("1", chat_id);
-        assertEquals(0, cart.getCartSize());
+        assertEquals(0, cart.size());
         assertEquals("Корзина пуста", textHandler.processMessage("/cart", chat_id));
     }
 
@@ -52,7 +52,7 @@ public class TextHandlerTest{
     public void testAddToCart_InvalidDishIndex() {
         textHandler.processMessage("/menu", chat_id);
         textHandler.processMessage("5", chat_id);
-        assertEquals(0, cart.getCartSize());
+        assertEquals(0, cart.size());
         assertEquals("Ошибка: такого блюда нет в меню.", textHandler.processMessage("5", chat_id));
     }
 
@@ -66,7 +66,7 @@ public class TextHandlerTest{
         textHandler.processMessage("Шаурма", chat_id);
         String expected = textHandler.processMessage("/order", chat_id);
         assertEquals("Ваш заказ сформирован", expected);
-        assertEquals(0, cart.getCartSize());
+        assertEquals(0, cart.size());
         textHandler.processMessage("/delete", chat_id);
         textHandler.processMessage("0", chat_id);
         assertEquals("Корзина пуста", textHandler.processMessage("/order",chat_id));
@@ -80,7 +80,7 @@ public class TextHandlerTest{
 
         Order order = new Order((long)1);
         order.addToArr("Шаурма");
-        listOfOrders.putOrder(order);
+        listOfOrders.put(order);
 
         String result_text = textHandler.processMessage("/cancel 1", (long)1);
         String expected_text = "Заказ №" + (long)1 + " удалён ";
@@ -98,7 +98,7 @@ public class TextHandlerTest{
 
         Order order = new Order((long)1);
         order.addToArr("Шаурма");
-        listOfOrders.putOrder(order);
+        listOfOrders.put(order);
 
         textHandler.processMessage("/duplicate 1", (long)1);
 
@@ -115,7 +115,7 @@ public class TextHandlerTest{
 
         Order order = new Order((long)1);
         order.addToArr("Шаурма");
-        listOfOrders.putOrder(order);
+        listOfOrders.put(order);
 
         String result = textHandler.processMessage("/listoforders", (long)1);
 

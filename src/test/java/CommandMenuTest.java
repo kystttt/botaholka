@@ -9,23 +9,16 @@ import java.io.IOException;
  * Тест для команды /menu
  */
 public class CommandMenuTest {
-    private Menu testMenu;
-    private Cart testCart;
-    private ListOfOrders testListOfOrders;
     private TextHandler textHandler;
     Long chat_id = 13245L;
 
     @BeforeEach
     public void setUp() throws IOException {
-        testListOfOrders = new ListOfOrders();
-        testCart = new Cart();
-        testMenu = new MenuImpl();
+        Menu<String, Integer> testMenu = new MenuImpl();
         testMenu.addFoodItem("ЛюляКебаб", 260);
         testMenu.addFoodItem("Напиток", 110);
         testMenu.addFoodItem("Шаурма", 220);
         textHandler = new TextHandler(testMenu);
-
-
     }
 
     /**

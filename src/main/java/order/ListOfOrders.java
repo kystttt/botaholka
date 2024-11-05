@@ -17,7 +17,7 @@ public class ListOfOrders implements Orders {
     }
 
     @Override
-    public void putOrder(Order order) {
+    public void put(Order order) {
         order.setOrderId(orderId);
         items.add(order);
         orderId++;
@@ -36,5 +36,10 @@ public class ListOfOrders implements Orders {
     @Override
     public void remove(int id) {
         items.removeIf(order -> order.getId() == id);
+    }
+
+    @Override
+    public int size() {
+        return items.size();
     }
 }

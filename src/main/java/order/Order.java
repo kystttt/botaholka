@@ -13,7 +13,6 @@ public class Order {
         this.chatId = order.chatId;
         this.id = order.id;
         this.items = order.items;
-        this.sum = sum;
     }
 
     private int id;
@@ -24,8 +23,6 @@ public class Order {
      *Список того что заказал клиент
      */
     private ArrayList<String> items = new ArrayList<>();
-
-    private int sum;
 
     public Order(Long chat_id){
         this.chatId = chat_id;
@@ -43,8 +40,6 @@ public class Order {
         this.id = order_id;
     }
 
-    public int getSum(){return sum;}
-
     public ArrayList<String> getItems(){return items;}
 
     /**
@@ -58,11 +53,12 @@ public class Order {
     /**
      * Функция считающая сумму заказа исходя из того что заказал человек
      */
-    public void formSum(Menu menu) {
-        sum = 0;
+    public int formSum(Menu<String, Integer> menu) {
+        int sum = 0;
         for(String s: items){
-            sum += (int)menu.getCost(s);
+            sum += menu.getCost(s);
         }
+        return sum;
     }
 
 
