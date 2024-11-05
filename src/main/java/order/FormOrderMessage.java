@@ -7,7 +7,7 @@ import menu.Menu;
  */
 public class FormOrderMessage {
 
-    private String formOrderList(Order order, Menu<String, Integer> menu){
+    private String formOrderList(Order order, Menu menu){
         StringBuilder stringBuilder = new StringBuilder();
 
         for (String s : order.getItems()){
@@ -25,7 +25,7 @@ public class FormOrderMessage {
      * Функция формирующая текстовое представления Order
      * @return текстовое представления Order
      */
-    public String forClient(Order order, Menu<String, Integer> menu) {
+    public String forClient(Order order, Menu menu) {
         String output;
         output = String.format("""
                 Заказ №%d
