@@ -16,10 +16,7 @@ public class ListCart implements Cart{
 
     @Override
     public String get(int index) {
-        if (index >= 0 && index < cart.size()) {
-            return cart.get(index);
-        }
-        return Constants.ERROR_INDEX_CONST;
+        return cart.get(index);
     }
 
     @Override
