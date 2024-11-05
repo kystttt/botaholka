@@ -1,6 +1,8 @@
 package storages;
 
-import java.util.ArrayList;
+/**
+ * Корзина
+ */
 public interface Cart {
     String get(int index);
 

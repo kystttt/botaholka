@@ -1,16 +1,9 @@
 package handlers;
 
 import fsm.core.EventHandler;
-import menu.Menu;
-import menu.MenuImpl;
-import storages.Cart;
-import storages.ListCart;
-import storages.ListOfOrders;
 import utils.Constants;
 
 public class EventHandlers {
-
-
     TextHandler textHandler;
 
     public EventHandlers(){
