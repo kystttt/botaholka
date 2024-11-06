@@ -1,3 +1,5 @@
+    import menu.*;
+    import order.ListOfOrders;
     import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
     import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
     import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,9 +12,12 @@
      */
     public class TGBot implements LongPollingSingleThreadUpdateConsumer {
         private final TelegramClient telegramClient;
+        private final TextHandler textHandler;
 
         public TGBot(String botToken) {
             telegramClient = new OkHttpTelegramClient(botToken);
+
+            this.textHandler =  new TextHandler(Constants.MENU_FILENAME_CONST);
         }
 
         /**
@@ -25,16 +30,19 @@
                 String message_text = update.getMessage().getText();
                 long chat_id = update.getMessage().getChatId();
 
-                TextHandler textHandler = new TextHandler();
-                textHandler.logic(message_text);
+                String output_message = textHandler.processMessage(message_text, chat_id);
 
                 try {
                     telegramClient.execute(SendMessage
                             .builder()
                             .chatId(chat_id)
-                            .text(textHandler.getOutputMassage())
+                            .text(output_message)
                             .build());
                 } catch (TelegramApiException e) {
+                    System.err.println("Не удалось отправить сообщение\nchatId: " +
+                                        chat_id +
+                                        "\noutput_message: " +
+                                        output_message);
                     e.printStackTrace();
                 }
             }
