@@ -94,7 +94,7 @@ public class TextHandler {
     /**
      * Метод, который показывает корзину покупателя.
      */
-    public String viewCart() {
+    public String viewCart(Long chat_id) {
         String output_message;
         if (cart.size() == 0) {
             output_message = Constants.CART_EMPTY_CONST;
@@ -122,7 +122,7 @@ public class TextHandler {
             int idx = Integer.parseInt(dishIndexStr) - 1;
             if (idx >= 0 && idx < cart.size()) {
                 cart.remove(idx);
-                return Constants.SUCCESS_DELETE_DISH_CONST + Constants.YOUR_CART_CONST;
+                return Constants.SUCCESS_DELETE_DISH_CONST;
             } else {
                 return Constants.ERROR_INDEX_CONST;
             }

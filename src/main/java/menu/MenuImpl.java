@@ -53,6 +53,9 @@ public class MenuImpl implements Menu{
     public String getName(Integer index) {
         int i = 0;
         String lastName = "1";
+        if(index > items.size()){
+            return "-1";
+        }
         for (String name : items.keySet()){
             if(i == index) break;
             lastName = name;

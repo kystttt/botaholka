@@ -2,7 +2,6 @@ package fsm.cfg;
 
 import fsm.cfg.handlers.TextHandler;
 import fsm.core.EventHandler;
-import fsm.core.State;
 import utils.Constants;
 
 /**
@@ -45,7 +44,7 @@ public class EventHandlers {
 
     public EventHandler menuInt = (String messageText, long chatId) ->
             textHandler.addToCart(messageText, chatId) + "\n" +
-                    textHandler.viewCart();
+                    textHandler.viewCart(chatId);
 
     public EventHandler deleteHelp = (String messageText, long chatId) ->
             Constants.DELETE_HELP;
