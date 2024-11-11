@@ -92,7 +92,7 @@ public class TextHandlerTest {
         order.addToArr("Шаурма");
         textHandler.listOfOrders.put(order);
 
-        String result_text = textHandler.cancelOrder("1", (long) 1);
+        String result_text = textHandler.cancelOrder("1", 1);
         String expected_text = "Заказ №" + (long) 1 + " удалён ";
 
         Assertions.assertEquals(expected_text, result_text);
