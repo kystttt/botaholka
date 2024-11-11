@@ -6,6 +6,9 @@ import fsm.cfg.Transitions;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Конечный автомат
+ */
 public class FiniteStateMachine {
     private State currentState;
     private final Set<State> states;
@@ -19,6 +22,13 @@ public class FiniteStateMachine {
         this.transitions = new HashSet<>();
     }
 
+    /**
+     * Переключает FSM между состояниями, если существует нужный переход
+     * @param event Событие - т.е. команда, которую ввёл пользователь
+     * @param messageText Текст, который ввёл пользователь
+     * @param chatId ID пользователя
+     * @return Текст для пользователя
+     */
     public final synchronized String fire(final Event event, String messageText, long chatId){
 
         if (event == null) {
@@ -49,11 +59,10 @@ public class FiniteStateMachine {
         return fire(Event.ERROR, messageText, chatId);
     }
 
+    /**
+     * Добавление перехода в FSM
+     */
     void registerTransition(final Transition transition) {
         transitions.add(transition);
-    }
-
-    public State getCurrentState() {
-        return currentState;
     }
 }

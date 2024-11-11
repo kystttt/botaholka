@@ -22,7 +22,7 @@ public class BotLogic {
         Transitions transitions = new Transitions();
 
         fsm = new FiniteStateMachineBuilder(states.getStates(), states.getStart())
-                .registerTransitions(transitions.items)
+                .registerTransitions(transitions.get())
                 .build();
     }
 

@@ -2,6 +2,9 @@ package fsm.core;
 
 import fsm.cfg.Event;
 
+/**
+ * Билдер для {@link Transition}
+ */
 public class TransitionBuilder {
     private final Transition transition;
 

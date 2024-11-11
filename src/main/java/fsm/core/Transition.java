@@ -2,6 +2,9 @@ package fsm.core;
 
 import fsm.cfg.Event;
 
+/**
+ * Переход между состояниями
+ */
 public class Transition{
     private State startState;
     private State endState;

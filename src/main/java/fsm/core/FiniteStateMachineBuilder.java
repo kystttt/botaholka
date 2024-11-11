@@ -2,6 +2,9 @@ package fsm.core;
 
 import java.util.Set;
 
+/**
+ * Билдер для FSM
+ */
 public class FiniteStateMachineBuilder {
     private final FiniteStateMachine finiteStateMachine;
 

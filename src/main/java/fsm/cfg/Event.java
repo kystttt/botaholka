@@ -1,5 +1,8 @@
 package fsm.cfg;
 
+/**
+ * Набор возможных команд для {@link fsm.core.FiniteStateMachine}
+ */
 public enum Event {
     BACK,
     BUYER,

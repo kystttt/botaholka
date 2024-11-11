@@ -4,6 +4,9 @@ import fsm.core.State;
 
 import java.util.Set;
 
+/**
+ * Инициализация всех {@link State} для {@link fsm.core.FiniteStateMachine}
+ */
 public class States {
     public State start = new State("start");
     public State buyer = new State("buyer");
@@ -25,6 +28,9 @@ public class States {
         );
     }
 
+    /**
+     * Возвращает начальный {@link State} для {@link fsm.core.FiniteStateMachine}
+     */
     public State getStart(){
         return start;
     }

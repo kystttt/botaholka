@@ -1,5 +1,8 @@
 package fsm.core;
 
+/**
+ * Состояние FSM
+ */
 public record State(String name) {
 
     @Override

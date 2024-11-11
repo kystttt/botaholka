@@ -1,11 +1,15 @@
 package fsm.cfg;
 
+import fsm.core.State;
 import fsm.core.Transition;
 import fsm.core.TransitionBuilder;
 import handlers.EventHandlers;
 
 import java.util.Set;
 
+/**
+ * Инициализация всех {@link Transition} для {@link fsm.core.FiniteStateMachine}
+ */
 public class Transitions {
     EventHandlers eventHandlers = new EventHandlers();
     States states = new States();
@@ -189,9 +193,11 @@ public class Transitions {
             .endState(states.menu)
             .build();
 
-
-
-    public final Set<Transition> items = Set.of(
+    /**
+     * Возвращает набор всех {@link Transition}
+     */
+    public Set<Transition> get(){
+        return  Set.of(
             start,
             buyerEntryPoint,
             buyerBack,
@@ -217,5 +223,6 @@ public class Transitions {
             duplicateHelp,
             deleteHelp,
             startHelp
-    );
+        );
+    }
 }
