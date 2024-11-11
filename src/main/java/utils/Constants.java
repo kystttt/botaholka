@@ -54,11 +54,34 @@ public class Constants {
     public final static String ERROR_COMMAND = "Введите корректную команду, для списка всех команд - /help";
 
     public final static String BUYER_HELP = HELP_CLONE +
-                """
-                /menu - выводит доступные блюда для заказа
-                /listoforders - просмотр текущих заказов
-                /back - вернуться к назад к выбору
-                """;
+            """
+             /menu - выводит доступные блюда для заказа
+             /listoforders - просмотр текущих заказов
+             /back - вернуться к назад к выбору
+             """;
 
+    public static final String CANCEL_HELP = HELP_CLONE +
+            """
+            (int) - для отмены конкретного(int) заказа
+            /back - вернуться к списку моих заказов
+            """;
 
+    public static final String DUPLICATE_HELP = HELP_CLONE +
+            """
+            (int) - для дублирования конкретного(int) заказа
+            /back - вернуться к списку моих заказов
+            """;
+
+    public static final String MENU_HELP= HELP_CLONE +
+            "(название блюда) - для выбора блюда из меню конкретного(int) заказа\n" +
+            "/delete - удалить блюдо из корзины\n" +
+            "/order - оформить заказ\n" +
+            "/cart - просмотр корзины\n" +
+            "/back - отмена заказа";
+
+    public static final String DELETE_HELP = HELP_CLONE +
+            """
+            (int) - для удаления конкретной(int) позиции из корзины
+            /back - вернуться к списку моих заказов
+            """;
 }

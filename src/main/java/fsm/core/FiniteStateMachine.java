@@ -1,7 +1,6 @@
 package fsm.core;
 
 import fsm.cfg.Event;
-import fsm.cfg.Transitions;
 
 import java.util.HashSet;
 import java.util.Set;

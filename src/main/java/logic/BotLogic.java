@@ -44,13 +44,22 @@ public class BotLogic {
                     case("/menu") -> Event.MENU;
                     case("/cancel") -> Event.CANCEL;
                     case("/duplicate") -> Event.DUPLICATE;
-                    //TODO case("/") -> Event.INT;
                     case("/order") -> Event.MAKE_ORDER;
                     case("/delete") -> Event.DELETE;
-                    default -> Event.ERROR;
+                    default -> {
+                        try{
+                            int i = Integer.parseInt(messageText);
+                            yield Event.INT;
+                        }
+                        catch(NumberFormatException e){
+                            yield Event.ERROR;
+                        }
+                    }
                 },
                 messageText,
-                chatId);
-
+                chatId
+        );
     }
+
+
 }

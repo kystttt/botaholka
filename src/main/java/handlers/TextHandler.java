@@ -5,13 +5,7 @@ import order.FormOrderMessage;
 import storages.Cart;
 import storages.ListCart;
 import storages.ListOfOrders;
-import storages.Cart;
-import storages.ListOfOrders;
 import order.Order;
-import storages.Orders;
-import utils.Constants;
-
-import java.util.Objects;
 import storages.Orders;
 import utils.Constants;
 
@@ -82,7 +76,8 @@ public class TextHandler {
     /**
      * Метод, который добавляет по названию товар в корзину
      */
-    public String addToCart(String dishName) {
+    public String addToCart(String msgTxt, long chatId) {
+        String dishName = menu.getName(Integer.parseInt(msgTxt));
         String output_message;
         if (menu.getCost(dishName) != -1) {
             String dishDetails =  dishName + " - " + menu.getCost(dishName) + " рублей"; // Получаем детали блюда
@@ -121,7 +116,7 @@ public class TextHandler {
     /**
      * Метод, который удаляет из корзины блюдо по индексу из корзины
      */
-    public String deleteFromCart(String dishIndexStr){
+    public String deleteFromCart(String dishIndexStr, long chatId){
         try {
             int idx = Integer.parseInt(dishIndexStr) - 1;
             if (idx >= 0 && idx < cart.size()) {
@@ -138,11 +133,13 @@ public class TextHandler {
     /**
      * Удаляет заказ по его id
      */
-    public String cancelOrder(String messageTxtIndex) {
+    public String cancelOrder(String messageTxtIndex, long chatId) {
         String output_message;
         for (Order order : listOfOrders.getOrders()) {
-            if (messageTxtIndex.equals(String.valueOf(
-                    order.getId()))) {
+            if (
+                    messageTxtIndex.equals(String.valueOf(order.getId())) &
+                            chatId == order.getChatId()
+            ) {
                 listOfOrders.remove(order.getId());
                 output_message = "Заказ №" + messageTxtIndex + " удалён ";
                 return output_message;

@@ -1,6 +1,5 @@
 package fsm.cfg;
 
-import fsm.core.State;
 import fsm.core.Transition;
 import fsm.core.TransitionBuilder;
 import handlers.EventHandlers;
@@ -13,8 +12,6 @@ import java.util.Set;
 public class Transitions {
     EventHandlers eventHandlers = new EventHandlers();
     States states = new States();
-
-    //TODO Нужен ли EventHandler для обратных(BACK) переходов
 
     Transition start = new TransitionBuilder()
             .event(Event.START)
@@ -150,7 +147,7 @@ public class Transitions {
             .endState(states.buyer)
             .build();
 
-    //TODO Подтверждение удаления
+
     Transition menuBack = new TransitionBuilder()
             .event(Event.BACK)
             .eventHandler(eventHandlers.buyerHelp)
