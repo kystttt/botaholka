@@ -2,7 +2,6 @@ package fsm.cfg;
 
 import fsm.core.Transition;
 import fsm.core.TransitionBuilder;
-import handlers.EventHandlers;
 
 import java.util.Set;
 

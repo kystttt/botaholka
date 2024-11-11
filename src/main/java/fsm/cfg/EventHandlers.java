@@ -1,8 +1,13 @@
-package handlers;
+package fsm.cfg;
 
+import fsm.cfg.handlers.TextHandler;
 import fsm.core.EventHandler;
+import fsm.core.State;
 import utils.Constants;
 
+/**
+ * Инициализация всех {@link EventHandler} для всех {@link fsm.core.Transition}
+ */
 public class EventHandlers {
     TextHandler textHandler;
 
