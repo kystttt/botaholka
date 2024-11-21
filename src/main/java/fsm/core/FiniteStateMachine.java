@@ -1,6 +1,8 @@
 package fsm.core;
 
 import fsm.cfg.Event;
+import fsm.cfg.States;
+import fsm.cfg.Transitions;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,11 +16,10 @@ public class FiniteStateMachine {
     private final Set<Transition> transitions;
     Transition lastTransition;
 
-    public FiniteStateMachine(Set<State> states, State initialState) {
-
+    public FiniteStateMachine(State initialState) {
         currentState = initialState;
-        this.states = states;
-        this.transitions = new HashSet<>();
+        this.states = new States().getStates();;
+        this.transitions = new Transitions().get();
     }
 
     /**
@@ -64,4 +65,5 @@ public class FiniteStateMachine {
     void registerTransition(final Transition transition) {
         transitions.add(transition);
     }
+
 }

@@ -1,8 +1,9 @@
 package logic;
 
-import fsm.cfg.*;
+import fsm.cfg.States;
+import fsm.cfg.Event;
 import fsm.core.FiniteStateMachine;
-import fsm.core.FiniteStateMachineBuilder;
+
 
 /**
  * Логика бота для обработки сообщений
@@ -11,19 +12,7 @@ public class BotLogic {
     FiniteStateMachine fsm;
 
     public BotLogic(){
-        initFSM();
-    }
-
-    /**
-     * Инициализация Finite State Machine(конченого автомата)
-     */
-    private void initFSM(){
-        States states = new States();
-        Transitions transitions = new Transitions();
-
-        fsm = new FiniteStateMachineBuilder(states.getStates(), states.getStart())
-                .registerTransitions(transitions.get())
-                .build();
+        fsm = new FiniteStateMachine(new States().start);
     }
 
     /**
@@ -60,6 +49,4 @@ public class BotLogic {
                 chatId
         );
     }
-
-
 }
