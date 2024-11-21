@@ -1,4 +1,6 @@
-package order;
+package storages;
+
+import order.Order;
 
 import java.util.ArrayList;
 import java.util.List;

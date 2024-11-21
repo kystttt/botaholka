@@ -7,26 +7,26 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Реализация Menu
  */
-public class MenuImpl implements Menu<String, Integer> {
+public class MenuImpl implements Menu{
     /**
      * Список в котором хранятся названия блюд и их цена
      */
     private final Map<String, Integer> items;
 
     public MenuImpl(String fileName) {
-        items = new HashMap<>();
+        items = new LinkedHashMap<>();
         readFromJSONFile(fileName);
     }
 
     public MenuImpl(){
-        items = new HashMap<>();
+        items = new LinkedHashMap<>();
     }
 
 
@@ -47,6 +47,21 @@ public class MenuImpl implements Menu<String, Integer> {
     @Override
     public List<String> getFoodNames() {
         return new ArrayList<>(items.keySet());
+    }
+
+    @Override
+    public String getName(Integer index) {
+        int i = 0;
+        String lastName = "1";
+        if(index > items.size()){
+            return "-1";
+        }
+        for (String name : items.keySet()){
+            if(i == index) break;
+            lastName = name;
+            i++;
+        }
+        return lastName;
     }
 
     /**

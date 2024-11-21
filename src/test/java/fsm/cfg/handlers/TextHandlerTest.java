@@ -1,18 +1,20 @@
+package fsm.cfg.handlers;
+
 import menu.*;
 import order.Order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Тесты для TextHandler
  */
-public class TextHandlerTest{
+public class TextHandlerTest {
     private TextHandler textHandler;
-    private Menu<String, Integer> menu;
+    private Menu menu;
     Long chat_id = 13245L;
-
 
     @BeforeEach
     public void setup() {
@@ -22,22 +24,39 @@ public class TextHandlerTest{
         textHandler = new TextHandler(menu);
     }
 
-
+    /**
+     * Тест добавления блюда в корзину
+     */
     @Test
     public void testAddToCart_ValidDishIndex() {
-        textHandler.processMessage("/menu", chat_id);
-        textHandler.processMessage("Шаурма", chat_id);
-        assertEquals("Ваш заказ:\n1. Шаурма - 220 рублей\n",
-                textHandler.processMessage("/cart",chat_id));
-        textHandler.processMessage("/menu", chat_id);
-        assertEquals(1, textHandler.cart.size());
-        assertEquals("Блюдо добавлено в корзину:\nШаурма - 220 рублей\nПосмотреть вашу корзину /cart",
-                textHandler.processMessage("Шаурма",chat_id));
-        textHandler.processMessage("/delete", chat_id);
-        textHandler.processMessage("1", chat_id);
-        textHandler.processMessage("1", chat_id);
+
+        textHandler.addToCart("1", chat_id);
+        assertEquals("""
+                        Ваш заказ:
+                        1. Шаурма - 220 рублей
+                        """,
+                textHandler.viewCart(chat_id));
+
+        String actual = textHandler.addToCart("1", chat_id);
+        assertEquals(2, textHandler.cart.size());
+        assertEquals("""
+                        Блюдо добавлено в корзину:
+                        Шаурма - 220 рублей
+                        Посмотреть вашу корзину /cart""",
+                actual);
+    }
+
+    /**
+     * Тест удаления блюда из корзины
+     */
+    @Test
+    public void testDeleteFromCart(){
+        textHandler.addToCart("1", chat_id);
+
+        String actual = textHandler.deleteFromCart("1", chat_id);
+
         assertEquals(0, textHandler.cart.size());
-        assertEquals("Корзина пуста", textHandler.processMessage("/cart", chat_id));
+        assertEquals("Блюдо успешно удалено ", actual);
     }
 
     /**
@@ -45,40 +64,36 @@ public class TextHandlerTest{
      */
     @Test
     public void testAddToCart_InvalidDishIndex() {
-        textHandler.processMessage("/menu", chat_id);
-        textHandler.processMessage("5", chat_id);
+        String actual = textHandler.addToCart("5", chat_id);
         assertEquals(0, textHandler.cart.size());
-        assertEquals("Ошибка: такого блюда нет в меню.", textHandler.processMessage("5", chat_id));
+        assertEquals("Ошибка: такого блюда нет в меню.", actual);
     }
-
 
     /**
      * Тест для команды /makeOrder
      */
     @Test
-    public void testMakeOrder(){
-        textHandler.processMessage("/menu", chat_id);
-        textHandler.processMessage("Шаурма", chat_id);
-        String expected = textHandler.processMessage("/order", chat_id);
+    public void testMakeOrder() {
+        textHandler.addToCart("1", chat_id);
+
+        String expected = textHandler.makeOrder(chat_id);
         assertEquals("Ваш заказ сформирован", expected);
         assertEquals(0, textHandler.cart.size());
-        textHandler.processMessage("/delete", chat_id);
-        textHandler.processMessage("0", chat_id);
-        assertEquals("Корзина пуста", textHandler.processMessage("/order",chat_id));
+        assertEquals(1, textHandler.listOfOrders.size());
     }
 
     /** Тест для команды удаления заказа из ListOfOrders
-         */
+     */
     @Test
-    void cancelOrderTest(){
+    void cancelOrderTest() {
         TextHandler textHandler = new TextHandler(menu);
 
-        Order order = new Order((long)1);
+        Order order = new Order((long) 1);
         order.addToArr("Шаурма");
         textHandler.listOfOrders.put(order);
 
-        String result_text = textHandler.processMessage("/cancel 1", (long)1);
-        String expected_text = "Заказ №" + (long)1 + " удалён ";
+        String result_text = textHandler.cancelOrder("1", 1);
+        String expected_text = "Заказ №" + (long) 1 + " удалён ";
 
         Assertions.assertEquals(expected_text, result_text);
         Assertions.assertNull(textHandler.listOfOrders.get(1));
@@ -88,31 +103,31 @@ public class TextHandlerTest{
      * Тест для команды дублирования определенного заказа
      */
     @Test
-    void duplicateTest(){
+    void duplicateTest() {
         TextHandler textHandler = new TextHandler(menu);
 
-        Order order = new Order((long)1);
+        Order order = new Order((long) 1);
         order.addToArr("Шаурма");
         textHandler.listOfOrders.put(order);
 
-        textHandler.processMessage("/duplicate 1", (long)1);
+        textHandler.duplicate("1", 1);
 
         Assertions.assertEquals(order, textHandler.listOfOrders.get(1));
         Assertions.assertEquals(2, textHandler.listOfOrders.size());
     }
 
     /**
-     *Тест для команды отображения текущих заказов
+     * Тест для команды отображения текущих заказов
      */
     @Test
-    void commandListOfOrdersTest(){
+    void commandListOfOrdersTest() {
         TextHandler textHandler = new TextHandler(menu);
 
-        Order order = new Order((long)1);
+        Order order = new Order((long) 1);
         order.addToArr("Шаурма");
         textHandler.listOfOrders.put(order);
 
-        String result = textHandler.processMessage("/listoforders", (long)1);
+        String result = textHandler.listOfOrders((long) 1);
 
         String expected = """
                 Ваши заказы:
@@ -120,14 +135,10 @@ public class TextHandlerTest{
                 Шаурма - 220 руб.
                 Итого: 220 руб.
 
-                Ваши функции:
+                Доступные методы:
                 /duplicate “Номер заказа” - повторить заказ
                 /cancel “Номер заказа” - отменить заказ
                 """;
         Assertions.assertEquals(expected, result);
     }
-
 }
-
-
-

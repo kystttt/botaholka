@@ -53,7 +53,7 @@ public class Order {
     /**
      * Функция считающая сумму заказа исходя из того что заказал человек
      */
-    public int formSum(Menu<String, Integer> menu) {
+    public int formSum(Menu menu) {
         int sum = 0;
         for(String s: items){
             sum += menu.getCost(s);
