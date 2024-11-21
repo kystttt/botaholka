@@ -60,8 +60,7 @@ public class TextHandler {
         String output_message;
         for (Order order : listOfOrders.getOrders()) {
             if (
-                    messageTxtIndex.equals(Long.toString(
-                    order.getId())) &&
+                    messageTxtIndex.equals(Long.toString(order.getId())) &&
                             order.getChatId() == chatId
 
             ) {

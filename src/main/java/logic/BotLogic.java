@@ -26,12 +26,12 @@ public class BotLogic {
                 switch(messageText){
                     case ("/start") -> Event.START;
                     case ("/buyer") -> Event.BUYER;
-                    case ("/seller") -> Event.SELLER;
+//                    case ("/seller") -> Event.SELLER;
                     case("/back") -> Event.BACK;
                     case("/help") -> Event.HELP;
                     case("/listoforders") -> Event.ORDERS;
                     case("/menu") -> Event.MENU;
-                    case("/cancel") -> Event.CANCEL;
+                    case("/cancel") -> Event.CANCEL_ORDER;
                     case("/duplicate") -> Event.DUPLICATE;
                     case("/order") -> Event.MAKE_ORDER;
                     case("/delete") -> Event.DELETE;

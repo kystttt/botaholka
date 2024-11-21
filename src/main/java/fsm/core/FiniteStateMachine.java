@@ -66,4 +66,10 @@ public class FiniteStateMachine {
         transitions.add(transition);
     }
 
+    /**
+     * Возвращает текущее состояние автомата
+     */
+    State getCurrentState(){
+        return currentState;
+    }
 }

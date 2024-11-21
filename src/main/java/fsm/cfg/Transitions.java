@@ -70,14 +70,14 @@ public class Transitions {
             .build();
 
     Transition cancelEntryPoint = new TransitionBuilder()
-            .event(Event.CANCEL)
+            .event(Event.CANCEL_ORDER)
             .eventHandler(eventHandlers.cancelHelp)
             .startState(states.listOfOrders)
             .endState(states.cancel)
             .build();
 
     Transition cancelHelp = new TransitionBuilder()
-            .event(Event.CANCEL)
+            .event(Event.HELP)
             .eventHandler(eventHandlers.cancelHelp)
             .startState(states.cancel)
             .endState(states.cancel)
