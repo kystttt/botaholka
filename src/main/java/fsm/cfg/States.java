@@ -27,11 +27,4 @@ public class States {
                 delete
         );
     }
-
-    /**
-     * Возвращает начальный {@link State} для {@link fsm.core.FiniteStateMachine}
-     */
-    public State getStart(){
-        return start;
-    }
 }

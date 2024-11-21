@@ -4,7 +4,6 @@ import fsm.cfg.Event;
 import fsm.cfg.States;
 import fsm.cfg.Transitions;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -51,19 +50,11 @@ public class FiniteStateMachine {
                     return transition.getEventHandler().handleEvent(messageText, chatId);
                 }
                 catch (NullPointerException e) {
-                    throw new NullPointerException("У " +
-                            transition + " нету EventHandler'a ");
+                    throw new NullPointerException("У " + transition + " нету EventHandler'a ");
                 }
             }
         }
         return fire(Event.ERROR, messageText, chatId);
-    }
-
-    /**
-     * Добавление перехода в FSM
-     */
-    void registerTransition(final Transition transition) {
-        transitions.add(transition);
     }
 
     /**

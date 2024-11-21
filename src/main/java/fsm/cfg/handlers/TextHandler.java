@@ -196,7 +196,8 @@ public class TextHandler {
         output_message += stringBuilder.toString();
         output_message += Constants.FUNCS_FOR_LIST_OF_ORDERS_BUYER;
         if (!atLeastOnce) {
-            output_message = Constants.NO_AVAILABLE_ORDERS;
+            output_message = Constants.NO_AVAILABLE_ORDERS + "\n\n" +
+                    Constants.FUNCS_FOR_LIST_OF_ORDERS_BUYER;
         }
         return output_message;
     }

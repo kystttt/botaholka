@@ -1,7 +1,7 @@
 package logic;
 
-import fsm.cfg.States;
 import fsm.cfg.Event;
+import fsm.cfg.States;
 import fsm.core.FiniteStateMachine;
 
 
