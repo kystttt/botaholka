@@ -1,7 +1,6 @@
 package logic;
 
 import fsm.cfg.Event;
-import fsm.cfg.States;
 import fsm.core.FiniteStateMachine;
 import fsm.core.State;
 import storages.api.StateStorage;
