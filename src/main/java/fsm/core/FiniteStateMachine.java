@@ -15,15 +15,14 @@ public class FiniteStateMachine {
     private final Set<Transition> transitions;
     Transition lastTransition;
 
-    public FiniteStateMachine(State initialState) {
-        currentState = initialState;
-        this.states = new States().getStates();;
+    public FiniteStateMachine() {
+        this.states = new States().getStates();
         this.transitions = new Transitions().get();
     }
 
     /**
      * Переключает FSM между состояниями, если существует нужный переход
-     * @param event Событие - т.е. команда, которую ввёл пользователь
+     * @param event Событие - команда, которую ввёл пользователь
      * @param messageText Текст, который ввёл пользователь
      * @param chatId ID пользователя
      * @return Текст для пользователя
@@ -60,7 +59,11 @@ public class FiniteStateMachine {
     /**
      * Возвращает текущее состояние автомата
      */
-    State getCurrentState(){
+    public State getCurrentState(){
         return currentState;
+    }
+
+    public void setCurrentState(State newState){
+        currentState = newState;
     }
 }

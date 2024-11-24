@@ -2,11 +2,11 @@ package fsm.cfg.handlers;
 
 import menu.*;
 import order.FormOrderMessage;
-import storages.Cart;
-import storages.ListCart;
-import storages.ListOfOrders;
+import storages.api.Cart;
+import storages.core.ListCart;
+import storages.core.ListOfOrders;
 import order.Order;
-import storages.Orders;
+import storages.api.Orders;
 import utils.Constants;
 
 /**

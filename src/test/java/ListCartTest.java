@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import storages.ListCart;
+import storages.core.ListCart;
 
 import static org.junit.jupiter.api.Assertions.*;
 

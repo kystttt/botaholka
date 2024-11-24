@@ -3,6 +3,9 @@ package logic;
 import fsm.cfg.Event;
 import fsm.cfg.States;
 import fsm.core.FiniteStateMachine;
+import fsm.core.State;
+import storages.api.StateStorage;
+import storages.core.StateStorageImpl;
 
 
 /**
@@ -10,9 +13,10 @@ import fsm.core.FiniteStateMachine;
  */
 public class BotLogic {
     FiniteStateMachine fsm;
+    StateStorage stateStorage = new StateStorageImpl();
 
     public BotLogic(){
-        fsm = new FiniteStateMachine(new States().start);
+        fsm = new FiniteStateMachine();
     }
 
     /**
@@ -21,8 +25,11 @@ public class BotLogic {
      * @param chatId Id пользователя
      * @return Строку с ответом бота
      */
-    public String processMessage(String messageText, long chatId){
-        return fsm.fire(
+    public String processMessage(String messageText, Long chatId){
+        State userState = stateStorage.get(chatId);
+        fsm.setCurrentState(userState);
+
+        String result =  fsm.fire(
                 switch(messageText){
                     case ("/start") -> Event.START;
                     case ("/buyer") -> Event.BUYER;
@@ -48,5 +55,8 @@ public class BotLogic {
                 messageText,
                 chatId
         );
+        stateStorage.put(chatId, fsm.getCurrentState());
+        System.out.println(chatId + ": " + fsm.getCurrentState().toString());
+        return result;
     }
 }
