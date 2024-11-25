@@ -2,11 +2,11 @@ package fsm.cfg.handlers;
 
 import menu.*;
 import order.FormOrderMessage;
-import storages.Cart;
-import storages.ListCart;
-import storages.ListOfOrders;
+import storages.api.Cart;
+import storages.core.ListCart;
+import storages.core.ListOfOrders;
 import order.Order;
-import storages.Orders;
+import storages.api.Orders;
 import utils.Constants;
 
 /**
@@ -60,8 +60,7 @@ public class TextHandler {
         String output_message;
         for (Order order : listOfOrders.getOrders()) {
             if (
-                    messageTxtIndex.equals(Long.toString(
-                    order.getId())) &&
+                    messageTxtIndex.equals(Long.toString(order.getId())) &&
                             order.getChatId() == chatId
 
             ) {
@@ -196,7 +195,46 @@ public class TextHandler {
         output_message += stringBuilder.toString();
         output_message += Constants.FUNCS_FOR_LIST_OF_ORDERS_BUYER;
         if (!atLeastOnce) {
-            output_message = Constants.NO_AVAILABLE_ORDERS;
+            output_message = Constants.NO_AVAILABLE_ORDERS + "\n\n" +
+                    Constants.FUNCS_FOR_LIST_OF_ORDERS_BUYER;
+        }
+        return output_message;
+    }
+
+    /**
+     * Метод, который выводит заказы абсолютно всех пользователей
+     * @return
+     */
+    public String usersListOfOrders(){
+        String output_message;
+        StringBuilder stringBuilder = new StringBuilder();
+        if (listOfOrders.size() != 0){
+            for (Order order : listOfOrders.getOrders()) {
+                stringBuilder.append(new FormOrderMessage().forClient(order, menu));
+                stringBuilder.append("\n");
+            }
+            output_message = "Ваши заказы:\n";
+            output_message += stringBuilder.toString() + "/back - вернуться назад";
+        }
+        else{
+            output_message = "Список текущих заказов пуст\n/back - вернуться назад";
+        }
+
+        return output_message;
+    }
+
+    public String nextStatus(String messageTxtIndex, Long chatId){
+        String output_message;
+        try {
+            for (Order order : listOfOrders.getOrders()){
+                if (messageTxtIndex.equals(Long.toString(order.getId()))){
+                    order.setStatus();
+                }
+            }
+            output_message = "Статус заказа изменён\n";
+            return output_message;
+        } catch (NumberFormatException e) {
+            output_message = Constants.ERROR_INDEX_CONST;
         }
         return output_message;
     }

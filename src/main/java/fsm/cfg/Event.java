@@ -8,7 +8,7 @@ public enum Event {
     BUYER,
     ORDERS,
     MENU,
-    CANCEL,
+    CANCEL_ORDER,
     DUPLICATE,
     INT,
     MAKE_ORDER,

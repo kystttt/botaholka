@@ -1,6 +1,7 @@
-package storages;
+package storages.api;
 
 import order.Order;
+import storages.core.ListOfOrders;
 
 import java.util.List;
 

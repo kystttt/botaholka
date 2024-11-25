@@ -1,8 +1,9 @@
 package fsm.core;
 
 import fsm.cfg.Event;
+import fsm.cfg.States;
+import fsm.cfg.Transitions;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -14,16 +15,14 @@ public class FiniteStateMachine {
     private final Set<Transition> transitions;
     Transition lastTransition;
 
-    public FiniteStateMachine(Set<State> states, State initialState) {
-
-        currentState = initialState;
-        this.states = states;
-        this.transitions = new HashSet<>();
+    public FiniteStateMachine() {
+        this.states = new States().getStates();
+        this.transitions = new Transitions().get();
     }
 
     /**
      * Переключает FSM между состояниями, если существует нужный переход
-     * @param event Событие - т.е. команда, которую ввёл пользователь
+     * @param event Событие - команда, которую ввёл пользователь
      * @param messageText Текст, который ввёл пользователь
      * @param chatId ID пользователя
      * @return Текст для пользователя
@@ -50,8 +49,7 @@ public class FiniteStateMachine {
                     return transition.getEventHandler().handleEvent(messageText, chatId);
                 }
                 catch (NullPointerException e) {
-                    throw new NullPointerException("У " +
-                            transition + " нету EventHandler'a ");
+                    throw new NullPointerException("У " + transition + " нету EventHandler'a ");
                 }
             }
         }
@@ -59,9 +57,13 @@ public class FiniteStateMachine {
     }
 
     /**
-     * Добавление перехода в FSM
+     * Возвращает текущее состояние автомата
      */
-    void registerTransition(final Transition transition) {
-        transitions.add(transition);
+    public State getCurrentState(){
+        return currentState;
+    }
+
+    public void setCurrentState(State newState){
+        currentState = newState;
     }
 }
