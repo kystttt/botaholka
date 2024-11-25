@@ -17,6 +17,9 @@ public enum Event {
     START,
     ERROR,
     HELP,
+    CART,
+    SELLER_ORDERS,
+    NEXT_STATUS
 
 
 

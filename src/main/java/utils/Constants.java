@@ -15,8 +15,7 @@ public class Constants {
             /buyer - покупатель
             """;
     public final static String MENU_CONST = "Меню: \n";
-
-    public final static String CART_EMPTY_CONST = "Корзина пуста";
+    public final static String CART_EMPTY_CONST = "Корзина пуста\n/back - вернуться назад";
     public final static String DISH_ADDED_CONST = "Блюдо добавлено в корзину:\n";
     public final static String ERROR_TYPE_CONST = "Ошибка: индекс должен быть числом.";
     public final static String ERROR_UNDEFINED_NUMB_CONST = "Ошибка: такого блюда нет в меню.";
@@ -29,6 +28,19 @@ public class Constants {
     public final static String CHOOSE_CONST = "Введите название блюда, которое хотите заказать: ";
     public final static String NO_AVAILABLE_ORDERS = "У вас нету активных заказов";
     public final static String MENU_FILENAME_CONST = "src/main/java/utils/menu.json";
+    public final static String NEXT_STATUS_HELP =
+            """
+            Введите номер заказа, статус которого вы хотите изменить
+            """ + HELP_CLONE + "/back - вернуться назад\n";
+
+
+    public final static String SELLER_HELP =
+             """
+             /orders - просмотр всех текущих заказов
+             /order №Заказа - просмотр и изменение конкретного заказа
+             /nextStatus - изменение статуса заказа на следующий
+             /back - вернуться к назад к выбору
+             """;
 
     public final static String HELP_CONST = """
             Этот бот возвращает отправленное сообщение,

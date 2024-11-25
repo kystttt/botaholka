@@ -31,6 +31,7 @@ public class FormOrderMessage {
                 Заказ №%d
                 """, order.getId());
         output += formOrderList(order, menu);
+        output += order.getStatus() + "\n";
         output += String.format("""
                 Итого: %d руб.
                 """, order.formSum(menu));

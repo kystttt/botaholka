@@ -33,33 +33,34 @@ public class BotLogic {
      * @return Строку с ответом бота
      */
     public String processMessage(String messageText, long chatId){
-        return fsm.fire(
-                switch(messageText){
-                    case ("/start") -> Event.START;
-                    case ("/buyer") -> Event.BUYER;
-                    case ("/seller") -> Event.SELLER;
-                    case("/back") -> Event.BACK;
-                    case("/help") -> Event.HELP;
-                    case("/listoforders") -> Event.ORDERS;
-                    case("/menu") -> Event.MENU;
-                    case("/cancel") -> Event.CANCEL;
-                    case("/duplicate") -> Event.DUPLICATE;
-                    case("/order") -> Event.MAKE_ORDER;
-                    case("/delete") -> Event.DELETE;
-                    default -> {
-                        try{
-                            int i = Integer.parseInt(messageText);
-                            yield Event.INT;
+            return fsm.fire(
+                    switch(messageText){
+                        case ("/start") -> Event.START;
+                        case ("/buyer") -> Event.BUYER;
+                        case ("/seller") -> Event.SELLER;
+                        case("/back") -> Event.BACK;
+                        case("/help") -> Event.HELP;
+                        case("/listoforders") -> Event.ORDERS;
+                        case("/menu") -> Event.MENU;
+                        case("/cancel") -> Event.CANCEL;
+                        case("/duplicate") -> Event.DUPLICATE;
+                        case("/order") -> Event.MAKE_ORDER;
+                        case("/delete") -> Event.DELETE;
+                        case("/cart") -> Event.CART;
+                        case("/orders")->Event.SELLER_ORDERS;
+                        case("/nextStatus")->Event.NEXT_STATUS;
+                        default -> {
+                            try{
+                                int i = Integer.parseInt(messageText);
+                                yield Event.INT;
+                            }
+                            catch(NumberFormatException e){
+                                yield Event.ERROR;
+                            }
                         }
-                        catch(NumberFormatException e){
-                            yield Event.ERROR;
-                        }
-                    }
-                },
-                messageText,
-                chatId
-        );
+                    },
+                    messageText,
+                    chatId
+            );
     }
-
-
 }
