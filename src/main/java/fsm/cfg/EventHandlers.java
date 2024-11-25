@@ -4,6 +4,8 @@ import fsm.cfg.handlers.TextHandler;
 import fsm.core.EventHandler;
 import utils.Constants;
 
+import javax.xml.stream.util.XMLEventAllocator;
+
 /**
  * Инициализация всех {@link EventHandler} для всех {@link fsm.core.Transition}
  */
@@ -43,12 +45,27 @@ public class EventHandlers {
             textHandler.makeOrder(chatId);
 
     public EventHandler menuInt = (String messageText, long chatId) ->
-            textHandler.addToCart(messageText, chatId) + "\n" +
-                    textHandler.viewCart(chatId);
+            textHandler.addToCart(messageText, chatId) + "\n";
 
     public EventHandler deleteHelp = (String messageText, long chatId) ->
             Constants.DELETE_HELP;
 
     public EventHandler deleteInt = (String messageText, long chatId) ->
             textHandler.deleteFromCart(messageText, chatId);
+
+    public EventHandler cart = (String messageText, long chatId)->
+            textHandler.viewCart(chatId);
+
+    public EventHandler sellerHelp = (String messageText, long chatId)->
+            Constants.SELLER_HELP;
+
+    public EventHandler sellerOrders = (String messageText, long chatId)->
+            textHandler.usersListOfOrders();
+
+    public EventHandler nextStatus = (String messageText, long chatId)->
+            Constants.NEXT_STATUS_HELP;
+
+    public EventHandler nextStatusInt = (String messageText, long chatId)->
+            textHandler.nextStatus(messageText, chatId);
 }
+

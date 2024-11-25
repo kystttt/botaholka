@@ -1,5 +1,6 @@
 package fsm.cfg;
 
+import fsm.core.EventHandler;
 import fsm.core.Transition;
 import fsm.core.TransitionBuilder;
 
@@ -62,7 +63,7 @@ public class Transitions {
             .endState(states.listOfOrders)
             .build();
 
-    Transition ordersback = new TransitionBuilder()
+    Transition ordersBack = new TransitionBuilder()
             .event(Event.BACK)
             .eventHandler(eventHandlers.buyerHelp)
             .startState(states.listOfOrders)
@@ -189,36 +190,140 @@ public class Transitions {
             .endState(states.menu)
             .build();
 
+    Transition sellerEntryPoint = new TransitionBuilder()
+            .event(Event.SELLER)
+            .eventHandler(eventHandlers.sellerHelp)
+            .startState(states.start)
+            .endState(states.seller)
+            .build();
+
+    Transition sellerHelp = new TransitionBuilder()
+            .event(Event.HELP)
+            .eventHandler(eventHandlers.sellerHelp)
+            .startState(states.seller)
+            .endState(states.seller)
+            .build();
+
+    Transition cartEntryPoint = new TransitionBuilder()
+            .event(Event.CART)
+            .eventHandler(eventHandlers.cart)
+            .startState(states.menu)
+            .endState(states.cart)
+            .build();
+
+    Transition cartHelp = new TransitionBuilder()
+            .event(Event.HELP)
+            .eventHandler(eventHandlers.cart)
+            .startState(states.cart)
+            .endState(states.cart)
+            .build();
+
+    Transition cartBack = new TransitionBuilder()
+            .event(Event.BACK)
+            .eventHandler(eventHandlers.menuHelp)
+            .startState(states.cart)
+            .endState(states.menu)
+            .build();
+
+    Transition sellerBack = new TransitionBuilder()
+            .event(Event.BACK)
+            .eventHandler(eventHandlers.startHelp)
+            .startState(states.seller)
+            .endState(states.start)
+            .build();
+
+    Transition sellerOrders = new TransitionBuilder()
+            .event(Event.SELLER_ORDERS)
+            .eventHandler(eventHandlers.sellerOrders)
+            .startState(states.seller)
+            .endState(states.sellerOrders)
+            .build();
+
+    Transition sellerOrdersHelp = new TransitionBuilder()
+            .event(Event.HELP)
+            .eventHandler(eventHandlers.sellerOrders)
+            .startState(states.sellerOrders)
+            .endState(states.sellerOrders)
+            .build();
+
+    Transition sellerOrdersBack = new TransitionBuilder()
+            .event(Event.BACK)
+            .eventHandler(eventHandlers.sellerHelp)
+            .startState(states.sellerOrders)
+            .endState(states.seller)
+            .build();
+
+    Transition nextStatus = new TransitionBuilder()
+            .event(Event.NEXT_STATUS)
+            .eventHandler(eventHandlers.nextStatus)
+            .startState(states.sellerOrders)
+            .endState(states.nextStatus)
+            .build();
+
+    Transition nextStatusHelp = new TransitionBuilder()
+            .event(Event.HELP)
+            .eventHandler(eventHandlers.nextStatus)
+            .startState(states.nextStatus)
+            .endState(states.nextStatus)
+            .build();
+
+    Transition nextStatusInt = new TransitionBuilder()
+            .event(Event.INT)
+            .eventHandler(eventHandlers.nextStatusInt)
+            .startState(states.nextStatus)
+            .startState(states.nextStatus)
+            .build();
+
+    Transition nextStatusBack = new TransitionBuilder()
+            .event(Event.BACK)
+            .eventHandler(eventHandlers.sellerOrders)
+            .startState(states.nextStatus)
+            .endState(states.sellerOrders)
+            .build();
     /**
      * Возвращает набор всех {@link Transition}
      */
-    public Set<Transition> get(){
-        return  Set.of(
-            start,
-            buyerEntryPoint,
-            buyerBack,
-            ordersEntryPoint,
-            ordersback,
-            cancelEntryPoint,
-            cancelBack,
-            cancelInt,
-            duplicateEntryPoint,
-            duplicateBack,
-            duplicateInt,
-            menuEntryPoint,
-            menuOrder,
-            menuBack,
-            menuInt,
-            deleteEntryPoint,
-            deleteBack,
-            deleteInt,
-            buyerHelp,
-            ordersHelp,
-            cancelHelp,
-            menuHelp,
-            duplicateHelp,
-            deleteHelp,
-            startHelp
+    public Set<Transition> get() {
+        return Set.of(
+                start,
+                buyerEntryPoint,
+                buyerBack,
+                ordersEntryPoint,
+                ordersBack,
+                cancelEntryPoint,
+                cancelBack,
+                cancelInt,
+                duplicateEntryPoint,
+                duplicateBack,
+                duplicateInt,
+                menuEntryPoint,
+                menuOrder,
+                menuBack,
+                menuInt,
+                deleteEntryPoint,
+                deleteBack,
+                deleteInt,
+                buyerHelp,
+                ordersHelp,
+                cancelHelp,
+                menuHelp,
+                duplicateHelp,
+                deleteHelp,
+                startHelp,
+                sellerEntryPoint,
+                sellerHelp,
+                sellerBack,
+                cartEntryPoint,
+                cartHelp,
+                cartBack,
+                sellerOrders,
+                sellerOrdersBack,
+                nextStatus,
+                nextStatusInt,
+                sellerOrdersHelp,
+                nextStatusHelp,
+                nextStatusBack
         );
     }
 }
+
