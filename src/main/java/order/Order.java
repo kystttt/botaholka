@@ -28,7 +28,7 @@ public class Order {
     /**
      * Список возможных статусов заказа
      */
-    private final ArrayList<String> statusList = new ArrayList<>(
+    private final List<String> statusList = new ArrayList<>(
             List.of("Не принят", "готовится", "Приготовлен", "Выдан"));
     private String status = statusList.getFirst();
     /**
