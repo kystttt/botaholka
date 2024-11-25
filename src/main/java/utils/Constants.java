@@ -31,13 +31,12 @@ public class Constants {
     public final static String NEXT_STATUS_HELP =
             """
             Введите номер заказа, статус которого вы хотите изменить
-            """ + HELP_CLONE + "/back - вернуться назад\n";
+            """ + HELP_CLONE +  "/back - вернуться назад\n";
 
 
     public final static String SELLER_HELP =
              """
              /orders - просмотр всех текущих заказов
-             /order №Заказа - просмотр и изменение конкретного заказа
              /back - вернуться к назад к выбору
              """;
 
@@ -60,6 +59,7 @@ public class Constants {
             """
             /duplicate “Номер заказа” - повторить заказ
             /cancel “Номер заказа” - отменить заказ
+            /back - вернуться к назад
             """;
 
     public final static String ERROR_COMMAND = "Введите корректную команду, для списка всех команд - /help";
@@ -68,7 +68,7 @@ public class Constants {
             """
              /menu - выводит доступные блюда для заказа
              /listoforders - просмотр текущих заказов
-             /back - вернуться к назад к выбору
+             /back - вернуться к назад
              """;
 
     public static final String CANCEL_HELP =
@@ -92,4 +92,7 @@ public class Constants {
             "(int) - для удаления конкретной(int) позиции из корзины\n\n" +
             HELP_CLONE +
             "/back - вернуться к списку моих заказов";
+
+    public static final String CHOOSE_ORDER = "Выберите заказ\n\n" + HELP_CLONE
+            ;
 }

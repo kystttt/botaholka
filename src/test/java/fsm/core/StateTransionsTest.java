@@ -35,10 +35,9 @@ public class StateTransionsTest {
             if (event == Event.BUYER) {
                 expected_state = states.buyer;
             }
-            //TODO Раскоментить когда SELLER будет готов
-//            else if(event == Event.SELLER){
-//                Assertions.assertEquals(fsm.getCurrentState(), states.seller);
-//            }
+            else if (event == Event.SELLER) {
+                expected_state = states.seller;
+            }
             else {
                 expected_state = states.start;
             }

@@ -141,4 +141,19 @@ public class TextHandlerTest {
                 """;
         Assertions.assertEquals(expected, result);
     }
+
+    @Test
+    void commandNextStatusTest(){
+        TextHandler textHandler = new TextHandler(menu);
+        Order order = new Order((long) 1);
+        order.addToArr("Шаурма");
+        textHandler.listOfOrders.put(order);
+
+        String result = textHandler.nextStatus("1", chat_id);
+        Assertions.assertEquals("Статус заказа изменён\n", result);
+
+        String resultForInvalidOrder = textHandler.nextStatus("999", chat_id);
+        Assertions.assertEquals("Статус заказа не изменен\n", resultForInvalidOrder);
+
+    }
 }

@@ -38,5 +38,15 @@ public class FormOrderMessage {
         return output;
     }
 
+    /**
+     * Форматирует сообщение дл продавца
+     * @param order
+     * @return номер заказа и его статус готовности
+     */
+    public String forSeller(Order order){
+        return "Заказ № " + order.getId()  + " " + order.getStatus();
+
+    }
+
 
 }

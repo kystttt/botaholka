@@ -201,43 +201,7 @@ public class TextHandler {
         return output_message;
     }
 
-    /**
-     * Метод, который выводит заказы абсолютно всех пользователей
-     * @return
-     */
-    public String usersListOfOrders(){
-        String output_message;
-        StringBuilder stringBuilder = new StringBuilder();
-        if (listOfOrders.size() != 0){
-            for (Order order : listOfOrders.getOrders()) {
-                stringBuilder.append(new FormOrderMessage().forClient(order, menu));
-                stringBuilder.append("\n");
-            }
-            output_message = "Ваши заказы:\n";
-            output_message += stringBuilder.toString() + "/back - вернуться назад";
-        }
-        else{
-            output_message = "Список текущих заказов пуст\n/back - вернуться назад";
-        }
 
-        return output_message;
-    }
-
-    public String nextStatus(String messageTxtIndex, Long chatId){
-        String output_message;
-        try {
-            for (Order order : listOfOrders.getOrders()){
-                if (messageTxtIndex.equals(Long.toString(order.getId()))){
-                    order.setStatus();
-                }
-            }
-            output_message = "Статус заказа изменён\n";
-            return output_message;
-        } catch (NumberFormatException e) {
-            output_message = Constants.ERROR_INDEX_CONST;
-        }
-        return output_message;
-    }
 
     /**
      * Метод, который выводит заказы абсолютно всех пользователей
@@ -248,12 +212,14 @@ public class TextHandler {
         StringBuilder stringBuilder = new StringBuilder();
         if (listOfOrders.size() != 0){
             for (Order order : listOfOrders.getOrders()) {
-                stringBuilder.append(new FormOrderMessage().forClient(order, menu));
+                stringBuilder.append(new FormOrderMessage().forSeller(order));
                 stringBuilder.append("\n");
             }
             output_message = "Ваши заказы:\n";
             output_message += stringBuilder.toString() + Constants.HELP_CLONE +
+                    "\n" +
                     "/nextStatus - изменение статуса заказа на следующий\n" +
+                    "/order №Заказа - просмотр и изменение конкретного заказа\n" +
                     "/back - вернуться назад";
         }
         else{
@@ -282,6 +248,27 @@ public class TextHandler {
         } catch (NumberFormatException e) {
             output_message = Constants.ERROR_INDEX_CONST;
         }
+        return output_message;
+    }
+
+    public String sellerOrder(String messageTxtIndex, Long chatId){
+        String output_message;
+        int idx = Integer.parseInt(messageTxtIndex);
+        StringBuilder stringBuilder = new StringBuilder();
+        if (listOfOrders.size() != 0 && idx < listOfOrders.size() + 1){
+            for (Order order : listOfOrders.getOrders()) {
+                if (order.getId() == idx){
+                    stringBuilder.append(new FormOrderMessage().forClient(order, menu));
+                    stringBuilder.append("\n");
+                }
+
+            }
+        }
+        else{
+            return "Ошибка!";
+        }
+        output_message = stringBuilder.toString();
+
         return output_message;
     }
 }

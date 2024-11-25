@@ -19,6 +19,7 @@ public class States {
     public State cart = new State("cart");
     public State sellerOrders = new State("sellerOrders");
     public State nextStatus = new State("nextStatus");
+    public State sellerOrder = new State("sellerOrder");
 
     public Set<State> getStates(){
         return Set.of(
@@ -32,7 +33,8 @@ public class States {
                 seller,
                 cart,
                 sellerOrders,
-                nextStatus
+                nextStatus,
+                sellerOrder
         );
     }
 }

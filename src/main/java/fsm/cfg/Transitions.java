@@ -256,7 +256,7 @@ public class Transitions {
     Transition nextStatus = new TransitionBuilder()
             .event(Event.NEXT_STATUS)
             .eventHandler(eventHandlers.nextStatus)
-            .startState(states.sellerOrders)
+            .startState(states.sellerOrder)
             .endState(states.nextStatus)
             .build();
 
@@ -278,6 +278,34 @@ public class Transitions {
             .event(Event.BACK)
             .eventHandler(eventHandlers.sellerOrders)
             .startState(states.nextStatus)
+            .endState(states.sellerOrder)
+            .build();
+
+    Transition sellerOrder = new TransitionBuilder()
+            .event(Event.MAKE_ORDER)
+            .eventHandler(eventHandlers.sellerOrder)
+            .startState(states.sellerOrders)
+            .endState(states.sellerOrder)
+            .build();
+
+    Transition sellerOrderHelp = new TransitionBuilder()
+            .event(Event.HELP)
+            .eventHandler(eventHandlers.sellerOrder)
+            .startState(states.sellerOrder)
+            .endState(states.sellerOrder)
+            .build();
+
+    Transition sellerOrderInt = new TransitionBuilder()
+            .event(Event.INT)
+            .eventHandler(eventHandlers.sellerOrderInt)
+            .startState(states.sellerOrder)
+            .endState(states.sellerOrder)
+            .build();
+
+    Transition sellerOrderBack = new TransitionBuilder()
+            .event(Event.BACK)
+            .eventHandler(eventHandlers.sellerOrder)
+            .startState(states.sellerOrder)
             .endState(states.sellerOrders)
             .build();
     /**
@@ -322,7 +350,11 @@ public class Transitions {
                 nextStatusInt,
                 sellerOrdersHelp,
                 nextStatusHelp,
-                nextStatusBack
+                nextStatusBack,
+                sellerOrder,
+                sellerOrderHelp,
+                sellerOrderInt,
+                sellerOrderBack
         );
     }
 }

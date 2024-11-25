@@ -67,5 +67,12 @@ public class EventHandlers {
 
     public EventHandler nextStatusInt = (String messageText, long chatId)->
             textHandler.nextStatus(messageText, chatId);
+
+    public EventHandler sellerOrder = (String messageText, long chatId)->
+            Constants.CHOOSE_ORDER;
+
+    public EventHandler sellerOrderInt = (String messageText, long chatId)->
+            textHandler.sellerOrder(messageText, chatId);
+
 }
 

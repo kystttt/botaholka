@@ -14,6 +14,7 @@ public class BotLogic {
     FiniteStateMachine fsm;
     StateStorage stateStorage = new StateStorageImpl();
 
+
     public BotLogic(){
         fsm = new FiniteStateMachine();
     }
