@@ -165,7 +165,7 @@ public class Transitions {
     Transition deleteEntryPoint = new TransitionBuilder()
             .event(Event.DELETE)
             .eventHandler(eventHandlers.deleteHelp)
-            .startState(states.menu)
+            .startState(states.cart)
             .endState(states.delete)
             .build();
 
@@ -180,14 +180,14 @@ public class Transitions {
             .event(Event.BACK)
             .eventHandler(eventHandlers.menuHelp)
             .startState(states.delete)
-            .endState(states.menu)
+            .endState(states.cart)
             .build();
 
     Transition deleteInt = new TransitionBuilder()
             .event(Event.INT)
             .eventHandler(eventHandlers.deleteInt)
             .startState(states.delete)
-            .endState(states.menu)
+            .endState(states.cart)
             .build();
 
     Transition sellerEntryPoint = new TransitionBuilder()
@@ -271,7 +271,7 @@ public class Transitions {
             .event(Event.INT)
             .eventHandler(eventHandlers.nextStatusInt)
             .startState(states.nextStatus)
-            .startState(states.nextStatus)
+            .endState(states.nextStatus)
             .build();
 
     Transition nextStatusBack = new TransitionBuilder()

@@ -23,19 +23,14 @@ public class Order {
     private int id;
 
     private final Long chatId;
-    private int currentStatusListIndex = 0;
+    private int currentStatusListIndex = 1;
 
     /**
      * Список возможных статусов заказа
      */
-    private  List<String> statusList = new ArrayList<>();
-    {
-        statusList.add("Не принят");
-        statusList.add("готовится");
-        statusList.add("Приготовлен");
-        statusList.add("Выдан");
-    }
-    private String status = statusList.get(0);
+    private final ArrayList<String> statusList = new ArrayList<>(
+            List.of("Не принят", "готовится", "Приготовлен", "Выдан"));
+    private String status = statusList.getFirst();
     /**
      *Список того что заказал клиент
      */

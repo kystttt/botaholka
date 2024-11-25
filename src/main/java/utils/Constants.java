@@ -19,7 +19,7 @@ public class Constants {
     public final static String DISH_ADDED_CONST = "Блюдо добавлено в корзину:\n";
     public final static String ERROR_TYPE_CONST = "Ошибка: индекс должен быть числом.";
     public final static String ERROR_UNDEFINED_NUMB_CONST = "Ошибка: такого блюда нет в меню.";
-    public final static String YOUR_ORDER_CONST = "Ваш заказ:\n";
+    public final static String YOUR_ORDER_CONST = "Ваша корзина:\n";
     public final static String YOUR_CART_CONST = "\nПосмотреть вашу корзину /cart";
     public final static String SUCCESS_DELETE_DISH_CONST = "Блюдо успешно удалено ";
     public final static String DELETE_OUT_MSG_CONST = "Введите номер блюда, которое хотите удалить: ";
@@ -38,7 +38,6 @@ public class Constants {
              """
              /orders - просмотр всех текущих заказов
              /order №Заказа - просмотр и изменение конкретного заказа
-             /nextStatus - изменение статуса заказа на следующий
              /back - вернуться к назад к выбору
              """;
 
@@ -72,28 +71,25 @@ public class Constants {
              /back - вернуться к назад к выбору
              """;
 
-    public static final String CANCEL_HELP = HELP_CLONE +
-            """
-            (int) - для отмены конкретного(int) заказа
-            /back - вернуться к списку моих заказов
-            """;
+    public static final String CANCEL_HELP =
+            "(int) - для отмены конкретного(int) заказа\n\n" +
+                    HELP_CLONE +
+            "/back - вернуться к списку моих заказов";
 
-    public static final String DUPLICATE_HELP = HELP_CLONE +
-            """
-            (int) - для дублирования конкретного(int) заказа
-            /back - вернуться к списку моих заказов
-            """;
+    public static final String DUPLICATE_HELP =
+            "(int) - для дублирования конкретного(int) заказа\n\n" +
+            HELP_CLONE +
+            "/back - вернуться к списку моих заказов";
 
-    public static final String MENU_HELP= HELP_CLONE +
-            "(название блюда) - для выбора блюда из меню конкретного(int) заказа\n" +
-            "/delete - удалить блюдо из корзины\n" +
+    public static final String MENU_HELP =
+            "(название блюда) - для выбора блюда из меню конкретного(int) заказа\n\n" +
+            HELP_CLONE +
             "/order - оформить заказ\n" +
             "/cart - просмотр корзины\n" +
             "/back - отмена заказа";
 
-    public static final String DELETE_HELP = HELP_CLONE +
-            """
-            (int) - для удаления конкретной(int) позиции из корзины
-            /back - вернуться к списку моих заказов
-            """;
+    public static final String DELETE_HELP =
+            "(int) - для удаления конкретной(int) позиции из корзины\n\n" +
+            HELP_CLONE +
+            "/back - вернуться к списку моих заказов";
 }

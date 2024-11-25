@@ -110,7 +110,7 @@ public class TextHandler {
                     .append("\n");
         }
 
-        output_message = cartContents.toString() + Constants.HELP_CLONE + "/back - вернуться в меню";
+        output_message = cartContents.toString() + Constants.HELP_CLONE + "/back - вернуться в меню\n/delete - удалить из коризны";
         return output_message;
     }
 
@@ -214,7 +214,9 @@ public class TextHandler {
                 stringBuilder.append("\n");
             }
             output_message = "Ваши заказы:\n";
-            output_message += stringBuilder.toString() + "/back - вернуться назад";
+            output_message += stringBuilder.toString() + Constants.HELP_CLONE +
+                    "/nextStatus - изменение статуса заказа на следующий\n" +
+                    "/back - вернуться назад";
         }
         else{
             output_message = "Список текущих заказов пуст\n/back - вернуться назад";
@@ -224,14 +226,20 @@ public class TextHandler {
     }
 
     public String nextStatus(String messageTxtIndex, Long chatId){
-        String output_message;
+        String output_message = "Статус заказа не изменен\n";
+        int idx = Integer.parseInt(messageTxtIndex);
+        boolean flag = false;
         try {
             for (Order order : listOfOrders.getOrders()){
-                if (messageTxtIndex.equals(Long.toString(order.getId()))){
+                if (idx == order.getId()){
                     order.setStatus();
+                    flag = true;
                 }
             }
-            output_message = "Статус заказа изменён\n";
+            if (flag){
+                output_message = "Статус заказа изменён\n";
+            }
+
             return output_message;
         } catch (NumberFormatException e) {
             output_message = Constants.ERROR_INDEX_CONST;
