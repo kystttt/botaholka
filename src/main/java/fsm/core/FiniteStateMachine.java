@@ -20,6 +20,11 @@ public class FiniteStateMachine {
         this.transitions = new Transitions().get();
     }
 
+    FiniteStateMachine(Set<Transition> transitions, Set<State> states){
+        this.states = states;
+        this.transitions = transitions;
+    }
+
     /**
      * Переключает FSM между состояниями, если существует нужный переход
      * @param event Событие - команда, которую ввёл пользователь

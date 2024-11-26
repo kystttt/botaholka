@@ -4,6 +4,11 @@ package fsm.cfg;
  * Набор возможных команд для {@link fsm.core.FiniteStateMachine}
  */
 public enum Event {
+    // Для тестов
+    PUSH,
+    COIN,
+
+    // Для использования
     BACK,
     BUYER,
     ORDERS,
