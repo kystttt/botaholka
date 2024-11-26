@@ -31,10 +31,21 @@ public class FormOrderMessage {
                 Заказ №%d
                 """, order.getId());
         output += formOrderList(order, menu);
+        output += order.getStatus() + "\n";
         output += String.format("""
                 Итого: %d руб.
                 """, order.formSum(menu));
         return output;
+    }
+
+    /**
+     * Форматирует сообщение дл продавца
+     * @param order
+     * @return номер заказа и его статус готовности
+     */
+    public String forSeller(Order order){
+        return "Заказ № " + order.getId()  + " " + order.getStatus();
+
     }
 
 

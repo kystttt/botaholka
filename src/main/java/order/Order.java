@@ -1,6 +1,9 @@
 package order;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import menu.Menu;
 
@@ -13,12 +16,21 @@ public class Order {
         this.chatId = order.chatId;
         this.id = order.id;
         this.items = order.items;
+        this.status = order.status;
+        this.currentStatusListIndex = order.currentStatusListIndex;
     }
 
     private int id;
 
     private final Long chatId;
+    private int currentStatusListIndex = 1;
 
+    /**
+     * Список возможных статусов заказа
+     */
+    private final List<String> statusList = new ArrayList<>(
+            List.of("Не принят", "готовится", "Приготовлен", "Выдан"));
+    private String status = statusList.getFirst();
     /**
      *Список того что заказал клиент
      */
@@ -41,6 +53,14 @@ public class Order {
     }
 
     public ArrayList<String> getItems(){return items;}
+    public String getStatus(){return status;}
+
+    public void setStatus(){
+        if (!this.status.equals("Выдан")){
+            this.status = statusList.get(currentStatusListIndex++);
+        }
+
+    }
 
     /**
      * Добавляет цену за отдельный продукт в общую сумму

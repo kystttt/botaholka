@@ -14,6 +14,7 @@ public class BotLogic {
     FiniteStateMachine fsm;
     StateStorage stateStorage = new StateStorageImpl();
 
+
     public BotLogic(){
         fsm = new FiniteStateMachine();
     }
@@ -32,7 +33,7 @@ public class BotLogic {
                 switch(messageText){
                     case ("/start") -> Event.START;
                     case ("/buyer") -> Event.BUYER;
-//                    case ("/seller") -> Event.SELLER;
+                    case ("/seller") -> Event.SELLER;
                     case("/back") -> Event.BACK;
                     case("/help") -> Event.HELP;
                     case("/listoforders") -> Event.ORDERS;
@@ -41,6 +42,9 @@ public class BotLogic {
                     case("/duplicate") -> Event.DUPLICATE;
                     case("/order") -> Event.MAKE_ORDER;
                     case("/delete") -> Event.DELETE;
+                    case("/cart") -> Event.CART;
+                    case("/orders")->Event.SELLER_ORDERS;
+                    case("/nextStatus")->Event.NEXT_STATUS;
                     default -> {
                         try{
                             int i = Integer.parseInt(messageText);

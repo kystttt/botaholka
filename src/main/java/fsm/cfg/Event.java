@@ -13,11 +13,12 @@ public enum Event {
     INT,
     MAKE_ORDER,
     DELETE,
-//    SELLER,
+    SELLER,
     START,
     ERROR,
     HELP,
-
-
+    CART,
+    SELLER_ORDERS,
+    NEXT_STATUS,
 
 }

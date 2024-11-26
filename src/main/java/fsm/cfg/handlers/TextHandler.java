@@ -109,7 +109,7 @@ public class TextHandler {
                     .append("\n");
         }
 
-        output_message = cartContents.toString();
+        output_message = cartContents.toString() + Constants.HELP_CLONE + "/back - вернуться в меню\n/delete - удалить из коризны";
         return output_message;
     }
 
@@ -152,7 +152,6 @@ public class TextHandler {
     /**
      * Метод, который вызывает меню(показывает, что есть в ассортименте)
      */
-
     public String menuCalling() {
         String output_message;
         StringBuilder menuBuilder = new StringBuilder(Constants.MENU_CONST);
@@ -199,6 +198,77 @@ public class TextHandler {
             output_message = Constants.NO_AVAILABLE_ORDERS + "\n\n" +
                     Constants.FUNCS_FOR_LIST_OF_ORDERS_BUYER;
         }
+        return output_message;
+    }
+
+
+
+    /**
+     * Метод, который выводит заказы абсолютно всех пользователей
+     * @return
+     */
+    public String usersListOfOrders(){
+        String output_message;
+        StringBuilder stringBuilder = new StringBuilder();
+        if (listOfOrders.size() != 0){
+            for (Order order : listOfOrders.getOrders()) {
+                stringBuilder.append(new FormOrderMessage().forSeller(order));
+                stringBuilder.append("\n");
+            }
+            output_message = "Ваши заказы:\n";
+            output_message += stringBuilder.toString() + Constants.HELP_CLONE +
+                    "\n" +
+                    "/nextStatus - изменение статуса заказа на следующий\n" +
+                    "/order №Заказа - просмотр и изменение конкретного заказа\n" +
+                    "/back - вернуться назад";
+        }
+        else{
+            output_message = "Список текущих заказов пуст\n/back - вернуться назад";
+        }
+
+        return output_message;
+    }
+
+    public String nextStatus(String messageTxtIndex, Long chatId){
+        String output_message = "Статус заказа не изменен\n";
+        int idx = Integer.parseInt(messageTxtIndex);
+        boolean flag = false;
+        try {
+            for (Order order : listOfOrders.getOrders()){
+                if (idx == order.getId()){
+                    order.setStatus();
+                    flag = true;
+                }
+            }
+            if (flag){
+                output_message = "Статус заказа изменён\n";
+            }
+
+            return output_message;
+        } catch (NumberFormatException e) {
+            output_message = Constants.ERROR_INDEX_CONST;
+        }
+        return output_message;
+    }
+
+    public String sellerOrder(String messageTxtIndex, Long chatId){
+        String output_message;
+        int idx = Integer.parseInt(messageTxtIndex);
+        StringBuilder stringBuilder = new StringBuilder();
+        if (listOfOrders.size() != 0 && idx < listOfOrders.size() + 1){
+            for (Order order : listOfOrders.getOrders()) {
+                if (order.getId() == idx){
+                    stringBuilder.append(new FormOrderMessage().forClient(order, menu));
+                    stringBuilder.append("\n");
+                }
+
+            }
+        }
+        else{
+            return "Ошибка!";
+        }
+        output_message = stringBuilder.toString();
+
         return output_message;
     }
 }
