@@ -271,14 +271,14 @@ public class Transitions {
             .event(Event.INT)
             .eventHandler(eventHandlers.nextStatusInt)
             .startState(states.nextStatus)
-            .endState(states.nextStatus)
+            .endState(states.sellerOrder)
             .build();
 
     Transition nextStatusBack = new TransitionBuilder()
             .event(Event.BACK)
             .eventHandler(eventHandlers.sellerOrders)
             .startState(states.nextStatus)
-            .endState(states.sellerOrder)
+            .endState(states.sellerOrders)
             .build();
 
     Transition sellerOrder = new TransitionBuilder()
