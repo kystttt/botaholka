@@ -142,6 +142,9 @@ public class TextHandlerTest {
         Assertions.assertEquals(expected, result);
     }
 
+    /**
+     * Тест для команды смены статуса заказа
+     */
     @Test
     void commandNextStatusTest(){
         TextHandler textHandler = new TextHandler(menu);
@@ -149,11 +152,11 @@ public class TextHandlerTest {
         order.addToArr("Шаурма");
         textHandler.listOfOrders.put(order);
 
-        String result = textHandler.nextStatus("1", chat_id);
+        String result = textHandler.nextStatus("1", 99);
         Assertions.assertEquals("Статус заказа изменён\n", result);
 
-        String resultForInvalidOrder = textHandler.nextStatus("999", chat_id);
-        Assertions.assertEquals("Статус заказа не изменен\n", resultForInvalidOrder);
+        String resultForInvalidOrder = textHandler.nextStatus("4", 99);
+        Assertions.assertEquals("Такого заказа не существует\n", resultForInvalidOrder);
 
     }
 }
