@@ -32,9 +32,11 @@ public class TextHandlerTest {
 
         textHandler.addToCart("1", chat_id);
         assertEquals("""
-                        Ваш заказ:
+                        Ваша корзина:
                         1. Шаурма - 220 рублей
-                        """,
+                        Доступные методы:
+                        /back - вернуться в меню
+                        /delete - удалить из коризны""",
                 textHandler.viewCart(chat_id));
 
         String actual = textHandler.addToCart("1", chat_id);
@@ -133,11 +135,13 @@ public class TextHandlerTest {
                 Ваши заказы:
                 Заказ №1
                 Шаурма - 220 руб.
+                Не принят
                 Итого: 220 руб.
 
                 Доступные методы:
                 /duplicate “Номер заказа” - повторить заказ
                 /cancel “Номер заказа” - отменить заказ
+                /back - вернуться к назад
                 """;
         Assertions.assertEquals(expected, result);
     }
