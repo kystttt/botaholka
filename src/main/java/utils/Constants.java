@@ -93,6 +93,6 @@ public class Constants {
             HELP_CLONE +
             "/back - вернуться к списку моих заказов";
 
-    public static final String CHOOSE_ORDER = "Выберите заказ\n\n" + HELP_CLONE
-            ;
+    public static final String CHOOSE_ORDER = "Выберите заказ\n\n" + HELP_CLONE + "/back";
+
 }

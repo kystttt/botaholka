@@ -16,8 +16,6 @@ public class Order {
         this.chatId = order.chatId;
         this.id = order.id;
         this.items = order.items;
-        this.status = order.status;
-        this.currentStatusListIndex = order.currentStatusListIndex;
     }
 
     private int id;

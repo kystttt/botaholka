@@ -216,9 +216,7 @@ public class TextHandler {
                 stringBuilder.append("\n");
             }
             output_message = "Ваши заказы:\n";
-            output_message += stringBuilder.toString() + Constants.HELP_CLONE +
-                    "\n" +
-                    "/nextStatus - изменение статуса заказа на следующий\n" +
+            output_message += stringBuilder.toString() + "\n" + Constants.HELP_CLONE +
                     "/order №Заказа - просмотр и изменение конкретного заказа\n" +
                     "/back - вернуться назад";
         }
@@ -229,25 +227,32 @@ public class TextHandler {
         return output_message;
     }
 
-    public String nextStatus(String messageTxtIndex, Long chatId){
-        String output_message = "Статус заказа не изменен\n";
-        int idx = Integer.parseInt(messageTxtIndex);
-        boolean flag = false;
-        try {
-            for (Order order : listOfOrders.getOrders()){
-                if (idx == order.getId()){
-                    order.setStatus();
-                    flag = true;
-                }
-            }
-            if (flag){
-                output_message = "Статус заказа изменён\n";
-            }
-
+    /**
+     * Метод, который меняет статус заказа, по индексу заказаё
+     * @param dishIndexStr
+     * @param chatId
+     * @return
+     */
+    public String nextStatus(String dishIndexStr, long chatId){
+        String output_message;
+        int idx = Integer.parseInt(dishIndexStr);
+        if (idx > listOfOrders.size()){
+            output_message = "Такого заказа не существует\n";
             return output_message;
-        } catch (NumberFormatException e) {
-            output_message = Constants.ERROR_INDEX_CONST;
         }
+        String tempOrderStatus = "";
+        for (Order order : listOfOrders.getOrders()){
+            if (idx == order.getId()){
+                tempOrderStatus = order.getStatus();
+                if (tempOrderStatus.equals("Выдан")){
+                    output_message =  "Статус заказа не изменен\n";
+                    return output_message;
+                }
+                order.setStatus();
+            }
+        }
+
+        output_message = "Статус заказа изменён\n";
         return output_message;
     }
 
@@ -267,7 +272,7 @@ public class TextHandler {
         else{
             return "Ошибка!";
         }
-        output_message = stringBuilder.toString();
+        output_message = stringBuilder + "\n"  +  "/nextStatus - изменение статуса заказа на следующий\n" ;
 
         return output_message;
     }

@@ -271,13 +271,27 @@ public class Transitions {
             .event(Event.INT)
             .eventHandler(eventHandlers.nextStatusInt)
             .startState(states.nextStatus)
-            .endState(states.nextStatus)
+            .endState(states.sellerOrders)
             .build();
 
     Transition nextStatusBack = new TransitionBuilder()
             .event(Event.BACK)
             .eventHandler(eventHandlers.sellerOrders)
             .startState(states.nextStatus)
+            .endState(states.sellerOrders)
+            .build();
+
+    Transition nextStatusIntError = new TransitionBuilder()
+            .event(Event.ERROR)
+            .eventHandler(eventHandlers.IntError)
+            .startState(states.nextStatus)
+            .endState(states.nextStatus)
+            .build();
+
+    Transition sellerOrderError = new TransitionBuilder()
+            .event(Event.ERROR)
+            .eventHandler(eventHandlers.IntError)
+            .startState(states.sellerOrder)
             .endState(states.sellerOrder)
             .build();
 
@@ -354,7 +368,9 @@ public class Transitions {
                 sellerOrder,
                 sellerOrderHelp,
                 sellerOrderInt,
-                sellerOrderBack
+                sellerOrderBack,
+                nextStatusIntError,
+                sellerOrderError
         );
     }
 }
