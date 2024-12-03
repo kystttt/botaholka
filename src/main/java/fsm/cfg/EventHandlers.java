@@ -74,5 +74,8 @@ public class EventHandlers {
     public EventHandler sellerOrderInt = (String messageText, long chatId)->
             textHandler.sellerOrder(messageText, chatId);
 
+    public EventHandler IntError = (String messageText, long chatId)->
+            Constants.ERROR_TYPE_CONST;
+
 }
 
