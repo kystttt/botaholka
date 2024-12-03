@@ -228,7 +228,7 @@ public class TextHandler {
     }
 
     /**
-     * Метод, который меняет статус заказа, по индексу заказа
+     * Метод, который меняет статус заказа, по индексу заказаё
      * @param dishIndexStr
      * @param chatId
      * @return
