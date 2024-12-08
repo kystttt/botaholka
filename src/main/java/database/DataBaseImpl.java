@@ -3,22 +3,19 @@ package database;
 import fsm.core.State;
 
 import java.sql.*;
-import java.util.Optional;
 
-public class DB implements DataBase{
+public class DataBaseImpl implements DataBase{
     private Connection connection;
     final String url = "jdbc:postgresql://localhost:5432/botaholka";
     final String user = "postgres";
     final String password = "1234";
     private final String tableName;
 
-
-
-    public DB(){
+    public DataBaseImpl(){
         tableName = "users";
     }
 
-    DB(String tableName){
+    DataBaseImpl(String tableName){
         this.tableName = tableName;
     }
 

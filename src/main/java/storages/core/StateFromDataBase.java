@@ -1,12 +1,13 @@
 package storages.core;
 
 
-import database.DB;
+import database.DataBase;
+import database.DataBaseImpl;
 import fsm.core.State;
 import storages.api.StateStorage;
 
 public class StateFromDataBase implements StateStorage {
-    DB db = new DB();
+    DataBase db = new DataBaseImpl();
 
     @Override
     public State get(Long id) {

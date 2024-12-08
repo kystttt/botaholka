@@ -5,7 +5,6 @@ import fsm.core.FiniteStateMachine;
 import fsm.core.State;
 import storages.api.StateStorage;
 import storages.core.StateFromDataBase;
-import storages.core.StateStorageImpl;
 
 
 /**
@@ -16,27 +15,28 @@ public class BotLogic {
     StateStorage stateStorage;
 
 
-    public BotLogic(){
+    public BotLogic() {
         fsm = new FiniteStateMachine();
         stateStorage = new StateFromDataBase();
     }
 
-    BotLogic(StateStorage stateStorage){
+    BotLogic(StateStorage stateStorage) {
         fsm = new FiniteStateMachine();
         this.stateStorage = stateStorage;
     }
 
     /**
      * Обработка текста
+     *
      * @param messageText Сообщение пользователя
      * @param chatId Id пользователя
      * @return Строку с ответом бота
      */
-    public String processMessage(String messageText, Long chatId){
+    public String processMessage(String messageText, Long chatId) {
         State userState = stateStorage.get(chatId);
         fsm.setCurrentState(userState);
 
-        String result =  fsm.fire(
+        String result = fsm.fire(
                 getEvent(messageText),
                 messageText,
                 chatId
@@ -47,28 +47,27 @@ public class BotLogic {
         return result;
     }
 
-    Event getEvent(String messageText){
-        return switch(messageText){
+    Event getEvent(String messageText) {
+        return switch (messageText) {
             case ("/start") -> Event.START;
             case ("/buyer") -> Event.BUYER;
             case ("/seller") -> Event.SELLER;
-            case("/back") -> Event.BACK;
-            case("/help") -> Event.HELP;
-            case("/listoforders") -> Event.ORDERS;
-            case("/menu") -> Event.MENU;
-            case("/cancel") -> Event.CANCEL_ORDER;
-            case("/duplicate") -> Event.DUPLICATE;
-            case("/order") -> Event.MAKE_ORDER;
-            case("/delete") -> Event.DELETE;
-            case("/cart") -> Event.CART;
-            case("/orders")->Event.SELLER_ORDERS;
-            case("/nextStatus")->Event.NEXT_STATUS;
+            case ("/back") -> Event.BACK;
+            case ("/help") -> Event.HELP;
+            case ("/listoforders") -> Event.ORDERS;
+            case ("/menu") -> Event.MENU;
+            case ("/cancel") -> Event.CANCEL_ORDER;
+            case ("/duplicate") -> Event.DUPLICATE;
+            case ("/order") -> Event.MAKE_ORDER;
+            case ("/delete") -> Event.DELETE;
+            case ("/cart") -> Event.CART;
+            case ("/orders") -> Event.SELLER_ORDERS;
+            case ("/nextStatus") -> Event.NEXT_STATUS;
             default -> {
-                try{
+                try {
                     int i = Integer.parseInt(messageText);
                     yield Event.INT;
-                }
-                catch(NumberFormatException e){
+                } catch (NumberFormatException e) {
                     yield Event.ERROR;
                 }
             }
