@@ -2,8 +2,6 @@ package database;
 
 import fsm.core.State;
 
-import java.util.Optional;
-
 public interface DataBase {
 
     /**

@@ -42,12 +42,11 @@ public class DataBaseImpl implements DataBase{
         }
     }
 
-    int closeConnection(){
+    void closeConnection(){
         try {
             connection.close();
-            return 1;
         } catch (SQLException e) {
-            return 0;
+            System.out.println("Ошибка при закрытии ДБ");
         }
     }
 

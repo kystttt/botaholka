@@ -1,8 +1,5 @@
-import bots.DiscordBot;
 import bots.TGBot;
 import logic.BotLogic;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 
 public class Main {
