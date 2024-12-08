@@ -3,12 +3,13 @@ package logic;
 import fsm.cfg.Event;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import storages.core.StateStorageImpl;
 
 public class EventTest {
     BotLogic logic;
 
     public EventTest(){
-        logic = new BotLogic();
+        logic = new BotLogic(new StateStorageImpl());
     }
 
     @Test
