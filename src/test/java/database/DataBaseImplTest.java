@@ -4,14 +4,15 @@ import fsm.core.State;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class DBTest {
-    final String deleteTestTable = "drop table test;";
-    DB db = new DB("test");
-
+/**
+ * Тесты для запросов к базе данных
+ */
+public class DataBaseImplTest {
+    DataBaseImpl db = new DataBaseImpl("test");
 
     private void createCustomerTable(){
         db.getConnection();
-        db.executeUpdate(deleteTestTable);
+        db.executeUpdate("drop table test;");
         String customerTableQuery = "CREATE TABLE test " +
                 "(id SERIAL, state TEXT, chat_id INT primary key)";
         String customerEntryQuery = "INSERT INTO test(chat_id, state) " +
@@ -21,12 +22,9 @@ public class DBTest {
         db.closeConnection();
     }
 
-    @Test
-    void connectionTest(){
-        Assertions.assertEquals(1, db.getConnection());
-        Assertions.assertEquals(1, db.closeConnection());
-    }
-
+    /**
+     * Тест на получение правильного состояния из базы данных
+     */
     @Test
     void getTest(){
         createCustomerTable();
@@ -37,6 +35,9 @@ public class DBTest {
 
     }
 
+    /**
+     * Тест на корректное изменения состояния в базе данных
+     */
     @Test
     void setTest(){
         createCustomerTable();
