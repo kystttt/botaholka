@@ -4,6 +4,7 @@ import fsm.cfg.Event;
 import fsm.core.FiniteStateMachine;
 import fsm.core.State;
 import storages.api.StateStorage;
+import storages.core.StateFromDataBase;
 import storages.core.StateStorageImpl;
 
 
@@ -12,11 +13,17 @@ import storages.core.StateStorageImpl;
  */
 public class BotLogic {
     FiniteStateMachine fsm;
-    StateStorage stateStorage = new StateStorageImpl();
+    StateStorage stateStorage;
 
 
     public BotLogic(){
         fsm = new FiniteStateMachine();
+        stateStorage = new StateFromDataBase();
+    }
+
+    BotLogic(StateStorage stateStorage){
+        fsm = new FiniteStateMachine();
+        this.stateStorage = stateStorage;
     }
 
     /**
@@ -34,6 +41,7 @@ public class BotLogic {
                 messageText,
                 chatId
         );
+
         stateStorage.put(chatId, fsm.getCurrentState());
         System.out.println(chatId + ": " + fsm.getCurrentState().toString());
         return result;

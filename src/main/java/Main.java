@@ -9,9 +9,10 @@ public class Main {
     public static void main(String[] args) throws Exception {
         BotLogic logic = new BotLogic();
 
-        String dsToken = System.getenv("DS_TOKEN");
-        JDA api = JDABuilder.createDefault(dsToken).build();
-        api.addEventListener(new DiscordBot(logic));
+//  До лучших времён(
+//        String dsToken = System.getenv("DS_TOKEN");
+//        JDA api = JDABuilder.createDefault(dsToken).build();
+//        api.addEventListener(new DiscordBot(logic));
 
         String botToken = System.getenv("TG_TOKEN");
         try (TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication()) {
