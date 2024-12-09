@@ -55,11 +55,10 @@ public class ReviewDataBase implements DataBase<Review>{
             return 0;
         }
 
-        String query = "update " + db.getTableName() +
-                " set chat_id = '" + chatId + "', " +
-                "rating_5 = '" + review.getRating() + "', " +
-                "text = '" + review.getText() + "' " +
-                "where chat_id = " + chatId + ";";
+        String query = "insert into " + db.getTableName() +
+                "(chat_id,rating_5,text) values ( '" + chatId + "', '"
+                + review.getRating() + "', '" +
+                review.getText() + "');";
 
         int response = db.executeUpdate(query);
         db.closeConnection();

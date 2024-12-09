@@ -1,5 +1,7 @@
 package fsm.cfg.handlers;
 
+import database.DataBase;
+import database.ReviewDataBase;
 import menu.*;
 import utils.order.FormOrderMessage;
 import storages.api.Cart;
@@ -21,6 +23,7 @@ public class TextHandler {
     final Cart cart;
     Menu menu;
     private final Map<Long, Review> reviews = new HashMap<>();
+    private DataBase<Review> reviewDataBase = new ReviewDataBase();
 
     public TextHandler(String menuFileName) {
         listOfOrders = new ListOfOrders();
@@ -309,7 +312,12 @@ public class TextHandler {
      * Записывает текст и оценку отзыва в бд для пользователя по его id
      */
     public String insertReview(long chatId) {
-        //TODO
-        return null;
+        int response = reviewDataBase.set(chatId, reviews.get(chatId));
+        reviews.remove(chatId);
+        if (response == 1){
+            return "Отзыв успешно добавлен\n";
+        } else {
+            return "К сожалению ваш отзыв не добавлен по техническим причинам\n";
+        }
     }
 }

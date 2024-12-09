@@ -59,7 +59,7 @@ public class EventHandlers {
             Constants.REVIEW_DELETION + Constants.BUYER_HELP;
 
     public EventHandler endReviewYes = (String messageText, long chatId) ->
-            textHandler.insertReview(chatId);
+            textHandler.insertReview(chatId) + Constants.BUYER_HELP;
 
     public EventHandler reviewHelp = (String messageText, long chatId) ->
             Constants.REVIEW_HELP;
