@@ -1,21 +1,19 @@
 package database;
 
-import fsm.core.State;
-
-public interface DataBase {
+public interface DataBase<T> {
 
     /**
-     * Возвращает состояние пользователя по его id
+     * Возвращает поле пользователя по его id
      * или null, если не смог подучить нужный столбец
      */
-    State getState(Long chatId);
+    T get(Long chatId);
 
     /**
-     * Обновляет состояние для пользователя
+     * Обновляет поля для пользователя
      * @param chatId id пользователя
-     * @param newState Новое состояние
-     * @return обновление состояния прошло (1) - успешно,
+     * @param t Новое значение поля
+     * @return обновление поля прошло (1) - успешно,
      * (0) - не успешно
      */
-    int setState(Long chatId, State newState);
+    int set(Long chatId, T t);
 }

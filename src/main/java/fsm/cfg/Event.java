@@ -25,5 +25,7 @@ public enum Event {
     CART,
     SELLER_ORDERS,
     NEXT_STATUS,
+    NO,
+    YES, TEXT, REWRITE,
 
 }

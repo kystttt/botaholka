@@ -1,6 +1,6 @@
 import menu.MenuImpl;
-import order.FormOrderMessage;
-import order.Order;
+import utils.order.FormOrderMessage;
+import utils.order.Order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

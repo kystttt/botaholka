@@ -1,25 +1,26 @@
 package fsm.cfg.handlers;
 
 import menu.*;
-import order.FormOrderMessage;
+import utils.order.FormOrderMessage;
 import storages.api.Cart;
 import storages.core.ListCart;
 import storages.core.ListOfOrders;
-import order.Order;
+import utils.order.Order;
 import storages.api.Orders;
 import utils.Constants;
+import utils.review.Review;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Класс, методы которого обрабатывают текст
  */
 public class TextHandler {
-
     final Orders listOfOrders;
-
-
     final Cart cart;
-
     Menu menu;
+    private final Map<Long, Review> reviews = new HashMap<>();
 
     public TextHandler(String menuFileName) {
         listOfOrders = new ListOfOrders();
@@ -172,7 +173,6 @@ public class TextHandler {
         return output_message;
     }
 
-
     /**
      * Метод для показа текущих заказов клиента по его chat_id
      *
@@ -201,11 +201,8 @@ public class TextHandler {
         return output_message;
     }
 
-
-
     /**
      * Метод, который выводит заказы абсолютно всех пользователей
-     * @return
      */
     public String usersListOfOrders(){
         String output_message;
@@ -229,9 +226,6 @@ public class TextHandler {
 
     /**
      * Метод, который меняет статус заказа, по индексу заказаё
-     * @param dishIndexStr
-     * @param chatId
-     * @return
      */
     public String nextStatus(String dishIndexStr, long chatId){
         String output_message;
@@ -275,5 +269,47 @@ public class TextHandler {
         output_message = stringBuilder + "\n"  +  "/nextStatus - изменение статуса заказа на следующий\n" ;
 
         return output_message;
+    }
+
+    /**
+     * Сохраняет текст отзыва
+     */
+    public String reviewText(String messageText, long chatId) {
+        Review review = reviews.get(chatId);
+        if(review == null){
+            reviews.put(chatId, new Review(messageText));
+        } else{
+            review.setText(messageText);
+            reviews.put(chatId, review);
+        }
+        return "";
+    }
+
+    /**
+     * Сохраняет оценку отзыва
+     */
+    public String rating(long chatId, String messageText) {
+        Review review = reviews.get(chatId);
+        if(review == null){
+            System.out.println("Технически этого случая быть не должно, " +
+                    "потому что этот метод вызывается всегда после reviewText," +
+                    "а там стопроцентная инициализация ревью");
+            return "Ты сломал систему, молодец";
+        } else{
+            review.setRating(Integer.parseInt(messageText));
+            reviews.put(chatId, review);
+        }
+        return "Ваш отзыв:\n" +
+                review.getRating() + "/5\n" +
+                review.getText() +
+                Constants.END_REVIEW;
+    }
+
+    /**
+     * Записывает текст и оценку отзыва в бд для пользователя по его id
+     */
+    public String insertReview(long chatId) {
+        //TODO
+        return null;
     }
 }

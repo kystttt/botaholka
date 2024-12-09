@@ -95,4 +95,19 @@ public class Constants {
 
     public static final String CHOOSE_ORDER = "Выберите заказ\n\n" + HELP_CLONE + "/back";
 
+    public static final String THE_CHOICE = "\nХотите оставить отзыв?\n" +
+            "/yes - да\n" +
+            "/no - нет";
+
+    public static final String REVIEW_HELP = "Напишите своё мнение об обслуживании и качестве еды\n" +
+            "/back - не оставлять отзыв";
+
+    public static final String REVIEW_DELETION = "Отзыв удалён\n\n";
+
+    public static final String RATING = "Поставьте оценку от 0 до 5\n" +
+            "/back - не оставлять отзыв";
+
+    public static final String END_REVIEW = "\n/yes - оставить отзыв\n" +
+            "/delete - удалить отзыв и вернуться в главное меню\n" +
+            "/rewrite - переписать отзыв";
 }

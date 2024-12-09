@@ -10,6 +10,7 @@ import javax.xml.stream.util.XMLEventAllocator;
  * Инициализация всех {@link EventHandler} для всех {@link fsm.core.Transition}
  */
 public class EventHandlers {
+
     TextHandler textHandler;
 
     public EventHandlers(){
@@ -42,7 +43,26 @@ public class EventHandlers {
                     Constants.MENU_HELP;
 
     public EventHandler makeOrder = (String messageText, long chatId) ->
-            textHandler.makeOrder(chatId);
+            textHandler.makeOrder(chatId) +
+                    Constants.THE_CHOICE;
+
+    public EventHandler reviewText = (String messageText, long chatId) ->
+            textHandler.reviewText(messageText, chatId) + Constants.RATING;
+
+    public EventHandler rating = (String messageText, long chatId) ->
+            textHandler.rating(chatId, messageText);
+
+    public EventHandler ratingHelp = (String messageText, long chatId) ->
+            Constants.RATING;
+
+    public EventHandler endReviewBack= (String messageText, long chatId) ->
+            Constants.REVIEW_DELETION + Constants.BUYER_HELP;
+
+    public EventHandler endReviewYes = (String messageText, long chatId) ->
+            textHandler.insertReview(chatId);
+
+    public EventHandler reviewHelp = (String messageText, long chatId) ->
+            Constants.REVIEW_HELP;
 
     public EventHandler menuInt = (String messageText, long chatId) ->
             textHandler.addToCart(messageText, chatId) + "\n";

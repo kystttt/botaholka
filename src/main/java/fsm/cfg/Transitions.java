@@ -1,6 +1,5 @@
 package fsm.cfg;
 
-import fsm.core.EventHandler;
 import fsm.core.Transition;
 import fsm.core.TransitionBuilder;
 
@@ -144,9 +143,71 @@ public class Transitions {
             .event(Event.MAKE_ORDER)
             .eventHandler(eventHandlers.makeOrder)
             .startState(states.menu)
+            .endState(states.thechoice)
+            .build();
+
+    Transition choiceNo = new TransitionBuilder()
+            .event(Event.NO)
+            .eventHandler(eventHandlers.buyerHelp)
+            .startState(states.thechoice)
             .endState(states.buyer)
             .build();
 
+    Transition choiceYes = new TransitionBuilder()
+            .event(Event.YES)
+            .eventHandler(eventHandlers.reviewHelp)
+            .startState(states.thechoice)
+            .endState(states.review)
+            .build();
+
+    Transition reviewBack = new TransitionBuilder()
+            .event(Event.BACK)
+            .eventHandler(eventHandlers.buyerHelp)
+            .startState(states.review)
+            .endState(states.buyer)
+            .build();
+
+    Transition reviewText = new TransitionBuilder()
+            .event(Event.TEXT)
+            .eventHandler(eventHandlers.reviewText)
+            .startState(states.review)
+            .endState(states.rating)
+            .build();
+
+    Transition ratingHelp = new TransitionBuilder()
+            .event(Event.HELP)
+            .eventHandler(eventHandlers.ratingHelp)
+            .startState(states.rating)
+            .endState(states.rating)
+            .build();
+
+    Transition ratingInt = new TransitionBuilder()
+            .event(Event.INT)
+            .eventHandler(eventHandlers.rating)
+            .startState(states.rating)
+            .endState(states.endreview)
+            .build();
+
+    Transition endReview = new TransitionBuilder()
+            .event(Event.REWRITE)
+            .eventHandler(eventHandlers.reviewHelp)
+            .startState(states.endreview)
+            .endState(states.review)
+            .build();
+
+    Transition endReviewYes = new TransitionBuilder()
+            .event(Event.YES)
+            .eventHandler(eventHandlers.endReviewYes)
+            .startState(states.endreview)
+            .endState(states.buyer)
+            .build();
+
+    Transition endReviewDelete = new TransitionBuilder()
+            .event(Event.DELETE)
+            .eventHandler(eventHandlers.endReviewBack)
+            .startState(states.endreview)
+            .endState(states.buyer)
+            .build();
 
     Transition menuBack = new TransitionBuilder()
             .event(Event.BACK)
@@ -370,7 +431,16 @@ public class Transitions {
                 sellerOrderInt,
                 sellerOrderBack,
                 nextStatusIntError,
-                sellerOrderError
+                sellerOrderError,
+                choiceNo,
+                choiceYes,
+                reviewBack,
+                ratingInt,
+                endReview,
+                endReviewDelete,
+                reviewText,
+                endReviewYes,
+                ratingHelp
         );
     }
 }

@@ -48,6 +48,7 @@ public class BotLogic {
     }
 
     Event getEvent(String messageText) {
+        State currentState = fsm.getCurrentState();
         return switch (messageText) {
             case ("/start") -> Event.START;
             case ("/buyer") -> Event.BUYER;
@@ -63,11 +64,23 @@ public class BotLogic {
             case ("/cart") -> Event.CART;
             case ("/orders") -> Event.SELLER_ORDERS;
             case ("/nextStatus") -> Event.NEXT_STATUS;
+            case ("/yes") -> Event.YES;
+            case ("/no") -> Event.NO;
+            case ("/rewrite") -> Event.REWRITE;
             default -> {
                 try {
+                    if(new State("review").equals(currentState)){
+                        yield Event.TEXT;
+                    }
+
                     int i = Integer.parseInt(messageText);
+                    if(new State("rating").equals(currentState) &&
+                                    (0 > i || i > 5)){
+                        yield Event.HELP;
+                    }
                     yield Event.INT;
                 } catch (NumberFormatException e) {
+
                     yield Event.ERROR;
                 }
             }
