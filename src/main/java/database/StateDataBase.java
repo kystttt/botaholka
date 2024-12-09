@@ -65,7 +65,7 @@ public class StateDataBase implements DataBase<State>{
         return response;
     }
 
-    public void createCustomerTable() {
-        db.createCustomerTable();
+    void createCustomerTable() {
+        db.createStateTestTable();
     }
 }

@@ -26,6 +26,10 @@ public enum Event {
     SELLER_ORDERS,
     NEXT_STATUS,
     NO,
-    YES, TEXT, REWRITE,
+    YES,
+    TEXT,
+    REWRITE,
+    ALLREVIEWS,
+    NEXT
 
 }

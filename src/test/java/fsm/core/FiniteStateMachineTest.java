@@ -4,6 +4,8 @@ import fsm.cfg.Event;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,8 +24,8 @@ public class FiniteStateMachineTest {
     State lock = new State("lock");
     State unlock = new State("unlock");
 
-    private Set<Transition> geTestTransitions() {
-        return Set.of(
+    private List<Transition> geTestTransitions() {
+        return new ArrayList<>(List.of(
                 new TransitionBuilder()
                         .event(fsm.cfg.Event.PUSH)
                         .startState(unlock)
@@ -59,7 +61,7 @@ public class FiniteStateMachineTest {
                             return "in unlock";
                         })
                         .build()
-        );
+        ));
     }
 
     FiniteStateMachineTest(){

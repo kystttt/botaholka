@@ -50,13 +50,25 @@ public class DB {
         }
     }
 
-    void createCustomerTable(){
+    void createStateTestTable(){
         getConnection();
         executeUpdate("drop table test;");
         String customerTableQuery = "CREATE TABLE test " +
                 "(id SERIAL, state TEXT, chat_id INT primary key)";
         String customerEntryQuery = "INSERT INTO test(chat_id, state) " +
                 "VALUES (123, 'test')";
+        executeUpdate(customerTableQuery);
+        executeUpdate(customerEntryQuery);
+        closeConnection();
+    }
+
+    void createReviewTestTable(){
+        getConnection();
+        executeUpdate("drop table test;");
+        String customerTableQuery = "CREATE TABLE test " +
+                "(id SERIAL primary key,chat_id INT, rating_5 INT, text TEXT); ";
+        String customerEntryQuery = "INSERT INTO test(chat_id, rating_5, text) " +
+                "VALUES (123, 4, 'test')";
         executeUpdate(customerTableQuery);
         executeUpdate(customerEntryQuery);
         closeConnection();

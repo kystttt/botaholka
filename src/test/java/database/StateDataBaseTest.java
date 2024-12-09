@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тесты для запросов к базе данных
  */
-public class DataBaseImplTest {
+public class StateDataBaseTest {
     StateDataBase stateDataBase = new StateDataBase("test");
 
     /**

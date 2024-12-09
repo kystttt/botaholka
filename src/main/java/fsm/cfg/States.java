@@ -1,5 +1,6 @@
 package fsm.cfg;
 
+import fsm.core.EventHandler;
 import fsm.core.State;
 
 import java.util.Set;
@@ -24,6 +25,7 @@ public class States {
     public State review = new State("review");
     public State rating = new State("rating");
     public State endreview = new State("endreview");
+    public State allreviews = new State("allreviews");
 
     public Set<State> getStates(){
         return Set.of(
@@ -42,7 +44,8 @@ public class States {
                 thechoice,
                 review,
                 rating,
-                endreview
+                endreview,
+                allreviews
         );
     }
 }

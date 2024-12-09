@@ -3,6 +3,8 @@ package fsm.cfg;
 import fsm.core.Transition;
 import fsm.core.TransitionBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -383,11 +385,37 @@ public class Transitions {
             .startState(states.sellerOrder)
             .endState(states.sellerOrders)
             .build();
+
+    Transition allreviewsEntryPoint = new TransitionBuilder()
+            .event(Event.ALLREVIEWS)
+            .eventHandler(eventHandlers.allreviews)
+            .startState(states.buyer)
+            .endState(states.allreviews)
+            .build();
+
+
+    Transition allreviewsBack = new TransitionBuilder()
+            .event(Event.BACK)
+            .eventHandler(eventHandlers.buyerHelp)
+            .startState(states.allreviews)
+            .endState(states.buyer)
+            .build();
+
+    Transition allreviewsNext = new TransitionBuilder()
+            .event(Event.NEXT)
+            .eventHandler(eventHandlers.allreviews)
+            .startState(states.allreviews)
+            .endState(states.allreviews)
+            .build();
+
     /**
      * Возвращает набор всех {@link Transition}
      */
-    public Set<Transition> get() {
-        return Set.of(
+    public List<Transition> get() {
+        return new ArrayList<>(List.of(
+                allreviewsNext,
+                allreviewsBack,
+                allreviewsEntryPoint,
                 start,
                 buyerEntryPoint,
                 buyerBack,
@@ -441,7 +469,7 @@ public class Transitions {
                 reviewText,
                 endReviewYes,
                 ratingHelp
-        );
+        ));
     }
 }
 

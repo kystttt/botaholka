@@ -67,6 +67,8 @@ public class BotLogic {
             case ("/yes") -> Event.YES;
             case ("/no") -> Event.NO;
             case ("/rewrite") -> Event.REWRITE;
+            case ("/next") -> Event.NEXT;
+            case ("/allreviews") -> Event.ALLREVIEWS;
             default -> {
                 try {
                     if(new State("review").equals(currentState)){

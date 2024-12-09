@@ -97,5 +97,7 @@ public class EventHandlers {
     public EventHandler IntError = (String messageText, long chatId)->
             Constants.ERROR_TYPE_CONST;
 
+    public EventHandler allreviews = (String messageText, long chatId)->
+            textHandler.allReviews(chatId);
 }
 

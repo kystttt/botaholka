@@ -23,7 +23,7 @@ public class TextHandler {
     final Cart cart;
     Menu menu;
     private final Map<Long, Review> reviews = new HashMap<>();
-    private DataBase<Review> reviewDataBase = new ReviewDataBase();
+    private final ReviewDataBase reviewDataBase = new ReviewDataBase();
 
     public TextHandler(String menuFileName) {
         listOfOrders = new ListOfOrders();
@@ -319,5 +319,20 @@ public class TextHandler {
         } else {
             return "К сожалению ваш отзыв не добавлен по техническим причинам\n";
         }
+    }
+
+    /**
+     * Показывает по 5 отзывов
+     */
+    public String allReviews(long chatId) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Review review : reviewDataBase.getReviews(chatId)){
+            stringBuilder
+                    .append(review.getRating())
+                    .append("\n")
+                    .append(review.getText())
+                    .append("\n");
+        }
+        return stringBuilder.toString();
     }
 }

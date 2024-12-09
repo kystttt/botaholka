@@ -68,6 +68,8 @@ public class Constants {
             """
              /menu - выводит доступные блюда для заказа
              /listoforders - просмотр текущих заказов
+             /history - история заказов
+             /allreviews - посмотреть все отзывы
              /back - вернуться к назад
              """;
 
@@ -110,4 +112,7 @@ public class Constants {
     public static final String END_REVIEW = "\n/yes - оставить отзыв\n" +
             "/delete - удалить отзыв и вернуться в главное меню\n" +
             "/rewrite - переписать отзыв";
+
+    public static final String ALLREVIEWS_HELP = "\n/next - следующие 5 отзывов\n" +
+            "/back - вернуться назад в главное меню";
 }
