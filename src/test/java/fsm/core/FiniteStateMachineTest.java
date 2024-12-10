@@ -1,6 +1,5 @@
 package fsm.core;
 
-import fsm.cfg.Event;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -16,11 +15,6 @@ public class FiniteStateMachineTest {
     String tmplMessageText = "1";
     Long tmplChatId = 1L;
 
-    public enum Event{
-        PUSH,
-        COIN
-    }
-
     State lock = new State("lock");
     State unlock = new State("unlock");
 
@@ -30,36 +24,28 @@ public class FiniteStateMachineTest {
                         .event(fsm.cfg.Event.PUSH)
                         .startState(unlock)
                         .endState(lock)
-                        .eventHandler((tmplMessageText, tmplChatId)->{
-                            return "locked";
-                        })
+                        .eventHandler((tmplMessageText, tmplChatId)-> "locked")
                         .build(),
 
                 new TransitionBuilder()
                         .event(fsm.cfg.Event.COIN)
                         .startState(lock)
                         .endState(unlock)
-                        .eventHandler((tmplMessageText, tmplChatId)->{
-                            return "unlocked";
-                        })
+                        .eventHandler((tmplMessageText, tmplChatId)-> "unlocked")
                         .build(),
 
                 new TransitionBuilder()
                         .event(fsm.cfg.Event.HELP)
                         .startState(lock)
                         .endState(lock)
-                        .eventHandler((tmplMessageText, tmplChatId)->{
-                            return "in lock";
-                        })
+                        .eventHandler((tmplMessageText, tmplChatId)-> "in lock")
                         .build(),
 
                 new TransitionBuilder()
                         .event(fsm.cfg.Event.HELP)
                         .startState(unlock)
                         .endState(unlock)
-                        .eventHandler((tmplMessageText, tmplChatId)->{
-                            return "in unlock";
-                        })
+                        .eventHandler((tmplMessageText, tmplChatId)-> "in unlock")
                         .build()
         ));
     }

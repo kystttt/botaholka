@@ -17,10 +17,8 @@ public class ReviewDataBase implements DataBase<Review> {
         db = new DB(tableName);
     }
 
-    /**
-     * Возвращает по 5 отзывов
-     */
-    public List<Review> getReviews(long chatId){
+    @Override
+    public List<Review> get(Long chatId) {
         int ofset;
         int connectionResponse = db.getConnection();
         if(connectionResponse == 0){
@@ -52,28 +50,6 @@ public class ReviewDataBase implements DataBase<Review> {
         }catch(SQLException e){
             System.out.println(e);
             return null;
-        }
-    }
-
-    @Override
-    public List<Review> get(Long chatId) {
-        int connectionResponse = db.getConnection();
-        if(connectionResponse == 0){
-            System.out.println("не установил connection");
-            return null;
-        }
-        String query = "select * " +
-                "from " + tableName +
-                " where chat_id = " + chatId + ";";
-        try{
-            ResultSet resultSet = db.executeQuery(query);
-            resultSet.next();
-            String text = resultSet.getString("text");
-            int rating = resultSet.getInt("rating_5");
-            db.closeConnection();
-            return List.of(new Review(rating, text));
-        } catch (SQLException e){
-            return List.of(new Review(1, "1"));
         }
     }
 

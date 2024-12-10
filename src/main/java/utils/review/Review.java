@@ -1,5 +1,7 @@
 package utils.review;
 
+import java.util.Objects;
+
 /**
  * Отзыв
  */
@@ -30,5 +32,26 @@ public class Review {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Review review = (Review) o;
+        return rating == review.rating && Objects.equals(text, review.text);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(text, rating);
+    }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "text='" + text + '\'' +
+                ", rating=" + rating +
+                '}';
     }
 }

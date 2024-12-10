@@ -4,7 +4,6 @@ import fsm.cfg.handlers.TextHandler;
 import fsm.core.EventHandler;
 import utils.Constants;
 
-import javax.xml.stream.util.XMLEventAllocator;
 
 /**
  * Инициализация всех {@link EventHandler} для всех {@link fsm.core.Transition}
@@ -98,7 +97,7 @@ public class EventHandlers {
             Constants.ERROR_TYPE_CONST;
 
     public EventHandler allreviews = (String messageText, long chatId)->
-            textHandler.allReviews(chatId);
+            textHandler.allReviews(chatId) + Constants.ALLREVIEWS_HELP;
 
     public EventHandler history = (String messageText, long chatId)->
             textHandler.history(chatId) + Constants.BUYER_HELP;

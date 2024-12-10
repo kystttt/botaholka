@@ -5,7 +5,6 @@ import fsm.core.TransitionBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Инициализация всех {@link Transition} для {@link fsm.core.FiniteStateMachine}

@@ -29,7 +29,7 @@ public class StateDataBase implements DataBase<State> {
         }
 
         String query = "select state " +
-                "from " + db.getTableName() +
+                "from " + tableName +
                 " where chat_id = " + chatId + ";";
         try{
             ResultSet resultSet = db.executeQuery(query);
@@ -39,7 +39,7 @@ public class StateDataBase implements DataBase<State> {
             return List.of(new State(result));
         } catch (SQLException e){
 
-            query = "insert into " + db.getTableName() +
+            query = "insert into " + tableName +
                     "(chat_id, state) values (" +
                     chatId + ", 'start');";
             db.executeUpdate(query);
@@ -56,7 +56,7 @@ public class StateDataBase implements DataBase<State> {
             return 0;
         }
 
-        String query = "update " + db.getTableName() +
+        String query = "update " + tableName +
                 " set state = '" + newState.name() + "'" +
                 " where chat_id = " + chatId + ";";
 

@@ -3,7 +3,6 @@ package fsm.core;
 import fsm.cfg.Event;
 import fsm.cfg.States;
 import fsm.cfg.Transitions;
-import utils.Constants;
 
 import java.util.List;
 import java.util.Set;

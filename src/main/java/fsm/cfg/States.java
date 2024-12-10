@@ -1,6 +1,5 @@
 package fsm.cfg;
 
-import fsm.core.EventHandler;
 import fsm.core.State;
 
 import java.util.Set;
