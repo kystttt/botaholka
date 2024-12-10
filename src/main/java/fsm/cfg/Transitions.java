@@ -408,6 +408,12 @@ public class Transitions {
             .endState(states.allreviews)
             .build();
 
+    Transition history = new TransitionBuilder()
+            .event(Event.HISTORY)
+            .eventHandler(eventHandlers.history)
+            .startState(states.buyer)
+            .endState(states.buyer)
+            .build();
     /**
      * Возвращает набор всех {@link Transition}
      */
@@ -468,7 +474,8 @@ public class Transitions {
                 endReviewDelete,
                 reviewText,
                 endReviewYes,
-                ratingHelp
+                ratingHelp,
+                history
         ));
     }
 }

@@ -48,5 +48,13 @@ public class FormOrderMessage {
 
     }
 
-
+    /**
+     * Возвращает сообщение в формате для вывода истории заказов
+     */
+    public String forHistory(Order order, Menu menu){
+        return "Заказ №" + order.getId() + "\n" +
+                formOrderList(order, menu) +
+                " Сумма заказа: " +
+                order.formSum(menu) + "руб.\n";
+    }
 }

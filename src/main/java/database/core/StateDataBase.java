@@ -1,27 +1,27 @@
-package database;
+package database.core;
 
+import database.api.DataBase;
 import fsm.core.State;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 
 /**
  * Реализация базы данных для получения и присваивания состояний пользователя
  */
-public class StateDataBase implements DataBase<State>{
+public class StateDataBase implements DataBase<State> {
     DB db;
+    private final String tableName;
 
-    public StateDataBase(){
-        db = new DB("users");
-    }
-
-    StateDataBase(String tableName){
+    public StateDataBase(String tableName){
+        this.tableName = tableName;
         db = new DB(tableName);
     }
 
     @Override
-    public State get(Long chatId) {
+    public List<State> get(Long chatId) {
         int connectionResponse = db.getConnection();
         if(connectionResponse == 0){
             System.out.println("не установил connection");
@@ -36,7 +36,7 @@ public class StateDataBase implements DataBase<State>{
             resultSet.next();
             String result = resultSet.getString("state");
             db.closeConnection();
-            return new State(result);
+            return List.of(new State(result));
         } catch (SQLException e){
 
             query = "insert into " + db.getTableName() +
@@ -44,7 +44,7 @@ public class StateDataBase implements DataBase<State>{
                     chatId + ", 'start');";
             db.executeUpdate(query);
             db.closeConnection();
-            return new State("start");
+            return List.of(new State("start"));
         }
     }
 
@@ -65,7 +65,8 @@ public class StateDataBase implements DataBase<State>{
         return response;
     }
 
-    void createCustomerTable() {
+    @Override
+    public void createTestTable() {
         db.createStateTestTable();
     }
 }

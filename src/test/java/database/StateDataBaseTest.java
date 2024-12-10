@@ -1,5 +1,6 @@
 package database;
 
+import database.core.StateDataBase;
 import fsm.core.State;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,10 +16,10 @@ public class StateDataBaseTest {
      */
     @Test
     void getTest(){
-        stateDataBase.createCustomerTable();
-        State actual = stateDataBase.get(123L);
+        stateDataBase.createTestTable();
+        State actual = stateDataBase.get(123L).getFirst();
         Assertions.assertEquals(new State("test"), actual);
-        actual = stateDataBase.get(1234L);
+        actual = stateDataBase.get(1234L).getFirst();
         Assertions.assertEquals(new State("start"), actual);
 
     }
@@ -28,9 +29,9 @@ public class StateDataBaseTest {
      */
     @Test
     void setTest(){
-        stateDataBase.createCustomerTable();
+        stateDataBase.createTestTable();
         int queryResponse = stateDataBase.set(123L, new State("StateTest"));
         Assertions.assertEquals(1, queryResponse);
-        Assertions.assertEquals(new State("StateTest"), stateDataBase.get(123L));
+        Assertions.assertEquals(new State("StateTest"), stateDataBase.get(123L).getFirst());
     }
 }

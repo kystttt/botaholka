@@ -1,6 +1,6 @@
-package database;
+package database.core;
 
-import fsm.core.State;
+import database.api.DataBase;
 import utils.review.Review;
 
 import java.sql.ResultSet;
@@ -8,14 +8,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReviewDataBase implements DataBase<Review>{
+public class ReviewDataBase implements DataBase<Review> {
     DB db;
+    private final String tableName;
 
-    public ReviewDataBase(){
-        db = new DB("reviews");
-    }
-
-    ReviewDataBase(String tableName){
+    public ReviewDataBase(String tableName){
+        this.tableName = tableName;
         db = new DB(tableName);
     }
 
@@ -37,7 +35,7 @@ public class ReviewDataBase implements DataBase<Review>{
             ofset = 0;
         }
         String query = "select * " +
-                "from " + db.getTableName() +
+                "from " + tableName +
                 " limit 5 offset " + ofset + ";";
         try{
             ResultSet resultSet = db.executeQuery(query);
@@ -58,14 +56,14 @@ public class ReviewDataBase implements DataBase<Review>{
     }
 
     @Override
-    public Review get(Long chatId) {
+    public List<Review> get(Long chatId) {
         int connectionResponse = db.getConnection();
         if(connectionResponse == 0){
             System.out.println("не установил connection");
             return null;
         }
         String query = "select * " +
-                "from " + db.getTableName() +
+                "from " + tableName +
                 " where chat_id = " + chatId + ";";
         try{
             ResultSet resultSet = db.executeQuery(query);
@@ -73,9 +71,9 @@ public class ReviewDataBase implements DataBase<Review>{
             String text = resultSet.getString("text");
             int rating = resultSet.getInt("rating_5");
             db.closeConnection();
-            return new Review(rating, text);
+            return List.of(new Review(rating, text));
         } catch (SQLException e){
-            return new Review(1, "1");
+            return List.of(new Review(1, "1"));
         }
     }
 
@@ -87,7 +85,7 @@ public class ReviewDataBase implements DataBase<Review>{
             return 0;
         }
 
-        String query = "insert into " + db.getTableName() +
+        String query = "insert into " + tableName +
                 "(chat_id,rating_5,text) values ( '" + chatId + "', '"
                 + review.getRating() + "', '" +
                 review.getText() + "');";
@@ -97,7 +95,8 @@ public class ReviewDataBase implements DataBase<Review>{
         return response;
     }
 
-    void createCustomerTable() {
+    @Override
+    public void createTestTable() {
         db.createReviewTestTable();
     }
 }

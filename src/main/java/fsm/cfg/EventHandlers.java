@@ -99,5 +99,7 @@ public class EventHandlers {
 
     public EventHandler allreviews = (String messageText, long chatId)->
             textHandler.allReviews(chatId);
-}
 
+    public EventHandler history = (String messageText, long chatId)->
+            textHandler.history(chatId) + Constants.BUYER_HELP;
+}

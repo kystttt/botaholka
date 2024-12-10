@@ -30,6 +30,6 @@ public enum Event {
     TEXT,
     REWRITE,
     ALLREVIEWS,
-    NEXT
-
+    NEXT,
+    HISTORY
 }

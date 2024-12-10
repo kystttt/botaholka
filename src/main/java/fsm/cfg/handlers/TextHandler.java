@@ -1,7 +1,8 @@
 package fsm.cfg.handlers;
 
-import database.DataBase;
-import database.ReviewDataBase;
+import database.api.DataBase;
+import database.core.HistoryDataBase;
+import database.core.ReviewDataBase;
 import menu.*;
 import utils.order.FormOrderMessage;
 import storages.api.Cart;
@@ -23,7 +24,8 @@ public class TextHandler {
     final Cart cart;
     Menu menu;
     private final Map<Long, Review> reviews = new HashMap<>();
-    private final ReviewDataBase reviewDataBase = new ReviewDataBase();
+    private final ReviewDataBase reviewDataBase = new ReviewDataBase("reviews");
+    private final DataBase<Order> historyTable = new HistoryDataBase("history");
 
     public TextHandler(String menuFileName) {
         listOfOrders = new ListOfOrders();
@@ -245,7 +247,11 @@ public class TextHandler {
                     output_message =  "Статус заказа не изменен\n";
                     return output_message;
                 }
-                order.setStatus();
+                int response = order.setStatus();
+                if(response == 1){
+                    listOfOrders.remove(order.getId());
+                    historyTable.set(chatId, order);
+                };
             }
         }
 
@@ -333,6 +339,15 @@ public class TextHandler {
                     .append(review.getText())
                     .append("\n");
         }
+        return stringBuilder.toString();
+    }
+
+    public String history(long chatId) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(Order order : historyTable.get(chatId)){
+            stringBuilder.append(new FormOrderMessage().forHistory(order, menu));
+        }
+        System.out.println("1"+stringBuilder.toString() +"1");
         return stringBuilder.toString();
     }
 }

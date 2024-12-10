@@ -1,12 +1,14 @@
-package database;
+package database.api;
+
+import java.util.List;
 
 public interface DataBase<T> {
 
     /**
-     * Возвращает поле пользователя по его id
+     * Возвращает список полей пользователя по его id
      * или null, если не смог подучить нужный столбец
      */
-    T get(Long chatId);
+    List<T> get(Long chatId);
 
     /**
      * Обновляет поля для пользователя
@@ -16,4 +18,9 @@ public interface DataBase<T> {
      * (0) - не успешно
      */
     int set(Long chatId, T t);
+
+    /**
+     * Создаёт тестовую таблицу
+     */
+    void createTestTable();
 }

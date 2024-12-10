@@ -1,4 +1,4 @@
-package database;
+package database.core;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -74,7 +74,20 @@ public class DB {
         closeConnection();
     }
 
+    void createHistoryTestTable() {
+        getConnection();
+        executeUpdate("drop table test;");
+        String customerTableQuery = "CREATE TABLE test " +
+                "(id SERIAL primary key, chat_id INT, order_id INT, items TEXT, sum INT); ";
+        String customerEntryQuery = "INSERT INTO test(chat_id, order_id, items, sum) " +
+                "VALUES (123, 4, 'test..', 90)";
+        executeUpdate(customerTableQuery);
+        executeUpdate(customerEntryQuery);
+        closeConnection();
+    }
     public String getTableName() {
         return tableName;
     }
+
+
 }

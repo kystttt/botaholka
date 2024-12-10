@@ -1,17 +1,17 @@
 package storages.core;
 
 
-import database.DataBase;
-import database.StateDataBase;
+import database.api.DataBase;
+import database.core.StateDataBase;
 import fsm.core.State;
 import storages.api.StateStorage;
 
 public class StateFromDataBase implements StateStorage {
-    DataBase<State> db = new StateDataBase();
+    DataBase<State> db = new StateDataBase("users");
 
     @Override
     public State get(Long id) {
-        State result = db.get(id);
+        State result = db.get(id).getFirst();
         if(result == null){
             return new State("start");
         }
