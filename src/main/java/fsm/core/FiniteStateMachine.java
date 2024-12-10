@@ -3,8 +3,8 @@ package fsm.core;
 import fsm.cfg.Event;
 import fsm.cfg.States;
 import fsm.cfg.Transitions;
-import utils.Constants;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,7 +13,7 @@ import java.util.Set;
 public class FiniteStateMachine {
     private State currentState;
     private final Set<State> states;
-    private final Set<Transition> transitions;
+    private final List<Transition> transitions;
     Transition lastTransition;
 
     public FiniteStateMachine() {
@@ -21,7 +21,7 @@ public class FiniteStateMachine {
         this.transitions = new Transitions().get();
     }
 
-    FiniteStateMachine(Set<Transition> transitions, Set<State> states){
+    FiniteStateMachine(List<Transition> transitions, Set<State> states){
         this.states = states;
         this.transitions = transitions;
     }
@@ -45,6 +45,7 @@ public class FiniteStateMachine {
                             transition.getEvent().equals(event) &&
                             states.contains(transition.getEndState())
             ) {
+//                System.out.println(transition.);
                 currentState = transition.getEndState();
                 lastTransition = transition;
                 try{

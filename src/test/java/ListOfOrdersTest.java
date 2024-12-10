@@ -1,5 +1,5 @@
 import storages.core.ListOfOrders;
-import order.Order;
+import utils.order.Order;
 import org.junit.jupiter.api.BeforeEach;
 
 import org.junit.jupiter.api.Assertions;

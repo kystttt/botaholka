@@ -1,14 +1,16 @@
 package logic;
 
 import fsm.cfg.Event;
+import fsm.core.State;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import storages.core.StateStorageImpl;
 
 public class EventTest {
     BotLogic logic;
 
     public EventTest(){
-        logic = new BotLogic();
+        logic = new BotLogic(new StateStorageImpl());
     }
 
     @Test
@@ -55,12 +57,29 @@ public class EventTest {
         actual = logic.getEvent("/nextStatus");
         Assertions.assertEquals(Event.NEXT_STATUS, actual);
 
-        actual = logic.getEvent("1");
-        Assertions.assertEquals(Event.INT, actual);
-
         actual = logic.getEvent("fsdfsfsdfs");
         Assertions.assertEquals(Event.ERROR, actual);
     }
 
+    @Test
+    void defaultCause(){
+        logic.fsm.setCurrentState(new State("rating"));
+        Event actual = logic.getEvent("1");
+        Assertions.assertEquals(Event.INT, actual);
+
+        actual = logic.getEvent("6");
+        Assertions.assertEquals(Event.HELP, actual);
+
+        logic.fsm.setCurrentState(new State("review"));
+        actual = logic.getEvent("efevevevfd");
+        Assertions.assertEquals(Event.TEXT, actual);
+
+        logic.fsm.setCurrentState(new State("start"));
+        actual = logic.getEvent("efevevevfd");
+        Assertions.assertEquals(Event.ERROR, actual);
+
+        actual = logic.getEvent("1");
+        Assertions.assertEquals(Event.INT, actual);
+    }
 
 }

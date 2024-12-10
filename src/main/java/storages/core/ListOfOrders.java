@@ -1,6 +1,6 @@
 package storages.core;
 
-import order.Order;
+import utils.order.Order;
 import storages.api.Orders;
 
 import java.util.ArrayList;

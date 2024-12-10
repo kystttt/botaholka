@@ -1,9 +1,8 @@
-package order;
+package utils.order;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import menu.Menu;
 
@@ -12,16 +11,27 @@ import menu.Menu;
  */
 public class Order {
 
+    private int sum;
+
+
+
+    private int id;
+
+    private final Long chatId;
+    private int currentStatusListIndex = 1;
+
     public Order(Order order){
         this.chatId = order.chatId;
         this.id = order.id;
         this.items = order.items;
     }
 
-    private int id;
-
-    private final Long chatId;
-    private int currentStatusListIndex = 1;
+    public Order(int sum, int id, Long chatId, ArrayList<String> items) {
+        this.sum = sum;
+        this.id = id;
+        this.chatId = chatId;
+        this.items = items;
+    }
 
     /**
      * Список возможных статусов заказа
@@ -51,13 +61,24 @@ public class Order {
     }
 
     public ArrayList<String> getItems(){return items;}
+
+    public String itemsToString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String str : items){
+            stringBuilder.append(str)
+                    .append("/");
+        }
+        return stringBuilder.toString();
+    }
+
     public String getStatus(){return status;}
 
-    public void setStatus(){
-        if (!this.status.equals("Выдан")){
-            this.status = statusList.get(currentStatusListIndex++);
+    public int setStatus(){
+        this.status = statusList.get(currentStatusListIndex++);
+        if (this.status.equals("Выдан")){
+            return 1;
         }
-
+        return  0;
     }
 
     /**
@@ -76,6 +97,33 @@ public class Order {
         for(String s: items){
             sum += menu.getCost(s);
         }
+        this.sum = sum;
         return sum;
+    }
+
+    public int getSum() {
+        return sum;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id == order.id && Objects.equals(chatId, order.chatId) && Objects.equals(items, order.items);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, chatId, status, items);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "items=" + items +
+                ", chatId=" + chatId +
+                ", id=" + id +
+                '}';
     }
 }

@@ -20,6 +20,11 @@ public class States {
     public State sellerOrders = new State("sellerOrders");
     public State nextStatus = new State("nextStatus");
     public State sellerOrder = new State("sellerOrder");
+    public State thechoice = new State("thechoice");
+    public State review = new State("review");
+    public State rating = new State("rating");
+    public State endreview = new State("endreview");
+    public State allreviews = new State("allreviews");
 
     public Set<State> getStates(){
         return Set.of(
@@ -34,7 +39,12 @@ public class States {
                 cart,
                 sellerOrders,
                 nextStatus,
-                sellerOrder
+                sellerOrder,
+                thechoice,
+                review,
+                rating,
+                endreview,
+                allreviews
         );
     }
 }

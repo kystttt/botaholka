@@ -1,7 +1,7 @@
 package fsm.cfg.handlers;
 
 import menu.*;
-import order.Order;
+import utils.order.Order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
