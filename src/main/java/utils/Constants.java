@@ -23,7 +23,7 @@ public class Constants {
     public final static String ERROR_INDEX_CONST = "Такого индекса не существует\n";
     public final static String CHOOSE_CONST = "Введите название блюда, которое хотите заказать: ";
     public final static String NO_AVAILABLE_ORDERS = "У вас нету активных заказов";
-    public final static String MENU_FILENAME_CONST = "src/main/java/utils/menu.json";
+    public final static String MENU_FILENAME_CONST = "menu.json";
     public final static String NEXT_STATUS_HELP =
             """
             Введите номер заказа, статус которого вы хотите изменить
