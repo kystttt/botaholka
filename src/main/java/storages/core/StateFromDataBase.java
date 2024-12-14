@@ -1,18 +1,24 @@
 package storages.core;
 
 
-import database.api.DataBase;
-import database.core.StateDataBase;
+import database.core.DB;
+import database.core.StateDAO;
 import fsm.core.State;
 import storages.api.StateStorage;
+import utils.Constants;
 
 public class StateFromDataBase implements StateStorage {
-    DataBase<State> db = new StateDataBase("users");
+    private final DB db = new DB(
+            Constants.DB_URL,
+            Constants.DB_USERNAME,
+            System.getenv("DB_PASSWORD"));
+    StateDAO stateDAO = new StateDAO(db);
 
     @Override
     public State get(Long id) {
-        State result = db.get(id).getFirst();
+        State result = stateDAO.getState(id);
         if(result == null){
+            stateDAO.addUser(id);
             return new State("start");
         }
         return result;
@@ -20,8 +26,8 @@ public class StateFromDataBase implements StateStorage {
 
     @Override
     public void put(Long id, State newState) {
-        int response = db.set(id, newState);
-        if(response == 0){
+        boolean response = stateDAO.updateState(id, newState);
+        if(!response){
             System.out.println("Ошибка сохранения в ДБ");
         }
     }
