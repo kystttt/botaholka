@@ -255,7 +255,6 @@ public class TextHandler {
                 int response = order.setStatus();
                 if(response == 1){
                     listOfOrders.remove(order.getId());
-                    //TODO(На Ване)
                     historyTable.addOrder(chatId, order);
                 }
             }
