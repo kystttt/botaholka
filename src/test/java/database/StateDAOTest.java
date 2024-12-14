@@ -1,12 +1,10 @@
 package database;
 
 import database.core.DB;
-import database.core.HistoryDAO;
 import database.core.StateDAO;
 import fsm.core.State;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import utils.order.Order;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

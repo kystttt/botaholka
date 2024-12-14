@@ -244,7 +244,7 @@ public class TextHandler {
             output_message = "Такого заказа не существует\n";
             return output_message;
         }
-        String tempOrderStatus = "";
+        String tempOrderStatus;
         for (Order order : listOfOrders.getOrders()){
             if (idx == order.getId()){
                 tempOrderStatus = order.getStatus();
@@ -257,7 +257,7 @@ public class TextHandler {
                     listOfOrders.remove(order.getId());
                     //TODO(На Ване)
                     historyTable.addOrder(chatId, order);
-                };
+                }
             }
         }
         output_message = "Статус заказа изменён\n";
