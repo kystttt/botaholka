@@ -17,7 +17,7 @@ public class StateFromDataBase implements StateStorage {
     @Override
     public State get(Long id) {
         State result = stateDAO.getState(id);
-        if(result == null){
+        if (result == null) {
             stateDAO.addUser(id);
             return new State("start");
         }
@@ -27,7 +27,7 @@ public class StateFromDataBase implements StateStorage {
     @Override
     public void put(Long id, State newState) {
         boolean response = stateDAO.updateState(id, newState);
-        if(!response){
+        if (!response) {
             System.out.println("Ошибка сохранения в ДБ");
         }
     }

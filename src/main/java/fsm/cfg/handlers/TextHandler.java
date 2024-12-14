@@ -337,7 +337,7 @@ public class TextHandler {
      */
     public String allReviews(long chatId) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Review review : reviewTable.get(chatId)){
+        for (Review review : reviewTable.getReviews(chatId)){
             stringBuilder
                     .append(review.getRating())
                     .append("\n")

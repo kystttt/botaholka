@@ -45,17 +45,7 @@ public class DB {
 //        closeConnection();
 //    }
 //
-//    void createReviewTestTable(){
-//        getConnection();
-//        executeUpdate("drop table test;");
-//        String customerTableQuery = "CREATE TABLE test " +
-//                "(id SERIAL primary key,chat_id INT, rating_5 INT, text TEXT); ";
-//        String customerEntryQuery = "INSERT INTO test(chat_id, rating_5, text) " +
-//                "VALUES (123, 4, 'test')";
-//        executeUpdate(customerTableQuery);
-//        executeUpdate(customerEntryQuery);
-//        closeConnection();
-//    }
+//
 //
 //    void createHistoryTestTable() {
 //        getConnection();

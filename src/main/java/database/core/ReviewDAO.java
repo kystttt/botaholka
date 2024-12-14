@@ -26,7 +26,7 @@ public class ReviewDAO {
      * @return список из (максимум) 5 отзывов,
      * null - если произошла ошибка с БД
      */
-    public List<Review> get(Long chatId) {
+    public List<Review> getReviews(Long chatId) {
         // TODO(На Лёне) Здесь надо исправить чтобы офсет не смещался,
         // когда уже закончился список отзывов
         int ofset = getOffset(chatId);
@@ -47,8 +47,10 @@ public class ReviewDAO {
      */
     private int getOffset(Long chatId) {
         try {
-            return db.executeQuery("select *" +
-                    "from users where chat_id = " + chatId + ";").getInt("ofset");
+            ResultSet resultSet = db.executeQuery("select * " +
+                    "from users where chat_id = " + chatId + ";");
+            resultSet.next();
+            return resultSet.getInt("ofset");
         } catch (SQLException e) {
             return 0;
         }
@@ -91,7 +93,7 @@ public class ReviewDAO {
      */
     private void updateOffset(Long chatId, int ofset) {
         try {
-            db.executeUpdate("update users set ofset = " + ofset + " + 5 where chat_id = " + chatId + ";");
+            db.executeUpdate("update users set ofset = " + (ofset+5) + " + 5 where chat_id = " + chatId + ";");
         } catch (SQLException e) {
             System.out.println("Ошибка сохранений данных(сдвига) в таблицу пользователей\n" + e);
         }
