@@ -48,17 +48,16 @@ public class HistoryDAO {
         }catch (SQLException e){
             System.out.println("Не смог обратиться к бд, таблице истории\n" + e);
         }
-        return result;
+
+        return result.stream().toList();
     }
 
     /**
      * Добавляет в таблицу истории заказ по id пользователя
      * @param chatId id пользователя
-     * @param order заказ пользователя
-     * @return Добавление данных прошло успешно - (true),
-     * прошло не успешно - (false)
+     * @param order  заказ пользователя
      */
-    public boolean addOrder(Long chatId, Order order) {
+    public void addOrder(Long chatId, Order order) {
         int orderId = order.getId();
         String text = order.itemsToString();
         int sum = order.getSum();
@@ -74,9 +73,8 @@ public class HistoryDAO {
 
         try{
             db.executeUpdate(query);
-            return true;
         }catch (SQLException e){
-            return false;
+            System.out.println("Не удалось добавить заказ в таблицу history\n" + e);
         }
     }
 }

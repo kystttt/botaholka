@@ -25,7 +25,7 @@ public class ReviewDAOTest {
     /**
      * Создает таблицу reviews
      */
-    void createReviewTestTable() {
+    private void createReviewTestTable() {
         try {
             Connection connection = DriverManager.getConnection(
                     "jdbc:h2:mem:test", "sa", "");
@@ -141,5 +141,6 @@ public class ReviewDAOTest {
         List<Review> expected = List.of(new Review(1, "test1"));
 
         Assertions.assertEquals(expected, actual);
+        deleteTables();
     }
 }
