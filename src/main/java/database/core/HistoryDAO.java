@@ -46,7 +46,7 @@ public class HistoryDAO {
                 System.out.println("Один из столбцов недоступен в таблице истории\n" + e);
             }
         }catch (SQLException e){
-            System.out.println("Не смог обратиться к бд, таблице истории\n" + e);
+            System.out.println("Не смог обратиться к бд или к таблице истории\n" + e);
         }
 
         return result.stream().toList();
