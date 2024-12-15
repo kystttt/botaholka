@@ -1,8 +1,8 @@
 package fsm.cfg.handlers;
 
-import database.api.DataBase;
-import database.core.HistoryDataBase;
-import database.core.ReviewDataBase;
+import database.core.DB;
+import database.core.HistoryDAO;
+import database.core.ReviewDAO;
 import menu.*;
 import utils.order.FormOrderMessage;
 import storages.api.Cart;
@@ -23,9 +23,14 @@ public class TextHandler {
     final Orders listOfOrders;
     private final Map<Long, Cart> userCarts = new HashMap<>();
     Menu menu;
+    private final DB db = new DB(
+            "jdbc:postgresql://localhost:5432/botaholka",
+            "postgres",
+            System.getenv("DB_PASSWORD")
+    );
     private final Map<Long, Review> reviews = new HashMap<>();
-    private final ReviewDataBase reviewDataBase = new ReviewDataBase("reviews");
-    private final DataBase<Order> historyTable = new HistoryDataBase("history");
+    private final ReviewDAO reviewTable = new ReviewDAO(db);
+    private final HistoryDAO historyTable = new HistoryDAO(db);
 
     public TextHandler(String menuFileName) {
         listOfOrders = new ListOfOrders();
@@ -239,7 +244,7 @@ public class TextHandler {
             output_message = "Такого заказа не существует\n";
             return output_message;
         }
-        String tempOrderStatus = "";
+        String tempOrderStatus;
         for (Order order : listOfOrders.getOrders()){
             if (idx == order.getId()){
                 tempOrderStatus = order.getStatus();
@@ -250,11 +255,10 @@ public class TextHandler {
                 int response = order.setStatus();
                 if(response == 1){
                     listOfOrders.remove(order.getId());
-                    historyTable.set(chatId, order);
-                };
+                    historyTable.addOrder(chatId, order);
+                }
             }
         }
-
         output_message = "Статус заказа изменён\n";
         return output_message;
     }
@@ -318,9 +322,9 @@ public class TextHandler {
      * Записывает текст и оценку отзыва в бд для пользователя по его id
      */
     public String insertReview(long chatId) {
-        int response = reviewDataBase.set(chatId, reviews.get(chatId));
+        boolean response = reviewTable.addReview(chatId, reviews.get(chatId));
         reviews.remove(chatId);
-        if (response == 1){
+        if (response){
             return "Отзыв успешно добавлен\n";
         } else {
             return "К сожалению ваш отзыв не добавлен по техническим причинам\n";
@@ -332,7 +336,7 @@ public class TextHandler {
      */
     public String allReviews(long chatId) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Review review : reviewDataBase.get(chatId)){
+        for (Review review : reviewTable.getReviews(chatId)){
             stringBuilder
                     .append(review.getRating())
                     .append("\n")
@@ -344,10 +348,9 @@ public class TextHandler {
 
     public String history(long chatId) {
         StringBuilder stringBuilder = new StringBuilder();
-        for(Order order : historyTable.get(chatId)){
+        for(Order order : historyTable.getOrders(chatId)){
             stringBuilder.append(new FormOrderMessage().forHistory(order, menu));
         }
-        System.out.println("1"+stringBuilder.toString() +"1");
         return stringBuilder.toString();
     }
 }
