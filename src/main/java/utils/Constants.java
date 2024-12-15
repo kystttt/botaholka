@@ -101,7 +101,4 @@ public class Constants {
             
             /next - следующие 5 отзывов
             /back - вернуться назад в главное меню""";
-
-    public static final String DB_URL = "jdbc:postgresql://localhost:5432/botaholka";
-    public static final String DB_USERNAME = "postgres";
 }

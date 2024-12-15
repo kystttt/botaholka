@@ -13,37 +13,38 @@ public class DB {
     final String user;// = "postgres";
     final String password;// = "1234";
 
+    /**
+     * Конструктор для DB
+     * @param url Ссылка на подключение БД
+     * @param user Имя пользователя при подключении БД
+     * @param password Пароль пользователя при подключении БД
+     */
     public DB(String url, String user, String password) {
         this.url = url;
         this.user = user;
         this.password = password;
     }
 
+    /**
+     * Выполняет запрос к таблице, который ее изменяет
+     */
     public void executeUpdate(String query) throws SQLException {
         Connection connection = getConnection();
         connection.createStatement().executeUpdate(query);
     }
 
+    /**
+     * Выполняет запрос к таблице, и возвращает данные из неё
+     */
     public ResultSet executeQuery(String query) throws SQLException {
         Connection connection = getConnection();
         return connection.createStatement().executeQuery(query);
     }
 
+    /**
+     * Устанавливает соединение с БД
+     */
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
-
-//    void createStateTestTable(){
-//        getConnection();
-//        executeUpdate("drop table test;");
-//        String customerTableQuery = "CREATE TABLE test " +
-//                "(id SERIAL, state TEXT, chat_id INT primary key)";
-//        String customerEntryQuery = "INSERT INTO test(chat_id, state) " +
-//                "VALUES (123, 'test')";
-//        executeUpdate(customerTableQuery);
-//        executeUpdate(customerEntryQuery);
-//        closeConnection();
-//    }
-//
-//
 }

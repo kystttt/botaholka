@@ -3,7 +3,6 @@ package storages.api;
 /**
  * Корзина
  */
-//TODO(На Лёне) Сделай так чтобы корзина была не общая для всех, а для каждого пользователя своя
 public interface Cart {
     String get(int index);
 

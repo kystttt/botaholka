@@ -9,8 +9,8 @@ import utils.Constants;
 
 public class StateFromDataBase implements StateStorage {
     private final DB db = new DB(
-            Constants.DB_URL,
-            Constants.DB_USERNAME,
+            "jdbc:postgresql://localhost:5432/botaholka",
+            "postgres",
             System.getenv("DB_PASSWORD"));
     StateDAO stateDAO = new StateDAO(db);
 
