@@ -336,12 +336,15 @@ public class TextHandler {
      */
     public String allReviews(long chatId) {
         StringBuilder stringBuilder = new StringBuilder();
+        int reviewNumber = 1;
         for (Review review : reviewTable.getReviews(chatId)){
             stringBuilder
+                    .append(reviewNumber).append(") ")
                     .append(review.getRating())
                     .append("\n")
                     .append(review.getText())
                     .append("\n");
+            reviewNumber++;
         }
         return stringBuilder.toString();
     }
