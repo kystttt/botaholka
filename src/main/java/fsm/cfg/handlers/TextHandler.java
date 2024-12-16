@@ -24,8 +24,8 @@ public class TextHandler {
     private final Map<Long, Cart> userCarts = new HashMap<>();
     Menu menu;
     private final DB db = new DB(
-            "jdbc:postgresql://localhost:5432/botaholka",
-            "postgres",
+            System.getenv("DB_URL"),
+            System.getenv("DB_USER"),
             System.getenv("DB_PASSWORD")
     );
     private final Map<Long, Review> reviews = new HashMap<>();

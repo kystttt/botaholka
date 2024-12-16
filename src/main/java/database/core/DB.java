@@ -9,9 +9,9 @@ import java.sql.SQLException;
  * Обёртка вокруг api JDBC
  */
 public class DB {
-    final String url;// = "jdbc:postgresql://localhost:5432/botaholka";
-    final String user;// = "postgres";
-    final String password;// = "1234";
+    final String url;
+    final String user;
+    final String password;
 
     /**
      * Конструктор для DB
@@ -23,6 +23,7 @@ public class DB {
         this.url = url;
         this.user = user;
         this.password = password;
+        initializeDatabase();
     }
 
     /**
@@ -46,5 +47,28 @@ public class DB {
      */
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);
+    }
+
+    /**
+     * Создает таблицы в базе данных, если их нет
+     */
+    private void initializeDatabase() {
+        String createUsersTable = "CREATE TABLE IF NOT EXISTS users " +
+                "(id SERIAL, chat_id INT primary key, state TEXT, ofset INT)";
+
+        String createHistoryTable = "CREATE TABLE IF NOT EXISTS history " +
+                "(id SERIAL primary key, chat_id INT, order_id INT, items TEXT, sum INT); ";
+
+        String createReviewsTable = "CREATE TABLE IF NOT EXISTS reviews " +
+                "(id SERIAL primary key,chat_id INT, rating_5 INT, text TEXT); ";
+
+        try {
+            executeUpdate(createUsersTable);
+            executeUpdate(createHistoryTable);
+            executeUpdate(createReviewsTable);
+            System.out.println("Таблицы успешно созданы или уже существуют.");
+        } catch (SQLException e) {
+            System.err.println("Ошибка при создании таблиц: " + e.getMessage());
+        }
     }
 }
