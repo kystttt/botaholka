@@ -20,23 +20,55 @@ public class ReviewDAO {
 
     /**
      * Получает список отзывов для пользователя по его id
-     * из таблицы отзывов
+     * из таблицы отзывов.
      *
      * @param chatId id пользователя для поиска сдвига
-     * @return список из (максимум) 5 отзывов,
+     * @return список из (максимум) 5 отзывов, пустой список - если список исчерпан,
      * null - если произошла ошибка с БД
      */
     public List<Review> getReviews(Long chatId) {
-        // TODO(На Лёне) Здесь надо исправить чтобы офсет не смещался,
-        // когда уже закончился список отзывов
-        int ofset = getOffset(chatId);
-        List<Review> resultList = getReviews(ofset);
+        int offset = getOffset(chatId);
+        int totalReviews = getTotalReviewsCount();
+
+        if (totalReviews == -1) {
+            return null;
+        }
+
+        if (offset >= totalReviews) {
+            System.out.println("Все отзывы уже просмотрены.");
+            return List.of();
+        }
+
+        List<Review> resultList = getReviews(offset);
         if (resultList == null) {
             return null;
         }
-        updateOffset(chatId, ofset);
+
+        if (resultList.size() > 5) {
+            updateOffset(chatId, offset);
+        }
+
         return resultList;
     }
+
+    /**
+     * Возвращает общее количество записей в таблице отзывов.
+     *
+     * @return количество записей или -1 в случае ошибки.
+     */
+    private int getTotalReviewsCount() {
+        try {
+            ResultSet resultSet = db.executeQuery("SELECT COUNT(*) AS total FROM " + tableName + ";");
+            if (resultSet.next()) {
+                return resultSet.getInt("total");
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при подсчете количества отзывов: " + e);
+        }
+        return -1;
+    }
+
+
 
     /**
      * Возвращает сдвиг для пользователя по его id
@@ -86,16 +118,17 @@ public class ReviewDAO {
     }
 
     /**
-     * Обновляет ofset для пользователя по его id
+     * Обновляет ofset для пользователя по его id.
      *
      * @param chatId id пользователя
-     * @param ofset  Сдвиг для пользователя
+     * @param ofset  Текущий сдвиг пользователя
      */
     private void updateOffset(Long chatId, int ofset) {
         try {
-            db.executeUpdate("update users set ofset = " + (ofset+5) + " + 5 where chat_id = " + chatId + ";");
+            String query = "UPDATE users SET ofset = " + (ofset + 5) + " WHERE chat_id = " + chatId + ";";
+            db.executeUpdate(query);
         } catch (SQLException e) {
-            System.out.println("Ошибка сохранений данных(сдвига) в таблицу пользователей\n" + e);
+            System.out.println("Ошибка сохранения данных (сдвига) в таблицу пользователей\n" + e);
         }
     }
 
