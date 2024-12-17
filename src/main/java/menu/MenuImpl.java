@@ -4,8 +4,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
+
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -68,16 +71,21 @@ public class MenuImpl implements Menu{
      * Считывает данные из заданного файла и возвращает HashMap
      * @param fileName Имя файла из которого считывается
      */
-    private void readFromJSONFile(String fileName){
-        try(FileReader file = new FileReader(fileName)) {
-            JSONObject jsonObject = (JSONObject)new JSONParser().parse(file);
+    private void readFromJSONFile(String fileName) {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName)) {
+            if (inputStream == null) {
+                throw new RuntimeException("Файл " + fileName + " не найден в ресурсах");
+            }
+            InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            JSONObject jsonObject = (JSONObject) new JSONParser().parse(reader);
             for (Object s : jsonObject.keySet()) {
-                items.put((String)s, ((Long) jsonObject.get(s)).intValue());
+                items.put((String) s, ((Long) jsonObject.get(s)).intValue());
             }
         } catch (IOException e) {
             throw new RuntimeException("Ошибка в открытии файла", e);
         } catch (ParseException e) {
-            throw new RuntimeException("Ошибка в чтении из JSON файла",e);
+            throw new RuntimeException("Ошибка в чтении из JSON файла", e);
         }
     }
 }
+

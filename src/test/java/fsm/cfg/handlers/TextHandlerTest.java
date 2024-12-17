@@ -1,6 +1,7 @@
 package fsm.cfg.handlers;
 
 import menu.*;
+import storages.api.Cart;
 import utils.order.Order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -29,22 +30,21 @@ public class TextHandlerTest {
      */
     @Test
     public void testAddToCart_ValidDishIndex() {
-
         textHandler.addToCart("1", chat_id);
+
         assertEquals("""
-                        Ваша корзина:
-                        1. Шаурма - 220 рублей
-                        Доступные методы:
-                        /back - вернуться в меню
-                        /delete - удалить из коризны""",
+            Ваша корзина:
+            1. Шаурма - 220 рублей
+            Доступные методы:
+            /back - вернуться в меню
+            /delete - удалить из корзины""",
                 textHandler.viewCart(chat_id));
 
         String actual = textHandler.addToCart("1", chat_id);
-        assertEquals(2, textHandler.cart.size());
         assertEquals("""
-                        Блюдо добавлено в корзину:
-                        Шаурма - 220 рублей
-                        Посмотреть вашу корзину /cart""",
+            Блюдо добавлено в корзину:
+            Шаурма - 220 рублей
+            Посмотреть вашу корзину /cart""",
                 actual);
     }
 
@@ -52,13 +52,14 @@ public class TextHandlerTest {
      * Тест удаления блюда из корзины
      */
     @Test
-    public void testDeleteFromCart(){
+    public void testDeleteFromCart() {
         textHandler.addToCart("1", chat_id);
 
         String actual = textHandler.deleteFromCart("1", chat_id);
 
-        assertEquals(0, textHandler.cart.size());
-        assertEquals("Блюдо успешно удалено ", actual);
+        Cart userCart = textHandler.getCartForUser(chat_id);
+        assertEquals(0, userCart.size(), "Корзина должна быть пуста после удаления");
+        assertEquals("Блюдо успешно удалено ", actual, "Сообщение об удалении не совпадает");
     }
 
     /**
@@ -67,8 +68,10 @@ public class TextHandlerTest {
     @Test
     public void testAddToCart_InvalidDishIndex() {
         String actual = textHandler.addToCart("5", chat_id);
-        assertEquals(0, textHandler.cart.size());
-        assertEquals("Ошибка: такого блюда нет в меню.", actual);
+
+        Cart userCart = textHandler.getCartForUser(chat_id);
+        assertEquals(0, userCart.size(), "Корзина должна быть пуста, так как блюдо не существует");
+        assertEquals("Ошибка: такого блюда нет в меню.", actual, "Сообщение об ошибке не совпадает");
     }
 
     /**
@@ -80,7 +83,9 @@ public class TextHandlerTest {
 
         String expected = textHandler.makeOrder(chat_id);
         assertEquals("Ваш заказ сформирован", expected);
-        assertEquals(0, textHandler.cart.size());
+
+        // Доступ к корзине через метод getCartForUser
+        assertEquals(0, textHandler.getCartForUser(chat_id).size());  // Проверка размера корзины
         assertEquals(1, textHandler.listOfOrders.size());
     }
 

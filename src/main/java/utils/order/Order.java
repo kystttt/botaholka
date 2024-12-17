@@ -13,8 +13,6 @@ public class Order {
 
     private int sum;
 
-
-
     private int id;
 
     private final Long chatId;
@@ -26,7 +24,7 @@ public class Order {
         this.items = order.items;
     }
 
-    public Order(int sum, int id, Long chatId, ArrayList<String> items) {
+    public Order(int sum, int id, Long chatId, List<String> items) {
         this.sum = sum;
         this.id = id;
         this.chatId = chatId;
@@ -42,7 +40,7 @@ public class Order {
     /**
      *Список того что заказал клиент
      */
-    private ArrayList<String> items = new ArrayList<>();
+    private List<String> items = new ArrayList<>();
 
     public Order(Long chat_id){
         this.chatId = chat_id;
@@ -60,7 +58,7 @@ public class Order {
         this.id = order_id;
     }
 
-    public ArrayList<String> getItems(){return items;}
+    public List<String> getItems(){return items;}
 
     public String itemsToString(){
         StringBuilder stringBuilder = new StringBuilder();

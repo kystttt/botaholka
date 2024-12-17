@@ -1,8 +1,8 @@
 package fsm.cfg.handlers;
 
-import database.api.DataBase;
-import database.core.HistoryDataBase;
-import database.core.ReviewDataBase;
+import database.core.DB;
+import database.core.HistoryDAO;
+import database.core.ReviewDAO;
 import menu.*;
 import utils.order.FormOrderMessage;
 import storages.api.Cart;
@@ -21,41 +21,53 @@ import java.util.Map;
  */
 public class TextHandler {
     final Orders listOfOrders;
-    final Cart cart;
+    private final Map<Long, Cart> userCarts = new HashMap<>();
     Menu menu;
+    private final DB db = new DB(
+            System.getenv("DB_URL"),
+            System.getenv("DB_USER"),
+            System.getenv("DB_PASSWORD")
+    );
     private final Map<Long, Review> reviews = new HashMap<>();
-    private final ReviewDataBase reviewDataBase = new ReviewDataBase("reviews");
-    private final DataBase<Order> historyTable = new HistoryDataBase("history");
+    private final ReviewDAO reviewTable = new ReviewDAO(db);
+    private final HistoryDAO historyTable = new HistoryDAO(db);
 
     public TextHandler(String menuFileName) {
         listOfOrders = new ListOfOrders();
-        cart = new ListCart();
         menu = new MenuImpl(menuFileName);
     }
 
     public TextHandler(Menu menu) {
         listOfOrders = new ListOfOrders();
-        cart = new ListCart();
         this.menu = menu;
+    }
+
+
+    /**
+     * Получение корзины для пользователя по chatId. Если корзины нет, она создается.
+     */
+    public Cart getCartForUser(long chatId) {
+        return userCarts.computeIfAbsent(chatId, id -> new ListCart());
     }
 
     /**
      *  Создает заказ из того, что в корзине
-     * @param chat_id Id того пользователя для кого создается заказ
+     * @param chatId Id того пользователя для кого создается заказ
      */
-    public String makeOrder(Long chat_id){
-        Order order = new Order(chat_id);
-        if (cart.size() == 0){
+    public String makeOrder(Long chatId) {
+        Cart userCart = getCartForUser(chatId);
+        Order order = new Order(chatId);
+        if (userCart.size() == 0) {
             return Constants.CART_EMPTY_CONST;
         }
 
-        for(int i = 0; i < cart.size(); i++){
-            String[] parts = cart.get(i).split("[-. ]+");
+        for (int i = 0; i < userCart.size(); i++) {
+            String[] parts = userCart.get(i).split("[-. ]+");
             order.addToArr(parts[0]);
         }
 
         listOfOrders.put(order);
-        cart.clear();
+        userCart.clear();
         return Constants.MADE_ORDER_CONST;
     }
 
@@ -83,50 +95,43 @@ public class TextHandler {
      * Метод, который добавляет по названию товар в корзину
      */
     public String addToCart(String msgTxt, long chatId) {
+        Cart userCart = getCartForUser(chatId);
         String dishName = menu.getName(Integer.parseInt(msgTxt));
-        String output_message;
         if (menu.getCost(dishName) != -1) {
-            String dishDetails =  dishName + " - " + menu.getCost(dishName) + " рублей"; // Получаем детали блюда
-            cart.add(dishDetails);
-            output_message = Constants.DISH_ADDED_CONST + dishDetails +
-                    Constants.YOUR_CART_CONST;
+            String dishDetails = dishName + " - " + menu.getCost(dishName) + " рублей";
+            userCart.add(dishDetails);
+            return Constants.DISH_ADDED_CONST + dishDetails + Constants.YOUR_CART_CONST;
         } else {
-            output_message = Constants.ERROR_UNDEFINED_NUMB_CONST;
+            return Constants.ERROR_UNDEFINED_NUMB_CONST;
         }
-        return output_message;
     }
 
     /**
-     * Метод, который показывает корзину покупателя.
+     * Метод, который показывает корзину покупателя
      */
     public String viewCart(Long chatId) {
-        String output_message;
-        if (cart.size() == 0) {
-            output_message = Constants.CART_EMPTY_CONST;
-            return output_message;
+        Cart userCart = getCartForUser(chatId);
+        if (userCart.size() == 0) {
+            return Constants.CART_EMPTY_CONST;
         }
+
         StringBuilder cartContents = new StringBuilder(Constants.YOUR_ORDER_CONST);
-
-        for (int i = 0; i < cart.size(); i++) {
-            cartContents
-                    .append(i+1)
-                    .append(". ")
-                    .append(cart.get(i))
-                    .append("\n");
+        for (int i = 0; i < userCart.size(); i++) {
+            cartContents.append(i + 1).append(". ").append(userCart.get(i)).append("\n");
         }
 
-        output_message = cartContents.toString() + Constants.HELP_CLONE + "/back - вернуться в меню\n/delete - удалить из коризны";
-        return output_message;
+        return cartContents + Constants.HELP_CLONE + "/back - вернуться в меню\n/delete - удалить из корзины";
     }
 
     /**
-     * Метод, который удаляет из корзины блюдо по индексу из корзины
+     * Метод, который удаляет из корзины блюдо по индексу
      */
-    public String deleteFromCart(String dishIndexStr, long chatId){
+    public String deleteFromCart(String dishIndexStr, long chatId) {
+        Cart userCart = getCartForUser(chatId);
         try {
             int idx = Integer.parseInt(dishIndexStr) - 1;
-            if (idx >= 0 && idx < cart.size()) {
-                cart.remove(idx);
+            if (idx >= 0 && idx < userCart.size()) {
+                userCart.remove(idx);
                 return Constants.SUCCESS_DELETE_DISH_CONST;
             } else {
                 return Constants.ERROR_INDEX_CONST;
@@ -239,7 +244,7 @@ public class TextHandler {
             output_message = "Такого заказа не существует\n";
             return output_message;
         }
-        String tempOrderStatus = "";
+        String tempOrderStatus;
         for (Order order : listOfOrders.getOrders()){
             if (idx == order.getId()){
                 tempOrderStatus = order.getStatus();
@@ -250,11 +255,10 @@ public class TextHandler {
                 int response = order.setStatus();
                 if(response == 1){
                     listOfOrders.remove(order.getId());
-                    historyTable.set(chatId, order);
-                };
+                    historyTable.addOrder(chatId, order);
+                }
             }
         }
-
         output_message = "Статус заказа изменён\n";
         return output_message;
     }
@@ -318,9 +322,9 @@ public class TextHandler {
      * Записывает текст и оценку отзыва в бд для пользователя по его id
      */
     public String insertReview(long chatId) {
-        int response = reviewDataBase.set(chatId, reviews.get(chatId));
+        boolean response = reviewTable.addReview(chatId, reviews.get(chatId));
         reviews.remove(chatId);
-        if (response == 1){
+        if (response){
             return "Отзыв успешно добавлен\n";
         } else {
             return "К сожалению ваш отзыв не добавлен по техническим причинам\n";
@@ -332,22 +336,24 @@ public class TextHandler {
      */
     public String allReviews(long chatId) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Review review : reviewDataBase.get(chatId)){
+        int reviewNumber = 1;
+        for (Review review : reviewTable.getReviews(chatId)){
             stringBuilder
+                    .append(reviewNumber).append(") ")
                     .append(review.getRating())
                     .append("\n")
                     .append(review.getText())
                     .append("\n");
+            reviewNumber++;
         }
         return stringBuilder.toString();
     }
 
     public String history(long chatId) {
         StringBuilder stringBuilder = new StringBuilder();
-        for(Order order : historyTable.get(chatId)){
+        for(Order order : historyTable.getOrders(chatId)){
             stringBuilder.append(new FormOrderMessage().forHistory(order, menu));
         }
-        System.out.println("1"+stringBuilder.toString() +"1");
         return stringBuilder.toString();
     }
 }

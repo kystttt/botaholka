@@ -119,6 +119,8 @@ public class Transitions {
             .endState(states.listOfOrders)
             .build();
 
+
+
     Transition duplicateInt = new TransitionBuilder()
             .event(Event.INT)
             .eventHandler(eventHandlers.duplicateInt)
@@ -147,6 +149,13 @@ public class Transitions {
             .endState(states.thechoice)
             .build();
 
+    Transition theChoiceHelp = new TransitionBuilder()
+            .event(Event.HELP)
+            .eventHandler(eventHandlers.theChoiceHelp)
+            .startState(states.thechoice)
+            .endState(states.thechoice)
+            .build();
+
     Transition choiceNo = new TransitionBuilder()
             .event(Event.NO)
             .eventHandler(eventHandlers.buyerHelp)
@@ -158,6 +167,13 @@ public class Transitions {
             .event(Event.YES)
             .eventHandler(eventHandlers.reviewHelp)
             .startState(states.thechoice)
+            .endState(states.review)
+            .build();
+
+    Transition reviewHelp = new TransitionBuilder()
+            .event(Event.HELP)
+            .eventHandler(eventHandlers.reviewHelp)
+            .startState(states.review)
             .endState(states.review)
             .build();
 
@@ -189,6 +205,13 @@ public class Transitions {
             .endState(states.endreview)
             .build();
 
+    Transition endReviewHelp = new TransitionBuilder()
+            .event(Event.HELP)
+            .eventHandler(eventHandlers.endReviewHelp)
+            .startState(states.endreview)
+            .endState(states.endreview)
+            .build();
+
     Transition endReview = new TransitionBuilder()
             .event(Event.REWRITE)
             .eventHandler(eventHandlers.reviewHelp)
@@ -216,6 +239,8 @@ public class Transitions {
             .startState(states.menu)
             .endState(states.buyer)
             .build();
+
+
 
     Transition menuInt = new TransitionBuilder()
             .event(Event.INT)
@@ -298,7 +323,7 @@ public class Transitions {
             .event(Event.SELLER_ORDERS)
             .eventHandler(eventHandlers.sellerOrders)
             .startState(states.seller)
-            .endState(states.sellerOrders)
+            .endState(states.   sellerOrders)
             .build();
 
     Transition sellerOrdersHelp = new TransitionBuilder()
@@ -335,6 +360,8 @@ public class Transitions {
             .startState(states.nextStatus)
             .endState(states.sellerOrders)
             .build();
+
+
 
     Transition nextStatusBack = new TransitionBuilder()
             .event(Event.BACK)
@@ -392,6 +419,12 @@ public class Transitions {
             .endState(states.allreviews)
             .build();
 
+    Transition allreviewsHelp = new TransitionBuilder()
+            .event(Event.HELP)
+            .eventHandler(eventHandlers.allreviewsHelp)
+            .startState(states.allreviews)
+            .endState(states.allreviews)
+            .build();
 
     Transition allreviewsBack = new TransitionBuilder()
             .event(Event.BACK)
@@ -406,6 +439,8 @@ public class Transitions {
             .startState(states.allreviews)
             .endState(states.allreviews)
             .build();
+
+
 
     Transition history = new TransitionBuilder()
             .event(Event.HISTORY)
@@ -474,8 +509,11 @@ public class Transitions {
                 reviewText,
                 endReviewYes,
                 ratingHelp,
-                history
+                history,
+                theChoiceHelp,
+                reviewHelp,
+                endReviewHelp,
+                allreviewsHelp
         ));
     }
 }
-
