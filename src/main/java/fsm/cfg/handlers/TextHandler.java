@@ -23,7 +23,9 @@ public class TextHandler {
     final Orders listOfOrders;
     private final Map<Long, Cart> userCarts = new HashMap<>();
     Menu menu;
-    private final DB db;
+
+  private final DB db;
+
     private final Map<Long, Review> reviews = new HashMap<>();
     private final ReviewDAO reviewTable;
     private final HistoryDAO historyTable;
@@ -46,6 +48,14 @@ public class TextHandler {
         this.db = db;
         reviewTable = new ReviewDAO(db);
         historyTable = new HistoryDAO(db);
+    }
+
+
+    /**
+     * Получение корзины для пользователя по chatId. Если корзины нет, она создается.
+     */
+    public Cart getCartForUser(long chatId) {
+        return userCarts.computeIfAbsent(chatId, id -> new ListCart());
     }
 
 
