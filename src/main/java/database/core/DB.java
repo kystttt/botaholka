@@ -9,9 +9,9 @@ import java.sql.SQLException;
  * Обёртка вокруг api JDBC
  */
 public class DB {
-    final String url;// = "jdbc:postgresql://localhost:5432/botaholka";
-    final String user;// = "postgres";
-    final String password;// = "1234";
+    final String url;
+    final String user;
+    final String password;
 
     /**
      * Конструктор для DB
@@ -47,4 +47,6 @@ public class DB {
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
+
+
 }
