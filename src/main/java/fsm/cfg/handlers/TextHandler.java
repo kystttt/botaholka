@@ -23,23 +23,39 @@ public class TextHandler {
     final Orders listOfOrders;
     private final Map<Long, Cart> userCarts = new HashMap<>();
     Menu menu;
-    private final DB db = new DB(
-            System.getenv("DB_URL"),
-            System.getenv("DB_USER"),
-            System.getenv("DB_PASSWORD")
-    );
+
+  private final DB db;
+
     private final Map<Long, Review> reviews = new HashMap<>();
-    private final ReviewDAO reviewTable = new ReviewDAO(db);
-    private final HistoryDAO historyTable = new HistoryDAO(db);
+    private final ReviewDAO reviewTable;
+    private final HistoryDAO historyTable;
 
     public TextHandler(String menuFileName) {
         listOfOrders = new ListOfOrders();
         menu = new MenuImpl(menuFileName);
+        db = new DB(
+                System.getenv("DB_URL"),
+                System.getenv("DB_USER"),
+                System.getenv("DB_PASSWORD")
+        );
+        reviewTable = new ReviewDAO(db);
+        historyTable = new HistoryDAO(db);
     }
 
-    public TextHandler(Menu menu) {
+    public TextHandler(Menu menu, DB db) {
         listOfOrders = new ListOfOrders();
         this.menu = menu;
+        this.db = db;
+        reviewTable = new ReviewDAO(db);
+        historyTable = new HistoryDAO(db);
+    }
+
+
+    /**
+     * Получение корзины для пользователя по chatId. Если корзины нет, она создается.
+     */
+    public Cart getCartForUser(long chatId) {
+        return userCarts.computeIfAbsent(chatId, id -> new ListCart());
     }
 
 
@@ -223,7 +239,7 @@ public class TextHandler {
                 stringBuilder.append("\n");
             }
             output_message = "Ваши заказы:\n";
-            output_message += stringBuilder.toString() + "\n" + Constants.HELP_CLONE +
+            output_message += stringBuilder + "\n" + Constants.HELP_CLONE +
                     "/order №Заказа - просмотр и изменение конкретного заказа\n" +
                     "/back - вернуться назад";
         }
