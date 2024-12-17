@@ -1,11 +1,16 @@
 package fsm.cfg.handlers;
 
+import database.core.DB;
 import menu.*;
 import storages.api.Cart;
 import utils.order.Order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,12 +22,36 @@ public class TextHandlerTest {
     private Menu menu;
     Long chat_id = 13245L;
 
+    private final DB db = new DB("jdbc:h2:mem:test", "sa", "");;
+
+    private void initializeBDTables(){
+        try {
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:h2:mem:test", "sa", "");
+
+            String tableQuery = "CREATE TABLE history " +
+                    "(id SERIAL primary key, chat_id INT, order_id INT, items TEXT, sum INT); ";
+            connection.createStatement().executeUpdate(tableQuery);
+            tableQuery = "CREATE TABLE users " +
+                    "(id SERIAL, state TEXT, chat_id INT primary key);";
+            connection.createStatement().executeUpdate(tableQuery);
+            String customerTableQuery = "CREATE TABLE reviews " +
+                    "(id SERIAL primary key,chat_id INT, rating_5 INT, text TEXT); ";
+
+            connection.createStatement().executeUpdate(customerTableQuery);
+        } catch (SQLException e) {
+            System.out.println("Не удалось создать таблицу/вставить данные в таблицу\n" + e);
+        }
+    }
+
     @BeforeEach
     public void setup() {
         menu = new MenuImpl();
         menu.addFoodItem("Шаурма", 220);
         menu.addFoodItem("Напиток", 110);
-        textHandler = new TextHandler(menu);
+
+        textHandler = new TextHandler(menu, db);
+        initializeBDTables();
     }
 
     /**
@@ -93,7 +122,7 @@ public class TextHandlerTest {
      */
     @Test
     void cancelOrderTest() {
-        TextHandler textHandler = new TextHandler(menu);
+        TextHandler textHandler = new TextHandler(menu, db);
 
         Order order = new Order((long) 1);
         order.addToArr("Шаурма");
@@ -111,7 +140,7 @@ public class TextHandlerTest {
      */
     @Test
     void duplicateTest() {
-        TextHandler textHandler = new TextHandler(menu);
+        TextHandler textHandler = new TextHandler(menu, db);
 
         Order order = new Order((long) 1);
         order.addToArr("Шаурма");
@@ -128,7 +157,7 @@ public class TextHandlerTest {
      */
     @Test
     void commandListOfOrdersTest() {
-        TextHandler textHandler = new TextHandler(menu);
+        TextHandler textHandler = new TextHandler(menu, db);
 
         Order order = new Order((long) 1);
         order.addToArr("Шаурма");
@@ -156,7 +185,7 @@ public class TextHandlerTest {
      */
     @Test
     void commandNextStatusTest(){
-        TextHandler textHandler = new TextHandler(menu);
+        TextHandler textHandler = new TextHandler(menu, db);
         Order order = new Order((long) 1);
         order.addToArr("Шаурма");
         textHandler.listOfOrders.put(order);
@@ -167,5 +196,23 @@ public class TextHandlerTest {
         String resultForInvalidOrder = textHandler.nextStatus("4", 99);
         Assertions.assertEquals("Такого заказа не существует\n", resultForInvalidOrder);
 
+    }
+
+    /**
+     * Проверка получения и записи отзыва
+     */
+    @Test
+    void reviewTest(){
+        textHandler.reviewText("123", 1L);
+        textHandler.rating(1L,"1");
+
+        textHandler.insertReview(1L);
+
+        String actual = textHandler.allReviews(1L);
+        String expected = """
+                1) 1
+                123
+                """;
+        Assertions.assertEquals(expected, actual);
     }
 }
