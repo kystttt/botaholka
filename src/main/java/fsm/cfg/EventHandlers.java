@@ -45,6 +45,9 @@ public class EventHandlers {
             textHandler.makeOrder(chatId) +
                     Constants.THE_CHOICE;
 
+    public EventHandler theChoiceHelp = (String messageText, long chatId) ->
+            Constants.THE_CHOICE;
+
     public EventHandler reviewText = (String messageText, long chatId) ->
             textHandler.reviewText(messageText, chatId) + Constants.RATING;
 
@@ -59,6 +62,9 @@ public class EventHandlers {
 
     public EventHandler endReviewYes = (String messageText, long chatId) ->
             textHandler.insertReview(chatId) + Constants.BUYER_HELP;
+
+    public EventHandler endReviewHelp = (String messageText, long chatId) ->
+            Constants.END_REVIEW;
 
     public EventHandler reviewHelp = (String messageText, long chatId) ->
             Constants.REVIEW_HELP;
@@ -98,6 +104,9 @@ public class EventHandlers {
 
     public EventHandler allreviews = (String messageText, long chatId)->
             textHandler.allReviews(chatId) + Constants.ALLREVIEWS_HELP;
+
+    public EventHandler allreviewsHelp = (String messageText, long chatId)->
+            Constants.ALLREVIEWS_HELP;
 
     public EventHandler history = (String messageText, long chatId)->
             textHandler.history(chatId) + Constants.BUYER_HELP;
