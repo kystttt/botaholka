@@ -4,27 +4,31 @@ import java.util.List;
 
 /**
  * Меню
- * @param <S> Параметр для хранения названий блюд в меню
- * @param <I> Параметр для хранения цен блюд в меню
  */
-public interface Menu<S, I> {
+public interface Menu {
 
     /**
      * Возвращает цену блюда в меню по ее названию
      * @param foodItemName Название блюда в меню
      * @return Цена блюда в меню
      */
-    I getCost(S foodItemName);
+    Integer getCost(String foodItemName);
 
     /**
      * Добавляет блюдо в меню
      * @param foodItemName Название блюда
      * @param foodItemCost Цена блюда
      */
-    void addFoodItem(S foodItemName, I foodItemCost);
+    void addFoodItem(String foodItemName, Integer foodItemCost);
 
     /**
      * Возвращает список со всеми названиями блюд в меню
      */
-    List<S> getFoodNames();
+    List<String> getFoodNames();
+
+    /**
+     * Возвращает названию блюда по его порядковому номеру
+     * @param index Порядковый номер
+     */
+    String getName(Integer index);
 }

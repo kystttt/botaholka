@@ -1,6 +1,6 @@
 import menu.MenuImpl;
-import order.FormOrderMessage;
-import order.Order;
+import utils.order.FormOrderMessage;
+import utils.order.Order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +21,7 @@ public class FormOrderMessageTest {
                 Заказ №123
                 Шаурма Большая - 100 руб.
                 Шаурма Большая - 100 руб.
+                Не принят
                 Итого: 200 руб.
                 """;
 

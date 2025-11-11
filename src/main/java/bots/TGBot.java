@@ -1,23 +1,24 @@
-    import menu.*;
-    import order.ListOfOrders;
-    import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
-    import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
-    import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-    import org.telegram.telegrambots.meta.api.objects.Update;
-    import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-    import org.telegram.telegrambots.meta.generics.TelegramClient;
+package bots;
 
-    /**
+import logic.BotLogic;
+import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
+import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
+
+/**
      * Создает телеграм бота, принимает и отправляет сообщения
      */
     public class TGBot implements LongPollingSingleThreadUpdateConsumer {
         private final TelegramClient telegramClient;
-        private final TextHandler textHandler;
+        private final BotLogic logic;
 
-        public TGBot(String botToken) {
+        public TGBot(String botToken, BotLogic logic) {
             telegramClient = new OkHttpTelegramClient(botToken);
 
-            this.textHandler =  new TextHandler(Constants.MENU_FILENAME_CONST);
+            this.logic = logic;
         }
 
         /**
@@ -30,7 +31,7 @@
                 String message_text = update.getMessage().getText();
                 long chat_id = update.getMessage().getChatId();
 
-                String output_message = textHandler.processMessage(message_text, chat_id);
+                String output_message = logic.processMessage(message_text, chat_id);
 
                 try {
                     telegramClient.execute(SendMessage

@@ -1,6 +1,14 @@
+package storages.api;
+
+/**
+ * Корзина
+ */
 public interface Cart {
     String get(int index);
 
+    /**
+     * Очищает корзину
+     */
     void clear();
 
     /**

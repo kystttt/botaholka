@@ -1,5 +1,5 @@
-import order.ListOfOrders;
-import order.Order;
+import storages.core.ListOfOrders;
+import utils.order.Order;
 import org.junit.jupiter.api.BeforeEach;
 
 import org.junit.jupiter.api.Assertions;
@@ -10,7 +10,7 @@ public class ListOfOrdersTest {
     private ListOfOrders listOfOrders;
 
     /**
-     * Обнуляет order.ListOfOrders
+     * Обнуляет storages.core.ListOfOrders
      */
     @BeforeEach
     void resetListOfOrders() {
